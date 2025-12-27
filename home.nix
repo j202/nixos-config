@@ -49,9 +49,21 @@ in
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
-      export EDITOR=nvim
       set fish_greeting # Disable greeting
+
+      export EDITOR=nvim
+
       set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+      
+      fzf_configure_bindings \
+          --directory=\ee\ef \
+          --git_log=\ee\el \
+          --git_status=\ee\es \
+          --processes=\ee\ep \
+          --variables=\ee\ev
+      bind \ee\eb _git_fzf_echo_branch
+
+      set --global --export BAT_THEME "Catppuccin Mocha"
     '';
     plugins = [
       {
@@ -77,8 +89,8 @@ in
         src = pkgs.fetchFromGitHub {
           owner = "j202";
           repo = "git-fzf.fish";
-          rev = "45dcb37918047816ad569d457b8fdc5956769fb4";
-          sha256 = "QLK8MDYzxV/U0nlATsXb3sZ+bOYjGk3Ropa84VBFndA=";
+          rev = "00c0123d8e4fa54f17f930f0d3e53e521a9cbad6";
+          sha256 = "C1gyeRpoOLRnMOlXeBilaLJxX8UpGqCUsgZcoS8w18I=";
         };
       }
     ];
@@ -103,6 +115,7 @@ in
       gpg = {
         program = "${pkgs.gnupg}/bin/gpg";
       };
+      fetch.prune = true;
       pull.rebase = true;
       rebase.autoSquash = true;
       init.defaultBranch = "main";
