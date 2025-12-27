@@ -114,6 +114,7 @@
     lazygit
     lua-language-server
     luarocks
+    meld
     neovim
     nil
     nodejs
