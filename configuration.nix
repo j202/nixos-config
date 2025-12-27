@@ -94,6 +94,8 @@
   environment.systemPackages = with pkgs; [
     bat
     btop
+    cargo
+    clippy
     curl
     eza
     fd
@@ -104,6 +106,10 @@
     gh
     git
     gnumake
+    go
+    golint
+    gopls
+    gotools
     htop
     lazygit
     lua-language-server
@@ -120,6 +126,10 @@
     python3Packages.requests
     python3Packages.virtualenv
     ripgrep
+    rust-analyzer
+    rustc
+    rustfmt
+    statix
     tmux
     tree-sitter
     unzip
