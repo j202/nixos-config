@@ -1,0 +1,29 @@
+# Neovim swap files
+*.swp
+*.swo
+*.swn
+
+# Neovim backup files
+*.bak
+*.tmp
+
+# Undo files
+*.un~
+*.orig
+
+# LazyVim / packer / plugin directories that are downloaded
+lua/**/packer_compiled.lua
+lua/**/lazy-lock.json
+lua/**/lazy-lock.toml
+lua/**/lazy/**
+
+# Other caches
+*.log
+*.cache
+*.pyc
+__pycache__/
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
