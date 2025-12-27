@@ -1,14 +1,7 @@
 # vim: set ft=nix ts=2 sw=2 expandtab:_github_j202
 
 { config, pkgs, ... }:
-
 let
-  lazy_catppuccin = pkgs.fetchFromGitHub {
-    owner = "catppuccin";
-    repo = "nvim";
-    rev = "v1.11.0";
-    sha256 = "+tkfdGTsjb8FOhyz9IPnXrS/LkcsLY/TqJuE+Pcostw=";
-  };
   xfce_terminal_catppuccin_themes = pkgs.fetchFromGitHub {
     owner = "catppuccin";
     repo = "xfce4-terminal";
@@ -50,9 +43,7 @@ in
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    lazy_catppuccin
     starship
-    helix
   ];
 
   programs.fish = {
@@ -115,105 +106,11 @@ in
       pull.rebase = true;
       rebase.autoSquash = true;
       init.defaultBranch = "main";
+      url."git@github.com:" = {
+        insteadOf = "https://github.com/";
+      };
     };
   };
-
-  home.file.".config/nvim/lua/user/plugins.lua".text = ''
-    return {
-      {"catppuccin/nvim", name = "catppuccin", lazy =  false },
-    }
-  '';
-  home.file.".config/nvim/lua/plugins/colorscheme.lua".text = ''
-    return {
-      {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        priority = 1000,
-        opts = {
-          flavour = "mocha", -- latte, frappe, macchiato, mocha
-          integrations = {
-            treesitter = true,
-            telescope = true,
-            notify = true,
-            indent_blankline = { enabled = true };
-            native_lsp = {
-              enabled = true,
-            },
-          },
-        },
-      },
-      {
-        "LazyVim/LazyVim",
-        opts = {
-          colorscheme = "catppuccin",
-        }
-      },
-    }
-  '';
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-
-    viAlias = true;
-    vimAlias = true;
-
-    withNodeJs = true;
-    withPython3 = true;
-
-    extraPackages = with pkgs; [
-      git
-    ];
-    extraPython3Packages = ps: with ps; [
-      pip
-    ];
-  };
-
-  xdg.configFile."nvim/init.lua".text = ''
-    --Bootstrap lazy.nvim
-    local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-    print("Lazy path:", lazypath)
-    if not vim.loop.fs_stat(lazypath) then
-      print("Cloning lazy.nvim...")
-      local result = vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable",
-        lazypath,
-      })
-      print(result)
-    end
-    vim.opt.rtp:prepend(lazypath)
-
-    -- Load LazyVim
-    require("lazy").setup({
-      { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-      -- Plugins
-      { import = "plugins" },
-    }, {
-      defaults = {
-        lazy = false,
-        version = false,
-      }
-  })
-  require("user.plugins")
-  '';
-  xdg.configFile."nvim/lua/plugins/.keep".text = "";
-  xdg.configFile."nvim/lua/config/options.lua".text = ''
-    vim.notify = function(msg, level)
-      if level == vim.log.levels.ERROR then
-        vim.api.nvim_echo({ { msg, "ErrorMsg" } }, true,  {})
-        vim.fn.getchar()
-      end
-    end
-    vim.opt.number = true
-    vim.opt.relativenumber = false
-    vim.opt.swapfile = false
-    vim.opt.backup = false
-    vim.opt.undofile = false
-    vim.g.colorscheme = "catppuccin"
-  '';
 
   home.file.".local/share/xfce4/terminal/colorschemes".source = xfce_terminal_catppuccin_themes + "/themes";
 

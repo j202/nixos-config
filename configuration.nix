@@ -92,43 +92,41 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    (neovim.overrideAttrs (old: rec {
-      buildInputs = (old.buildInputs or []) ++ [
-        pkgs.gcc
-        pkgs.gnumake
-        pkgs."pkg-config"
-        pkgs.glibc
-        pkgs.zlib
-        pkgs.libffi
-      ];
-    }))
-    vim
-    file
-    git
-    gh
-    gcc
-    gnumake
-    curl
-    ripgrep
-    fd
-    fzf
     bat
-    eza
-    pkg-config
-    pciutils
-    usbutils
-    fish
-    luarocks
-    nodejs
-    tmux
-    wget
-    htop
     btop
+    curl
+    eza
+    fd
+    file
+    fish
+    fzf
+    gcc
+    gh
+    git
+    gnumake
+    htop
+    lazygit
+    lua-language-server
+    luarocks
+    neovim
+    nil
+    nodejs
+    pciutils
+    pkg-config
+    pyright
     python3
-    python3Packages.pip
-    python3Packages.virtualenv
     python3Packages.numpy
+    python3Packages.pip
     python3Packages.requests
+    python3Packages.virtualenv
+    ripgrep
+    tmux
+    tree-sitter
+    unzip
+    usbutils
+    vim
+    wget
+    zellij
   ];
 
   fonts = {
