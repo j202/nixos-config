@@ -36,12 +36,24 @@
     enable32Bit = true;
   };
 
-  # KDE Plasma 6 on Wayland
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.sddm = {
+  # Hyprland
+  programs.hyprland.enable = true;
+  programs.hyprland.xwayland.enable = true;
+
+  # greetd + tuigreet as display manager
+  services.greetd = {
     enable = true;
-    wayland.enable = true;
+    settings.default_session = {
+      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
+      user = "greeter";
+    };
   };
+
+  # hyprlock PAM integration
+  security.pam.services.hyprlock = { };
+
+  # Electron/Chromium apps use Wayland natively
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   hardware.cpu.intel.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
@@ -80,7 +92,13 @@
 
   environment.systemPackages = with pkgs; [
     bat
+    brightnessctl
     btop
+    grim
+    playerctl
+    pavucontrol
+    slurp
+    wl-clipboard
     cargo
     clippy
     curl

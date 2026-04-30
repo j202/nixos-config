@@ -12,9 +12,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    catppuccin.url = "github:catppuccin/nix";
   };
 
-  outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, ... }: {
+  outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, catppuccin, ... }: {
     nixosConfigurations = {
 
       # Dell XPS M1330 — pinned to nixos-25.11 stable
@@ -40,7 +42,8 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.alex = import ./home/alex.nix;
+            home-manager.users.alex = import ./home/alex-pc.nix;
+            home-manager.sharedModules = [ catppuccin.homeManagerModules.catppuccin ];
           }
         ];
       };
