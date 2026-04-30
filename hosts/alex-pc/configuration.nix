@@ -81,6 +81,27 @@
   programs.fish.enable = true;
   programs.nix-ld.enable = true;
   programs.mtr.enable = true;
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+  };
+  programs.gamemode.enable = true;
+  programs.mangohud.enable = true;
+  programs.gamescope.enable = true;
+
+  programs.corectrl = {
+    enable = true;
+    gpuOverclock.enable = true;
+  };
+
+  hardware.xpadneo.enable = true;
+
+  services.fstrim.enable = true;
+
+  services.udev.packages = [ pkgs.game-devices-udev-rules ];
+
+  boot.kernel.sysctl."vm.swappiness" = 10;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
