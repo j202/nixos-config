@@ -97,6 +97,10 @@
 
   hardware.xpadneo.enable = true;
 
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+
   services.fstrim.enable = true;
 
   services.udev.packages = [ pkgs.game-devices-udev-rules ];
@@ -115,11 +119,18 @@
     bat
     brightnessctl
     btop
+    ffmpeg
     grim
+    jq
+    mpv
+    nvme-cli
     playerctl
     pavucontrol
+    rsync
     slurp
     wl-clipboard
+    yazi
+    zip
     cargo
     clippy
     curl
@@ -175,6 +186,7 @@
       nerd-fonts.jetbrains-mono
       nerd-fonts.roboto-mono
       nerd-fonts.symbols-only
+      noto-fonts-emoji
     ];
   };
 

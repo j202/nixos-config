@@ -9,8 +9,11 @@
   catppuccin.accent = "mauve";
 
   home.packages = with pkgs; [
+    cliphist
     hyprpaper
     hyprshot
+    lxqt.lxqt-policykit
+    networkmanagerapplet
     swayidle
     wlogout
     xdg-utils
@@ -37,6 +40,11 @@
         "hyprpaper"
         "waybar"
         "mako"
+        "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent"
+        "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
+        "blueman-applet"
+        "wl-paste --type text --watch cliphist store"
+        "wl-paste --type image --watch cliphist store"
         "swayidle -w timeout 300 'hyprlock' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'"
       ];
 
@@ -159,6 +167,7 @@
 
         # Utilities
         "$mod, L, exec, hyprlock"
+        "$mod SHIFT, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
         "$mod SHIFT, M, exit,"
         ", Print, exec, hyprshot -m region"
         "$mod, Print, exec, hyprshot -m window"
