@@ -59,13 +59,16 @@
     fish
     fzf
     git
+    gnupg
     htop
     jq
     neovim
     pciutils
+    pinentry-qt
     ripgrep
     rsync
     tmux
+    terminus_font
     unzip
     usbutils
     vim
