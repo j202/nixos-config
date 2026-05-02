@@ -42,6 +42,7 @@
   environment.systemPackages = with pkgs; [
     nvme-cli
     obsidian
+    spotify
   ];
 
   system.stateVersion = "25.11";
