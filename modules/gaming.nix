@@ -7,23 +7,17 @@
     remotePlay.openFirewall = true;
   };
   programs.gamemode.enable = true;
-  programs.mangohud.enable = true;
   programs.gamescope.enable = true;
 
-  programs.corectrl = {
-    enable = true;
-    gpuOverclock.enable = true;
-  };
+  programs.corectrl.enable = true;
+  hardware.amdgpu.overdrive.enable = true;
 
   hardware.xpadneo.enable = true;
 
   services.udev.packages = [ pkgs.game-devices-udev-rules ];
 
-  programs.lutris.enable = true;
-
   environment.systemPackages = with pkgs; [
-    ludusavi
-    wineWowPackages.waylandFull
-    winetricks
+    mangohud
+    wineWow64Packages.waylandFull
   ];
 }

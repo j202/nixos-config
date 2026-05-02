@@ -22,7 +22,6 @@
     enable = true;
     systemd.enable = true;
     systemd.variables = [ "--all" ];
-    catppuccin.enable = true;
 
     settings = {
       # Check connector names with: hyprctl monitors
@@ -204,7 +203,6 @@
 
   programs.hyprlock = {
     enable = true;
-    catppuccin.enable = true;
   };
 
   # ── Hyprpaper ─────────────────────────────────────────────────────────────
@@ -223,7 +221,6 @@
 
   programs.waybar = {
     enable = true;
-    catppuccin.enable = true;
 
     settings = [{
       layer = "top";
@@ -285,8 +282,7 @@
 
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland;
-    catppuccin.enable = true;
+    package = pkgs.rofi;
     terminal = "${pkgs.kitty}/bin/kitty";
     extraConfig = {
       modi = "drun,run";
@@ -300,7 +296,6 @@
 
   programs.kitty = {
     enable = true;
-    catppuccin.enable = true;
     font = {
       name = "JetBrainsMono Nerd Font";
       size = 12;
@@ -316,7 +311,6 @@
 
   services.mako = {
     enable = true;
-    catppuccin.enable = true;
     settings = {
       border-radius = 8;
       default-timeout = 5000;

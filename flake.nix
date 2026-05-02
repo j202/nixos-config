@@ -48,7 +48,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.alex = import ./home/alex-pc.nix;
-            home-manager.sharedModules = [ catppuccin.homeManagerModules.catppuccin ];
+            home-manager.sharedModules = [ catppuccin.homeModules.catppuccin ];
           }
         ];
       };

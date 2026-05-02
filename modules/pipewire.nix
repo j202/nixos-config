@@ -2,6 +2,7 @@
 # PipeWire audio stack with ALSA, PulseAudio compat, and 32-bit support for games.
 { config, lib, pkgs, ... }:
 {
+  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
