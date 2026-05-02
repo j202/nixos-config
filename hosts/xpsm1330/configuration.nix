@@ -23,5 +23,7 @@
   # Limit parallel builds — only 2 GB RAM
   nix.settings.max-jobs = 1;
 
+  programs.firefox.enable = true;
+
   system.stateVersion = "25.11";
 }

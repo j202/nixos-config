@@ -37,6 +37,8 @@
   users.users.alex.extraGroups = [ "wheel" "networkmanager" "audio" "video" ];
 
   # Wayland-specific and PC-only packages
+  programs.brave.enable = true;
+
   environment.systemPackages = with pkgs; [
     nvme-cli
   ];

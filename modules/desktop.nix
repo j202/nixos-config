@@ -6,8 +6,6 @@
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
 
-  programs.firefox.enable = true;
-
   fonts = {
     fontDir.enable = true;
     fontconfig.enable = true;
