@@ -43,6 +43,7 @@
     nvme-cli
     obsidian
     spotify
+    vscode
   ];
 
   system.stateVersion = "25.11";
