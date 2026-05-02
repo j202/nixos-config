@@ -4,7 +4,13 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/common.nix
+    ../../modules/base.nix
+    ../../modules/desktop.nix
+    ../../modules/dev.nix
+    ../../modules/hyprland.nix
+    ../../modules/pipewire.nix
+    ../../modules/gaming.nix
+    ../../modules/bluetooth.nix
   ];
 
   # UEFI / systemd-boot
@@ -27,61 +33,12 @@
   };
   hardware.cpu.intel.updateMicrocode = true;
 
-  # Hyprland + greetd
-  programs.hyprland.enable = true;
-  programs.hyprland.xwayland.enable = true;
-
-  services.greetd = {
-    enable = true;
-    settings.default_session = {
-      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
-      user = "greeter";
-    };
-  };
-
-  security.pam.services.hyprlock = { };
-
-  # Electron/Chromium apps use Wayland natively
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  # PipeWire — modern audio stack, with 32-bit ALSA for games
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
   # Extra groups beyond the common wheel+networkmanager
   users.users.alex.extraGroups = [ "wheel" "networkmanager" "audio" "video" ];
 
-  # Gaming
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-  };
-  programs.gamemode.enable = true;
-  programs.mangohud.enable = true;
-  programs.gamescope.enable = true;
-
-  programs.corectrl = {
-    enable = true;
-    gpuOverclock.enable = true;
-  };
-
-  hardware.xpadneo.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
-
-  services.udev.packages = [ pkgs.game-devices-udev-rules ];
-
   # Wayland-specific and PC-only packages
   environment.systemPackages = with pkgs; [
-    grim        # Wayland screenshot
-    nvme-cli    # NVMe drive health
-    slurp       # Wayland region selector
-    wl-clipboard
+    nvme-cli
   ];
 
   system.stateVersion = "25.11";

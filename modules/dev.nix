@@ -1,0 +1,34 @@
+# vim: set ft=nix ts=2 sw=2 sts=2 et:
+# Development toolchain — languages, LSPs, and build tools.
+{ config, lib, pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    cargo
+    clippy
+    gcc
+    gh
+    gnumake
+    go
+    golint
+    gopls
+    gotools
+    lazygit
+    lua-language-server
+    luarocks
+    meld
+    nil
+    nodejs
+    pkg-config
+    pyright
+    python3
+    python3Packages.numpy
+    python3Packages.pip
+    python3Packages.requests
+    python3Packages.virtualenv
+    rust-analyzer
+    rustc
+    rustfmt
+    statix
+    tree-sitter
+  ];
+}

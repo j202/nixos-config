@@ -4,7 +4,10 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/common.nix
+    ../../modules/base.nix
+    ../../modules/desktop.nix
+    ../../modules/dev.nix
+    ../../modules/xfce.nix
   ];
 
   boot.loader.grub.enable = true;
@@ -15,17 +18,7 @@
 
   networking.hostName = "xpsm1330";
 
-  services.xserver = {
-    enable = true;
-    videoDrivers = [ "nouveau" ];
-    displayManager.lightdm.enable = true;
-    desktopManager.xfce.enable = true;
-  };
-
-  # PulseAudio — PipeWire too heavy for this hardware
-  services.pulseaudio.enable = true;
-  services.pipewire.enable = false;
-  services.pipewire.pulse.enable = false;
+  services.xserver.videoDrivers = [ "nouveau" ];
 
   # Limit parallel builds — only 2 GB RAM
   nix.settings.max-jobs = 1;
