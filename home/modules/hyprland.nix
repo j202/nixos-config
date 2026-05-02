@@ -5,6 +5,11 @@
   catppuccin.flavor = "mocha";
   catppuccin.accent = "mauve";
 
+  catppuccin.hyprland.enable = true;
+  catppuccin.waybar.enable = true;
+  catppuccin.rofi.enable = true;
+  catppuccin.mako.enable = true;
+
   home.packages = with pkgs; [
     cliphist
     hyprpaper

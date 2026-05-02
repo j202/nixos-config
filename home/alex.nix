@@ -29,6 +29,8 @@ in
       xfce_terminal_catppuccin_themes + "/themes";
   };
 
+  catppuccin.kitty.enable = true;
+
   programs = {
     home-manager.enable = true;
 
