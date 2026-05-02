@@ -19,5 +19,11 @@
 
   services.udev.packages = [ pkgs.game-devices-udev-rules ];
 
-  environment.systemPackages = [ pkgs.ludusavi ];
+  programs.lutris.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    ludusavi
+    wineWowPackages.waylandFull
+    winetricks
+  ];
 }
