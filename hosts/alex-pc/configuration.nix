@@ -41,6 +41,7 @@
 
   environment.systemPackages = with pkgs; [
     nvme-cli
+    obsidian
   ];
 
   system.stateVersion = "25.11";
