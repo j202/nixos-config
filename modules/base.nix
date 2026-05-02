@@ -56,6 +56,7 @@
     bat
     btop
     curl
+    dysk
     eza
     fd
     file
