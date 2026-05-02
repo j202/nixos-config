@@ -18,4 +18,6 @@
   hardware.xpadneo.enable = true;
 
   services.udev.packages = [ pkgs.game-devices-udev-rules ];
+
+  environment.systemPackages = [ pkgs.ludusavi ];
 }
