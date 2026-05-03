@@ -14,7 +14,7 @@
     kdePackages.ark
     kdePackages.dolphin
     kdePackages.kate
-    kdePackages.spectacle
+    grimblast
     lxqt.lxqt-policykit
     networkmanagerapplet
     swayidle
@@ -167,9 +167,9 @@
         "$mod CTRL, L, exec, hyprlock"
         "$mod SHIFT, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
         "$mod SHIFT, M, exec, wlogout"
-        ", Print, exec, spectacle -r"
-        "$mod, Print, exec, spectacle -w"
-        "$mod SHIFT, Print, exec, spectacle"
+        ", Print, exec, grimblast copysave area"
+        "$mod, Print, exec, grimblast copysave active"
+        "$mod SHIFT, Print, exec, grimblast copysave output"
       ];
 
       bindm = [
