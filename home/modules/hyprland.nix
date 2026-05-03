@@ -186,11 +186,27 @@
       ];
 
       windowrule = [
-        "suppressevent maximize, class:.*"
-        "float, class:^(pavucontrol)$"
-        "float, class:^(nm-connection-editor)$"
-        "float, title:^(Picture-in-Picture)$"
-        "pin,   title:^(Picture-in-Picture)$"
+        {
+          name = "suppress-maximize";
+          "match:class" = ".*";
+          suppress_event = "maximize";
+        }
+        {
+          name = "float-pavucontrol";
+          "match:class" = "^(pavucontrol)$";
+          float = true;
+        }
+        {
+          name = "float-nm-connection-editor";
+          "match:class" = "^(nm-connection-editor)$";
+          float = true;
+        }
+        {
+          name = "pip";
+          "match:title" = "^(Picture-in-Picture)$";
+          float = true;
+          pin = true;
+        }
       ];
     };
   };
