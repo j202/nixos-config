@@ -1,6 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # KDE Plasma catppuccin home-manager config — color scheme, Plasma style, icons, cursors.
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   catppuccin-kde = pkgs.catppuccin-kde.override {
     flavour = [ "mocha" ];
@@ -41,6 +41,7 @@ in
     text = ''
       [General]
       ColorScheme=CatppuccinMochaMauve
+      widgetStyle=kvantum
 
       [Icons]
       Theme=Papirus-Dark
@@ -67,17 +68,16 @@ in
     '';
   };
 
-  # Window decorations — aurorae with catppuccin modern style.
-  xdg.configFile."kwinrc" = {
-    force = true;
-    text = ''
-      [org.kde.kdecoration2]
-      ButtonsOnLeft=
-      ButtonsOnRight=IAX
-      library=org.kde.kwin.aurorae
-      theme=__aurorae__svg__CatppuccinMocha-Modern
-    '';
-  };
+  # Set window decoration keys in kwinrc without replacing the whole file,
+  # since KDE manages many other settings there (compositing, shortcuts, rules).
+  home.activation.kwinDecoration = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+      --file kwinrc --group org.kde.kdecoration2 \
+      --key library org.kde.kwin.aurorae
+    run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+      --file kwinrc --group org.kde.kdecoration2 \
+      --key theme __aurorae__svg__CatppuccinMocha-Modern
+  '';
 
   # Lock screen theme.
   xdg.configFile."kscreenlockerrc" = {
