@@ -393,6 +393,19 @@
 
   # ── XDG MIME associations ─────────────────────────────────────────────────
 
+  xdg.desktopEntries.imv = {
+    name = "imv";
+    genericName = "Image Viewer";
+    exec = "imv %F";
+    mimeType = [
+      "image/jpeg" "image/png" "image/gif" "image/webp"
+      "image/svg+xml" "image/bmp" "image/tiff" "image/heif"
+      "image/avif" "image/jxl"
+    ];
+    categories = [ "Graphics" "Viewer" ];
+    noDisplay = false;
+  };
+
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
