@@ -8,15 +8,15 @@
   catppuccin.cursors.enable = true;
 
   home.packages = with pkgs; [
-    ark
     cliphist
-    dolphin
     hyprpaper
     imv
-    kwrite
+    kdePackages.ark
+    kdePackages.dolphin
+    kdePackages.kwrite
+    kdePackages.spectacle
     lxqt.lxqt-policykit
     networkmanagerapplet
-    spectacle
     swayidle
   ];
 
