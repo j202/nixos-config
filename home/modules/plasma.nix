@@ -1,6 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # KDE Plasma catppuccin home-manager config — color scheme, Plasma style, icons, cursors.
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   catppuccin-kde = pkgs.catppuccin-kde.override {
     flavour = [ "mocha" ];
@@ -86,6 +86,29 @@ in
       name=default
     '';
   };
+
+  # Desktop entry for rofi — KDE needs a .desktop file to register the global shortcut.
+  xdg.desktopEntries.rofi-drun = {
+    name = "Rofi";
+    exec = "${pkgs.rofi}/bin/rofi -show drun";
+    noDisplay = true;
+  };
+
+  # Alt+Space → rofi via KDE global shortcuts.
+  # kglobalacceld nests desktop-file launchers under [services][name.desktop].
+  # Using two --group flags writes directly to that nested path.
+  # Also disables krunner's Alt+Space so it doesn't compete.
+  # Takes effect next login (kwriteconfig6 is pure file I/O, no D-Bus needed).
+  home.activation.rofiShortcut = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+      --file kglobalshortcutsrc \
+      --group "services" --group "rofi-drun.desktop" \
+      --key "_launch" "Alt+Space"
+    ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+      --file kglobalshortcutsrc \
+      --group "org.kde.krunner.desktop" \
+      --key "_launch" "none,Alt+Space,KRunner"
+  '';
 
   # Lock screen theme.
   xdg.configFile."kscreenlockerrc" = {
