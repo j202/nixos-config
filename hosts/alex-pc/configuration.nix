@@ -7,7 +7,7 @@
     ../../modules/base.nix
     ../../modules/desktop.nix
     ../../modules/dev.nix
-    ../../modules/plasma.nix
+    ../../modules/hyprland.nix
     ../../modules/pipewire.nix
     ../../modules/gaming.nix
     ../../modules/bluetooth.nix
