@@ -3,14 +3,6 @@
 # pkgs comes from the machine's nixpkgs (stable on xpsm1330, unstable on alex-pc).
 
 { config, pkgs, ... }:
-let
-  xfce_terminal_catppuccin_themes = pkgs.fetchFromGitHub {
-    owner = "catppuccin";
-    repo = "xfce4-terminal";
-    rev = "cbc9861bb9c40fad098cf55d4b53879e6f9a737c";
-    sha256 = "xVK77p+kmwhxPHveHhmVglUt4bN2GUxhlhllS2wwvzs=";
-  };
-in
 {
   home = {
     username = "alex";
@@ -24,12 +16,7 @@ in
     sessionVariables = {
       EDITOR = "nvim";
     };
-
-    file.".local/share/xfce4/terminal/colorschemes".source =
-      xfce_terminal_catppuccin_themes + "/themes";
   };
-
-  catppuccin.kitty.enable = true;
 
   programs = {
     home-manager.enable = true;

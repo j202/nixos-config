@@ -6,4 +6,6 @@
     ./alex.nix
     ./modules/hyprland.nix
   ];
+
+  catppuccin.kitty.enable = true;
 }

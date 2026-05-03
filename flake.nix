@@ -33,8 +33,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.alex = import ./home/alex.nix;
-            home-manager.sharedModules = [ catppuccin.homeModules.catppuccin ];
+            home-manager.users.alex = import ./home/alex-laptop.nix;
           }
         ];
       };
