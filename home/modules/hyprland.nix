@@ -28,6 +28,7 @@
       monitor = [ ",preferred,auto,1" ];
 
       exec-once = [
+        "gnome-keyring-daemon --start --components=secrets"
         "hyprpaper"
         "waybar"
         "mako"
