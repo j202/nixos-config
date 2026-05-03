@@ -10,6 +10,11 @@ let
 
   colorSchemeFile = "${catppuccin-kde}/share/color-schemes/CatppuccinMochaMauve.colors";
 
+  wallpaper = pkgs.fetchurl {
+    url = "https://assets.alex-sh.co.uk/wallpaper/night-sky-space-colorful-scenery-4k-wallpaper-uhdpaper.com.jpg";
+    hash = "sha256-B8GwZ/n0pty4zvsWiEeXy8SMrlWU5gzBAP4MROmWfq4=";
+  };
+
   # Plasma 6 QML/Kirigami apps need color values inline in kdeglobals — the
   # ColorScheme= cascade alone is not sufficient.  Generate the file from the
   # package's .colors file so the values stay in sync with catppuccin-kde updates.
@@ -110,7 +115,7 @@ in
       --key "_launch" "none,Alt+Space,KRunner"
   '';
 
-  # Lock screen theme.
+  # Lock screen theme and wallpaper.
   xdg.configFile."kscreenlockerrc" = {
     force = true;
     text = ''
@@ -119,6 +124,10 @@ in
 
       [Greeter]
       Theme=Catppuccin-Mocha-Mauve
+      WallpaperPlugin=org.kde.image
+
+      [Greeter][Wallpaper][org.kde.image][General]
+      Image=${wallpaper}
     '';
   };
 }
