@@ -5,6 +5,7 @@
   imports = [
     ./alex.nix
     ./modules/wayland-tools.nix
+    ./modules/plasma.nix
   ];
 
   catppuccin.flavor = "mocha";

@@ -1,3 +1,7 @@
+# nix build output symlinks
+result
+result-*
+
 # Neovim swap files
 *.swp
 *.swo

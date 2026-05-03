@@ -3,6 +3,10 @@
 # To use: replace modules/hyprland.nix with this in the host config.
 { config, lib, pkgs, ... }:
 {
+  catppuccin.flavor = "mocha";
+  catppuccin.accent = "mauve";
+  catppuccin.sddm.enable = true;
+
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
