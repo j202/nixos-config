@@ -8,11 +8,15 @@
   catppuccin.cursors.enable = true;
 
   home.packages = with pkgs; [
+    ark
     cliphist
+    dolphin
     hyprpaper
-    hyprshot
+    imv
+    kwrite
     lxqt.lxqt-policykit
     networkmanagerapplet
+    spectacle
     swayidle
   ];
 
@@ -163,9 +167,9 @@
         "$mod CTRL, L, exec, hyprlock"
         "$mod SHIFT, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
         "$mod SHIFT, M, exec, wlogout"
-        ", Print, exec, hyprshot -m region"
-        "$mod, Print, exec, hyprshot -m window"
-        "$mod SHIFT, Print, exec, hyprshot -m output"
+        ", Print, exec, spectacle -r"
+        "$mod, Print, exec, spectacle -w"
+        "$mod SHIFT, Print, exec, spectacle"
       ];
 
       bindm = [
