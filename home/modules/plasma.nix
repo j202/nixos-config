@@ -41,13 +41,13 @@ in
     text = ''
       [General]
       ColorScheme=CatppuccinMochaMauve
-      widgetStyle=kvantum
 
       [Icons]
       Theme=Papirus-Dark
 
       [KDE]
       LookAndFeelPackage=Catppuccin-Mocha-Mauve
+      widgetStyle=kvantum
 
       [KFileDialog Settings]
       Allow Expansion=false
