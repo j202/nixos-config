@@ -67,7 +67,6 @@
     ripgrep
     rsync
     tmux
-    terminus_font
     unzip
     usbutils
     vim
