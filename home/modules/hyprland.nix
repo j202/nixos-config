@@ -13,7 +13,7 @@
     imv
     kdePackages.ark
     kdePackages.dolphin
-    kdePackages.kwrite
+    kdePackages.kate
     kdePackages.spectacle
     lxqt.lxqt-policykit
     networkmanagerapplet
