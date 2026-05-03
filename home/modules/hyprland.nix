@@ -1,6 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Hyprland-specific home configuration — WM, bar, lock, wallpaper.
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   catppuccin.hyprland.enable = true;
   catppuccin.waybar.enable = true;
@@ -372,14 +372,16 @@
   catppuccin.hyprlock.enable = true;
 
   # Tell VS Code to use gnome-libsecret on non-GNOME Wayland desktops.
-  home.file.".vscode/argv.json" = {
-    force = true;
-    text = ''
-      {
-        "password-store": "gnome-libsecret"
-      }
-    '';
-  };
+  # Uses an activation script rather than home.file so VS Code can write
+  # its own fields (crash-reporter-id etc.) to a real writable file.
+  home.activation.vscodeArgv = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    _argv="$HOME/.vscode/argv.json"
+    mkdir -p "$(dirname "$_argv")"
+    if [ -L "$_argv" ] || [ ! -f "$_argv" ]; then
+      rm -f "$_argv"
+      printf '{\n  "password-store": "gnome-libsecret"\n}\n' > "$_argv"
+    fi
+  '';
 
   programs.hyprlock = {
     enable = true;
