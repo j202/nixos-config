@@ -25,7 +25,9 @@
   # Apply color scheme, icons, and file dialog preferences declaratively.
   # Note: KDE also writes to this file; any System Settings changes will be
   # overwritten on the next rebuild.
-  xdg.configFile."kdeglobals".text = ''
+  xdg.configFile."kdeglobals" = {
+    force = true;
+    text = ''
     [General]
     ColorScheme=CatppuccinMochaMauve
 
@@ -52,4 +54,5 @@
     Speedbar Width=140
     View Style=DetailTree
   '';
+  };
 }
