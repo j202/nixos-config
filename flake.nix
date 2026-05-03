@@ -51,6 +51,17 @@
             home-manager.users.alex = import ./home/alex-pc.nix;
             home-manager.sharedModules = [ catppuccin.homeModules.catppuccin ];
           }
+          # Workaround for NixOS/nixpkgs#513245: pkgsi686Linux.openldap test
+          # suite failures break lutris builds on x86_64.
+          {
+            nixpkgs.overlays = [
+              (_: prev: {
+                openldap = prev.openldap.overrideAttrs {
+                  doCheck = !prev.stdenv.hostPlatform.isi686;
+                };
+              })
+            ];
+          }
         ];
       };
 
