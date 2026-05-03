@@ -391,6 +391,23 @@
     enable = true;
   };
 
+  # ── XDG MIME associations ─────────────────────────────────────────────────
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "image/jpeg"                = "imv.desktop";
+      "image/png"                 = "imv.desktop";
+      "image/gif"                 = "imv.desktop";
+      "image/webp"                = "imv.desktop";
+      "image/svg+xml"             = "imv.desktop";
+      "image/bmp"                 = "imv.desktop";
+      "image/tiff"                = "imv.desktop";
+      "inode/directory"           = "org.kde.dolphin.desktop";
+      "text/plain"                = "org.kde.kate.desktop";
+    };
+  };
+
   # ── Hyprpaper ─────────────────────────────────────────────────────────────
   # Set WALLPAPER to the path of your wallpaper file.
 
