@@ -389,10 +389,15 @@
 
   services.hyprpaper = {
     enable = true;
+    package = null;
     settings = {
+      ipc = "on";
       splash = false;
-      preload = [ "~/Pictures/wallpaper.jpg" ];
-      wallpaper = [ ",~/Pictures/wallpaper.jpg" ];
+      preload = [ "${config.home.homeDirectory}/Pictures/wallpaper.jpg" ];
+      wallpaper = [
+        "DP-1,${config.home.homeDirectory}/Pictures/wallpaper.jpg"
+        "DP-4,${config.home.homeDirectory}/Pictures/wallpaper.jpg"
+      ];
     };
   };
 }
