@@ -225,13 +225,13 @@
           {
             criteria = "AOC AG405UXC XYCQ2JA000267";
             mode = "3440x1440@144Hz";
-            position = "0,0";
+            position = "0,1080";
             status = "enable";
           }
           {
             criteria = "HP Inc. HP E24u G4 CN4139185F";
             mode = "1920x1080@60Hz";
-            position = "3440,0";
+            position = "720,0";
             status = "enable";
           }
         ];
