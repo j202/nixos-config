@@ -1,11 +1,12 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
-# PC-specific home config — shared base plus Hyprland desktop.
+# PC-specific home config — shared base plus desktop tools.
 { config, pkgs, ... }:
 {
   imports = [
     ./alex.nix
-    ./modules/hyprland.nix
+    ./modules/wayland-tools.nix
   ];
 
-  catppuccin.kitty.enable = true;
+  catppuccin.flavor = "mocha";
+  catppuccin.accent = "mauve";
 }

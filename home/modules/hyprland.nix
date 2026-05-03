@@ -1,13 +1,9 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
-# Hyprland home configuration — WM, bar, launcher, terminal, notifications, lock, wallpaper.
+# Hyprland-specific home configuration — WM, bar, lock, wallpaper.
 { config, pkgs, ... }:
 {
-  catppuccin.flavor = "mocha";
-  catppuccin.accent = "mauve";
-
   catppuccin.hyprland.enable = true;
   catppuccin.waybar.enable = true;
-  catppuccin.rofi.enable = true;
   catppuccin.mako.enable = true;
 
   home.packages = with pkgs; [
@@ -17,8 +13,6 @@
     lxqt.lxqt-policykit
     networkmanagerapplet
     swayidle
-    wlogout
-    xdg-utils
   ];
 
   # ── Hyprland ──────────────────────────────────────────────────────────────
@@ -204,24 +198,6 @@
     };
   };
 
-  # ── Hyprlock ──────────────────────────────────────────────────────────────
-
-  programs.hyprlock = {
-    enable = true;
-  };
-
-  # ── Hyprpaper ─────────────────────────────────────────────────────────────
-  # Set WALLPAPER to the path of your wallpaper file.
-
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      splash = false;
-      preload = [ "~/Pictures/wallpaper.png" ];
-      wallpaper = [ ",~/Pictures/wallpaper.png" ];
-    };
-  };
-
   # ── Waybar ────────────────────────────────────────────────────────────────
 
   programs.waybar = {
@@ -283,35 +259,6 @@
     }];
   };
 
-  # ── Rofi ──────────────────────────────────────────────────────────────────
-
-  programs.rofi = {
-    enable = true;
-    package = pkgs.rofi;
-    terminal = "${pkgs.kitty}/bin/kitty";
-    extraConfig = {
-      modi = "drun,run";
-      show-icons = true;
-      icon-theme = "Papirus-Dark";
-      drun-display-format = "{name}";
-    };
-  };
-
-  # ── Kitty ─────────────────────────────────────────────────────────────────
-
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "JetBrainsMono Nerd Font";
-      size = 12;
-    };
-    settings = {
-      window_padding_width = 8;
-      confirm_os_window_close = 0;
-      enable_audio_bell = false;
-    };
-  };
-
   # ── Mako (notifications) ──────────────────────────────────────────────────
 
   services.mako = {
@@ -320,6 +267,24 @@
       border-radius = 8;
       default-timeout = 5000;
       ignore-timeout = 1;
+    };
+  };
+
+  # ── Hyprlock ──────────────────────────────────────────────────────────────
+
+  programs.hyprlock = {
+    enable = true;
+  };
+
+  # ── Hyprpaper ─────────────────────────────────────────────────────────────
+  # Set WALLPAPER to the path of your wallpaper file.
+
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      splash = false;
+      preload = [ "~/Pictures/wallpaper.png" ];
+      wallpaper = [ ",~/Pictures/wallpaper.png" ];
     };
   };
 }
