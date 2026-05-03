@@ -184,7 +184,7 @@
         ", XF86AudioPrev,  exec, playerctl previous"
       ];
 
-      windowrulev2 = [
+      windowrule = [
         "suppressevent maximize, class:.*"
         "float, class:^(pavucontrol)$"
         "float, class:^(nm-connection-editor)$"
