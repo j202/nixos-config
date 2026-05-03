@@ -328,7 +328,11 @@
   # Tell VS Code to use gnome-libsecret on non-GNOME Wayland desktops.
   home.file.".vscode/argv.json" = {
     force = true;
-    text = builtins.toJSON { "password-store" = "gnome-libsecret"; };
+    text = ''
+      {
+        "password-store": "gnome-libsecret"
+      }
+    '';
   };
 
   programs.hyprlock = {
