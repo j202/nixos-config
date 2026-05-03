@@ -4,6 +4,7 @@
 {
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
+  programs.hyprland.withUWSM = true;
 
   services.greetd = {
     enable = true;
@@ -14,6 +15,9 @@
   };
 
   security.pam.services.hyprlock = { };
+
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
