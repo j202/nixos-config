@@ -5,6 +5,7 @@
   catppuccin.hyprland.enable = true;
   catppuccin.waybar.enable = true;
   catppuccin.mako.enable = true;
+  catppuccin.cursors.enable = true;
 
   home.packages = with pkgs; [
     cliphist
@@ -23,13 +24,8 @@
     systemd.variables = [ "--all" ];
 
     settings = {
-      # Check connector names with: hyprctl monitors
-      # Adjust positions/connectors to match your physical layout.
-      monitor = [
-        "DP-1,3440x1440@144,0x0,1"
-        "DP-2,1920x1080@60,3440x0,1"
-        ",preferred,auto,1"  # fallback
-      ];
+      # kanshi manages connected monitors; this fallback covers anything it misses.
+      monitor = [ ",preferred,auto,1" ];
 
       exec-once = [
         "hyprpaper"
@@ -198,6 +194,42 @@
     };
   };
 
+  # ── Kanshi (dynamic monitor management) ──────────────────────────────────
+  # services.kanshi runs as a systemd user service and starts automatically
+  # via graphical-session.target — no exec-once entry needed.
+
+  services.kanshi = {
+    enable = true;
+    settings = [
+      {
+        profile.name = "dual";
+        profile.outputs = [
+          {
+            criteria = "AOC AG405UXC XYCQ2JA000267";
+            mode = "3440x1440@144Hz";
+            position = "0,0";
+            status = "enable";
+          }
+          {
+            criteria = "HP Inc. HP E24u G4 CN4139185F";
+            mode = "1920x1080@60Hz";
+            position = "3440,0";
+            status = "enable";
+          }
+        ];
+      }
+      {
+        profile.name = "single";
+        profile.outputs = [
+          {
+            criteria = "*";
+            status = "enable";
+          }
+        ];
+      }
+    ];
+  };
+
   # ── Waybar ────────────────────────────────────────────────────────────────
 
   programs.waybar = {
@@ -272,6 +304,8 @@
 
   # ── Hyprlock ──────────────────────────────────────────────────────────────
 
+  catppuccin.hyprlock.enable = true;
+
   programs.hyprlock = {
     enable = true;
   };
@@ -283,8 +317,8 @@
     enable = true;
     settings = {
       splash = false;
-      preload = [ "~/Pictures/wallpaper.png" ];
-      wallpaper = [ ",~/Pictures/wallpaper.png" ];
+      preload = [ "~/Pictures/wallpaper.jpg" ];
+      wallpaper = [ ",~/Pictures/wallpaper.jpg" ];
     };
   };
 }

@@ -46,10 +46,5 @@
     vscode
   ];
 
-  catppuccin.sddm.background = "${pkgs.fetchurl {
-    url = "https://assets.alex-sh.co.uk/wallpaper/night-sky-space-colorful-scenery-4k-wallpaper-uhdpaper.com.jpg";
-    hash = "sha256-B8GwZ/n0pty4zvsWiEeXy8SMrlWU5gzBAP4MROmWfq4=";
-  }}";
-
   system.stateVersion = "25.11";
 }
