@@ -160,9 +160,9 @@
         "$mod, mouse_up,   workspace, e-1"
 
         # Utilities
-        "$mod, L, exec, hyprlock"
+        "$mod CTRL, L, exec, hyprlock"
         "$mod SHIFT, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-        "$mod SHIFT, M, exit,"
+        "$mod SHIFT, M, exec, wlogout"
         ", Print, exec, hyprshot -m region"
         "$mod, Print, exec, hyprshot -m window"
         "$mod SHIFT, Print, exec, hyprshot -m output"
@@ -324,6 +324,11 @@
   # ── Hyprlock ──────────────────────────────────────────────────────────────
 
   catppuccin.hyprlock.enable = true;
+
+  # Tell VS Code to use gnome-libsecret on non-GNOME Wayland desktops.
+  home.file.".vscode/argv.json".text = builtins.toJSON {
+    "password-store" = "gnome-libsecret";
+  };
 
   programs.hyprlock = {
     enable = true;
