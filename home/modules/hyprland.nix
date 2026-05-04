@@ -306,8 +306,8 @@ in
       spacing = 4;
 
       modules-left   = [ "hyprland/workspaces" "hyprland/window" ];
-      modules-center = [ "clock" ];
-      modules-right  = [ "pulseaudio" "network" "cpu" "memory" "tray" ];
+      modules-center = [];
+      modules-right  = [ "pulseaudio" "network" "cpu" "memory" "tray" "clock" ];
 
       "hyprland/workspaces" = {
         format = "{id}";
@@ -362,9 +362,9 @@ in
       }
 
       window#waybar {
-        background-color: @base;
-        color: @text;
-        border-bottom: 2px solid @surface0;
+          background-color: transparent;
+          background-image: linear-gradient(to bottom, alpha(@base, 1), alpha(@base, 0));
+          color: @text;
       }
 
       #workspaces button {
@@ -379,23 +379,27 @@ in
       #workspaces button.active { background: @accent; color: @base; font-weight: bold; }
       #workspaces button.urgent { background: @red; color: @base; }
 
-      #window { color: @subtext1; padding: 0 8px; }
+      #window { color: @subtext1; background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
 
       #clock {
         color: @accent;
+        background-color: @base; 
+        border: 1px solid @accent; 
+        border-radius: 16px;
         font-weight: bold;
-        font-size: 14px;
-        padding: 0 12px;
+        font-size: 16px;
+        margin: 4px 0;
+        padding: 0 8px;
       }
 
-      #cpu     { color: @green; padding: 0 8px; }
-      #memory  { color: @blue;  padding: 0 8px; }
-      #network { color: @sky;   padding: 0 8px; }
+      #cpu     { color: @green; background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
+      #memory  { color: @blue;  background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
+      #network { color: @sky;   background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
 
-      #pulseaudio       { color: @pink;    padding: 0 8px; }
-      #pulseaudio.muted { color: @overlay0; }
+      #pulseaudio       { color: @pink;     background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
+      #pulseaudio.muted { color: @overlay0; background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
 
-      #tray { padding: 0 6px; }
+      #tray { background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
       #tray > .passive        { -gtk-icon-effect: dim; }
       #tray > .needs-attention { -gtk-icon-effect: highlight; background-color: @red; }
     '';
