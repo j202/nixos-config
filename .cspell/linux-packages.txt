@@ -1,4 +1,6 @@
 # Linux software packages and system terms
+# Notification / desktop integration
+libnotify
 # File managers / desktop apps
 thunar
 tumbler

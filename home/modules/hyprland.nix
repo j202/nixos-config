@@ -10,6 +10,35 @@ let
   base       = palette.${flavor}.colors.base.rgb;
   wlRgba     = "rgba(${toString base.r}, ${toString base.g}, ${toString base.b}, 0.88)";
   flavorName = (lib.toUpper (lib.substring 0 1 flavor)) + (lib.substring 1 (lib.stringLength flavor - 1) flavor);
+
+  screenshot = pkgs.writeShellApplication {
+    name = "screenshot";
+    runtimeInputs = [ pkgs.grimblast pkgs.libnotify pkgs.xdg-utils ];
+    text = ''
+      target="''${1:-area}"
+      dir="$HOME/Pictures/Screenshots"
+      file="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
+      grimblast copysave "$target" "$file"
+      action=$(notify-send --wait -A "default=Open folder" -i "$file" "Screenshot" "$(basename "$file")" || true)
+      if [[ "$action" == "default" ]]; then
+        xdg-open "$dir"
+      fi
+    '';
+  };
+
+  imv-open = pkgs.writeShellScriptBin "imv-open" ''
+    exec ${pkgs.imv}/bin/imv -n "$(basename "$1")" "$(dirname "$1")"
+  '';
+
+  cheatsheet = pkgs.writeShellApplication {
+    name = "hyprland-cheatsheet";
+    runtimeInputs = [ pkgs.hyprkeys pkgs.jq pkgs.rofi ];
+    text = ''
+      hyprkeys -b -t -j \
+        | jq -r '.[] | try select(.mouse == false and .submap == "") | "\(.mods | if . == "" then "         " else . + " " end)\(.key | ascii_upcase)  →  \(if .dispatcher == "exec" then .arg else .dispatcher + " " + .arg end)"' \
+        | rofi -dmenu -i -p " Keybinds" -no-custom
+    '';
+  };
 in
 {
   catppuccin.hyprland.enable = true;
@@ -46,6 +75,9 @@ in
   };
 
   home.packages = with pkgs; [
+    cheatsheet
+    imv-open
+    screenshot
     cliphist
     hyprpaper
     imv
@@ -155,6 +187,7 @@ in
       bind = [
         # Launchers
         "$mod, Return, exec, kitty"
+        "$mod, F1, exec, hyprland-cheatsheet"
         "$mod, R, exec, rofi -show drun"
         "$mod, E, exec, rofi -show run"
 
@@ -211,9 +244,9 @@ in
         "$mod CTRL, L, exec, hyprlock"
         "$mod SHIFT, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
         "$mod SHIFT, M, exec, wlogout"
-        ", Print, exec, grimblast copysave area"
-        "$mod, Print, exec, grimblast copysave active"
-        "$mod SHIFT, Print, exec, grimblast copysave output"
+        ", Print, exec, screenshot area"
+        "$mod, Print, exec, screenshot active"
+        "$mod SHIFT, Print, exec, screenshot output"
       ];
 
       bindm = [
@@ -444,6 +477,7 @@ in
       border-radius = 8;
       default-timeout = 5000;
       ignore-timeout = 1;
+      on-button-left = "invoke-default-action";
     };
   };
 
@@ -488,7 +522,7 @@ in
   xdg.desktopEntries.imv = {
     name = "imv";
     genericName = "Image Viewer";
-    exec = "imv %F";
+    exec = "${imv-open}/bin/imv-open %f";
     mimeType = [
       "image/jpeg" "image/png" "image/gif" "image/webp"
       "image/svg+xml" "image/bmp" "image/tiff" "image/heif"
@@ -497,6 +531,8 @@ in
     categories = [ "Graphics" "Viewer" ];
     noDisplay = false;
   };
+
+  home.file."Pictures/Screenshots/.keep".text = "";
 
   xdg.mimeApps = {
     enable = true;

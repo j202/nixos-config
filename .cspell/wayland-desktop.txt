@@ -4,6 +4,7 @@ hyprlock
 hyprpaper
 hyprctl
 hyprlang
+hyprkeys
 activewindow
 waybar
 mako
@@ -46,6 +47,9 @@ bindl
 resizewindow
 windowrule
 keybind
+keybinds
+submap
+cheatsheet
 # Waybar / Rofi config
 ifname
 essid
