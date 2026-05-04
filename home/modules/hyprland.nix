@@ -363,7 +363,15 @@ in
 
       window#waybar {
           background-color: transparent;
-          background-image: linear-gradient(to bottom, alpha(@base, 1), alpha(@base, 0));
+          background-image: linear-gradient(
+            to bottom,
+            alpha(@base, 0) 0px,
+            alpha(@base, 1) 17px,
+            @accent         17px,
+            @accent         18px,
+            alpha(@base, 1) 18px,
+            alpha(@base, 0) 100%
+          );
           color: @text;
       }
 
