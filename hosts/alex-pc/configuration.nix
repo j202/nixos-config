@@ -46,5 +46,15 @@
     vscode
   ];
 
+  fileSystems."/games" = {
+    device = "/dev/disk/by-uuid/91dd4605-cdf2-4851-b6de-40639d3189a2";
+    fsType = "btrfs";
+    options = [ "subvol=@games" "noatime" ];
+  };
+
+  systemd.tmpfiles.rules = [
+    "d /games 0755 alex users - -"
+  ];
+
   system.stateVersion = "25.11";
 }
