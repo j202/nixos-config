@@ -56,6 +56,7 @@ in
     grimblast
     lxqt.lxqt-policykit
     networkmanagerapplet
+    pwvucontrol
     swayidle
   ];
 
@@ -239,8 +240,8 @@ in
           suppress_event = "maximize";
         }
         {
-          name = "float-pavucontrol";
-          "match:class" = "^(pavucontrol)$";
+          name = "float-pwvucontrol";
+          "match:class" = "^(pwvucontrol)$";
           float = true;
         }
         {
@@ -307,7 +308,7 @@ in
 
       modules-left   = [ "hyprland/workspaces" "hyprland/window" ];
       modules-center = [];
-      modules-right  = [ "pulseaudio" "network" "cpu" "memory" "tray" "clock" ];
+      modules-right  = [ "wireplumber" "network" "cpu" "memory" "tray" "clock" ];
 
       "hyprland/workspaces" = {
         format = "{id}";
@@ -343,11 +344,11 @@ in
         tooltip-format = "{ifname}: {ipaddr}";
       };
 
-      "pulseaudio" = {
+      "wireplumber" = {
         format = "{icon}  {volume}%";
         format-muted = "󰝟 ";
         format-icons = { default = [ "󰕿" "󰖀" "󰕾" ]; };
-        on-click = "pavucontrol";
+        on-click = "pwvucontrol";
         scroll-step = 5;
       };
 
@@ -405,8 +406,8 @@ in
       #memory  { color: @blue;  background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
       #network { color: @sky;   background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
 
-      #pulseaudio       { color: @pink;     background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
-      #pulseaudio.muted { color: @overlay0; background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
+      #wireplumber       { color: @pink;     background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
+      #wireplumber.muted { color: @overlay0; background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
 
       #tray { background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
       #tray > .passive        { -gtk-icon-effect: dim; }
