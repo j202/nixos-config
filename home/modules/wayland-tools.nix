@@ -3,22 +3,18 @@
 { config, lib, pkgs, ... }:
 
 let
-  # Read the base color for the active catppuccin flavor from the palette package
-  # so the rgba background tracks flavor changes without any hardcoded hex values.
   palette = builtins.fromJSON (
     builtins.readFile (config.catppuccin.sources.palette + "/palette.json")
   );
   flavor = config.catppuccin.flavor;
-  base        = palette.${flavor}.colors.base.rgb;
-  opacity     = "0.82";
-  bgRgba      = "rgba(${toString base.r}, ${toString base.g}, ${toString base.b}, ${opacity})";
+  base   = palette.${flavor}.colors.base.rgb;
+  bgRgba = "rgba(${toString base.r}, ${toString base.g}, ${toString base.b}, 0.82)";
 in
 {
   catppuccin.rofi.enable = true;
   catppuccin.kitty.enable = true;
 
   home.packages = with pkgs; [
-    wlogout
     xdg-utils
   ];
 

@@ -88,3 +88,4 @@ noto
 webp
 # Network
 wifi
+poweroff
