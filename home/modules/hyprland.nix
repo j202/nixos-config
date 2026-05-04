@@ -78,6 +78,7 @@ in
     cheatsheet
     imv-open
     screenshot
+    pinta
     cliphist
     hyprpaper
     imv
@@ -359,7 +360,18 @@ in
       "clock" = {
         format = "{:%H:%M  %a %d %b}";
         format-alt = "{:%A, %d %B %Y}";
-        tooltip-format = "<tt><small>{calendar}</small></tt>";
+        tooltip-format = "<tt>{calendar}</tt>";
+        calendar = {
+          mode = "month";
+          weeks-pos = "right";
+          format = {
+            months   = "<span color='${c.mauve}'><b>{}</b></span>";
+            weekdays = "<span color='${c.lavender}'><b>{}</b></span>";
+            weeks    = "<span color='${c.teal}'> W{}</span>";
+            days     = "<span color='${c.text}'>{}</span>";
+            today    = "<span color='${c.peach}'><b><u>{}</u></b></span>";
+          };
+        };
       };
 
       "cpu" = {
@@ -402,6 +414,15 @@ in
         font-family: "JetBrainsMono Nerd Font", monospace;
         font-size: 13px;
         min-height: 0;
+      }
+
+      tooltip {
+        background-color: @mantle;
+        border: 1px solid @accent;
+        border-radius: 8px;
+      }
+      tooltip label {
+        color: @text;
       }
 
       window#waybar {
