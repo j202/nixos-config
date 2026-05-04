@@ -270,7 +270,7 @@ in
         profile.name = "dual";
         profile.outputs = [
           {
-            criteria = "AOC AG405UXC XYCQ2JA000267";
+            criteria = "AOC AG405UXC XYCQ2JA000267"; # cspell:ignore XYCQ2JA000267
             mode = "3440x1440@144Hz";
             position = "0,1080";
             status = "enable";

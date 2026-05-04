@@ -1,0 +1,68 @@
+# Wayland / Hyprland desktop stack
+hyprland
+hyprlock
+hyprpaper
+hyprctl
+hyprlang
+waybar
+mako
+kanshi
+rofi
+kitty
+wlogout
+cliphist
+swayidle
+grimblast
+copysave
+uwsm
+greetd
+tuigreet
+sddm
+blueman
+pwvucontrol
+wireplumber
+pavucontrol
+imv
+xwayland
+# Hyprland dispatcher commands
+killactive
+togglefloating
+togglesplit
+movefocus
+movewindow
+movetoworkspace
+pseudotile
+popin
+drun
+dmenu
+dpms
+listactive
+nocaps
+# Hyprland config keys / bind types
+bindm
+bindel
+bindl
+resizewindow
+windowrule
+# Waybar / Rofi config
+ifname
+essid
+rgba
+rasi
+listview
+# GTK / display
+dconf
+gsettings
+iconview
+gtksourceview
+libgedit
+papirus
+kvantum
+XCURSOR
+PLATFORMTHEME
+# Tools / commands
+wpctl
+playerctl
+brightnessctl
+networkmanagerapplet
+policykit

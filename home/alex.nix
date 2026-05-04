@@ -44,7 +44,7 @@
         {
           name = "replay.fish";
           src = pkgs.fetchFromGitHub {
-            owner = "jorgebucaran";
+            owner = "jorgebucaran"; # cspell:ignore jorgebucaran
             repo = "replay.fish";
             rev = "d2ecacd3fe7126e822ce8918389f3ad93b14c86c";
             sha256 = "TzQ97h9tBRUg+A7DSKeTBWLQuThicbu19DHMwkmUXdg=";
@@ -53,7 +53,7 @@
         {
           name = "fzf.fish";
           src = pkgs.fetchFromGitHub {
-            owner = "patrickf1";
+            owner = "patrickf1"; # cspell:ignore patrickf
             repo = "fzf.fish";
             rev = "8920367cf85eee5218cc25a11e209d46e2591e7a";
             sha256 = "T8KYLA/r/gOKvAivKRoeqIwE2pINlxFQtZJHpOy9GMM=";

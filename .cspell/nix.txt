@@ -1,0 +1,44 @@
+# Nix language and NixOS idioms
+nixos
+nixpkgs
+pkgs
+pkgsi
+flake
+mkForce
+mkDefault
+mkMerge
+mkIf
+mkOption
+builtins
+mapAttrs
+readFile
+fromJSON
+toUpper
+stringLength
+fetchFromGitHub
+fetchurl
+stdenv
+stdenvNoCC
+runCommand
+wrapGAppsHook
+passthru
+dontBuild
+dontConfigure
+nativeBuildInputs
+buildInputs
+hostPlatform
+# Home-manager
+homeModules
+nixosModules
+nixosSystem
+sharedModules
+# NixOS module system
+extraConfig
+stateVersion
+# Editor / git config keys
+nvim
+nvimdiff
+gpgconf
+gpgsign
+guitool
+difftool

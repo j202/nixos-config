@@ -1,0 +1,90 @@
+# Linux software packages and system terms
+# File managers / desktop apps
+thunar
+tumbler
+gvfs
+gedit
+btop
+dysk
+yazi
+# Audio / video
+pipewire
+pulseaudio
+alsa
+rtkit
+# Gaming
+gamemode
+gamescope
+corectrl
+xpadneo
+mangohud
+lutris
+ludusavi
+winetricks
+# KDE / Plasma
+kdePackages
+krunner
+kwriteconfig
+kscreenlockerrc
+kglobalshortcutsrc
+kglobalacceld
+kdeglobals
+plasmarc
+kconfig
+kirigami
+qtstyleplugin
+speedbar
+# System / kernel modules
+usbhid
+uhci
+ehci
+piix
+ohci
+firewire
+xhci
+ahci
+nvme
+sdhci
+# System / kernel config
+amdgpu
+microcode
+initrd
+btrfs
+subvol
+vfat
+fmask
+dmask
+fstrim
+sysctl
+swappiness
+fontconfig
+pciutils
+usbutils
+lxqt
+networkmanager
+libinput
+upower
+pinentry
+libsecret
+# Secrets
+# Dev tools
+clippy
+gnumake
+golint
+gopls
+gotools
+luarocks
+numpy
+virtualenv
+rustc
+statix
+xpsm
+# Fonts
+nerdfonts
+fira
+roboto
+noto
+# Image formats
+webp
+# Network
+wifi

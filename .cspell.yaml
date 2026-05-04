@@ -1,0 +1,38 @@
+version: "0.2"
+language: "en-GB"
+
+dictionaryDefinitions:
+  - name: wayland-desktop
+    path: ./.cspell/wayland-desktop.txt
+    addWords: true
+  - name: catppuccin
+    path: ./.cspell/catppuccin.txt
+    addWords: true
+  - name: nix
+    path: ./.cspell/nix.txt
+    addWords: true
+  - name: linux-packages
+    path: ./.cspell/linux-packages.txt
+    addWords: true
+
+dictionaries:
+  - wayland-desktop
+  - catppuccin
+  - nix
+  - linux-packages
+
+# American spellings used in technical contexts (ignored, not suggested as corrections)
+ignoreWords:
+  - color
+  - colors
+  - colorschemes
+  - flavor
+  - dialog
+  - analyzer
+
+ignorePaths:
+  - flake.lock
+  - result
+  - "**/*.lock"
+  - ".cspell/**"
+  - ".cspell.yaml"

@@ -6,7 +6,7 @@ let
     owner = "catppuccin";
     repo = "xfce4-terminal";
     rev = "cbc9861bb9c40fad098cf55d4b53879e6f9a737c";
-    sha256 = "xVK77p+kmwhxPHveHhmVglUt4bN2GUxhlhllS2wwvzs=";
+    sha256 = "xVK77p+kmwhxPHveHhmVglUt4bN2GUxhlhllS2wwvzs="; # cspell:ignore kmwhx Uxhlhll wwvzs
   };
 in
 {

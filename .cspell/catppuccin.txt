@@ -1,0 +1,18 @@
+# Catppuccin theme — flavors and palette names
+catppuccin
+mocha
+macchiato
+frappe
+latte
+# Colors (non-standard English)
+rosewater
+mauve
+# Numbered palette variants
+subtext0
+subtext1
+overlay0
+overlay1
+overlay2
+surface0
+surface1
+surface2
