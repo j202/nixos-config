@@ -377,9 +377,10 @@ in
 
       #workspaces button {
         padding: 0 6px;
-        background: transparent;
+        background: @base;
         color: @subtext0;
         border-radius: 4px;
+        border: 1px solid @accent;
         margin: 3px 2px;
         transition: background 0.15s;
       }
