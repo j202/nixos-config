@@ -420,20 +420,36 @@ in
 
   catppuccin.hyprlock.enable = true;
 
-  # Tell VS Code to use gnome-libsecret on non-GNOME Wayland desktops.
-  # Uses an activation script rather than home.file so VS Code can write
-  # its own fields (crash-reporter-id etc.) to a real writable file.
-  home.activation.vscodeArgv = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    _argv="$HOME/.vscode/argv.json"
-    mkdir -p "$(dirname "$_argv")"
-    if [ -L "$_argv" ] || [ ! -f "$_argv" ]; then
-      rm -f "$_argv"
-      printf '{\n  "password-store": "gnome-libsecret"\n}\n' > "$_argv"
-    fi
-  '';
-
   programs.hyprlock = {
     enable = true;
+
+    settings = {
+      general = {
+        hide_cursor = true;
+        ignore_empty_input = true;
+      };
+
+      animations = {
+        enabled = true;
+        animation = [
+          "fadeIn,  1, 8, linear"
+          "fadeOut, 1, 8, linear"
+        ];
+      };
+
+      # Background configuration with blur
+      background = [
+        {
+          # Use "screenshot" for live wallpaper or path to an image file
+          path = "${config.home.homeDirectory}/Pictures/wallpaper.jpg"; 
+          blur_passes = 2;      # Number of blur passes
+          blur_size = 5;        # Blur radius
+          # Optional: Adjust contrast and brightness for better readability
+          contrast = 0.8;
+          brightness = 0.8;
+        }
+      ];
+    };
   };
 
   # ── XDG MIME associations ─────────────────────────────────────────────────
@@ -552,4 +568,17 @@ in
       splash = false;
     };
   };
+
+  # ── VS Code (Wayland keyring) ─────────────────────────────────────────────
+  # gnome-libsecret is used for secret storage on non-GNOME Wayland desktops.
+  # Plasma has its own equivalent, so this only lives here.
+  # Activation script (not home.file) so VS Code can write its own fields.
+  home.activation.vscodeArgv = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    _argv="$HOME/.vscode/argv.json"
+    mkdir -p "$(dirname "$_argv")"
+    if [ -L "$_argv" ] || [ ! -f "$_argv" ]; then
+      rm -f "$_argv"
+      printf '{\n  "password-store": "gnome-libsecret"\n}\n' > "$_argv"
+    fi
+  '';
 }
