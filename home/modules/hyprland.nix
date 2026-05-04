@@ -1,19 +1,58 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Hyprland-specific home configuration — WM, bar, lock, wallpaper.
 { config, lib, pkgs, ... }:
+let
+  flavor = config.catppuccin.flavor;
+  accent = config.catppuccin.accent;
+
+  palette    = builtins.fromJSON (builtins.readFile (config.catppuccin.sources.palette + "/palette.json"));
+  c          = builtins.mapAttrs (_: v: v.hex) palette.${flavor}.colors;
+  flavorName = (lib.toUpper (lib.substring 0 1 flavor)) + (lib.substring 1 (lib.stringLength flavor - 1) flavor);
+in
 {
   catppuccin.hyprland.enable = true;
   catppuccin.waybar.enable = true;
   catppuccin.mako.enable = true;
   catppuccin.cursors.enable = true;
 
+  dconf.settings."org/gnome/desktop/wm/preferences".button-layout = "menu:";
+
+
+
+  gtk = {
+    enable = true;
+    theme = {
+      name    = "catppuccin-${flavor}-${accent}-standard";
+      package = pkgs.catppuccin-gtk.override {
+        variant = flavor;
+        accents = [ accent ];
+      };
+    };
+    iconTheme = {
+      name    = "Papirus-Dark";
+      package = pkgs.catppuccin-papirus-folders.override {
+        inherit flavor accent;
+      };
+    };
+    gtk4.theme = config.gtk.theme;
+    gtk3.extraConfig = {
+      gtk-decoration-layout = "menu:";
+    };
+    gtk4.extraConfig = {
+      gtk-decoration-layout = "menu:";
+    };
+  };
+
   home.packages = with pkgs; [
     cliphist
     hyprpaper
     imv
-    kdePackages.ark
-    kdePackages.dolphin
-    kdePackages.kate
+    thunar
+    thunar-archive-plugin
+    tumbler
+    file-roller
+    gedit
+    gvfs
     grimblast
     lxqt.lxqt-policykit
     networkmanagerapplet
@@ -66,6 +105,8 @@
 
       decoration = {
         rounding = 8;
+        active_opacity   = 0.85;
+        inactive_opacity = 0.85;
         blur = {
           enabled = true;
           size = 4;
@@ -416,10 +457,85 @@
       "image/svg+xml"             = "imv.desktop";
       "image/bmp"                 = "imv.desktop";
       "image/tiff"                = "imv.desktop";
-      "inode/directory"           = "org.kde.dolphin.desktop";
-      "text/plain"                = "org.kde.kate.desktop";
+      "inode/directory"           = "thunar.desktop";
+      "text/plain"                = "org.gnome.gedit.desktop";
     };
   };
+
+  # ── Gedit (GtkSourceView colour scheme) ──────────────────────────────────
+
+  xdg.dataFile."libgedit-gtksourceview-300/styles/catppuccin-${flavor}.xml".text = ''
+    <?xml version="1.0" encoding="UTF-8"?>
+    <style-scheme id="catppuccin-${flavor}" _name="Catppuccin ${flavorName}" kind="dark">
+      <_description>Soothing pastel theme</_description>
+
+      <color name="rosewater" value="${c.rosewater}"/>
+      <color name="flamingo"  value="${c.flamingo}"/>
+      <color name="pink"      value="${c.pink}"/>
+      <color name="mauve"     value="${c.mauve}"/>
+      <color name="red"       value="${c.red}"/>
+      <color name="maroon"    value="${c.maroon}"/>
+      <color name="peach"     value="${c.peach}"/>
+      <color name="yellow"    value="${c.yellow}"/>
+      <color name="green"     value="${c.green}"/>
+      <color name="teal"      value="${c.teal}"/>
+      <color name="sky"       value="${c.sky}"/>
+      <color name="sapphire"  value="${c.sapphire}"/>
+      <color name="blue"      value="${c.blue}"/>
+      <color name="lavender"  value="${c.lavender}"/>
+      <color name="text"      value="${c.text}"/>
+      <color name="subtext1"  value="${c.subtext1}"/>
+      <color name="subtext0"  value="${c.subtext0}"/>
+      <color name="overlay2"  value="${c.overlay2}"/>
+      <color name="overlay1"  value="${c.overlay1}"/>
+      <color name="overlay0"  value="${c.overlay0}"/>
+      <color name="surface2"  value="${c.surface2}"/>
+      <color name="surface1"  value="${c.surface1}"/>
+      <color name="surface0"  value="${c.surface0}"/>
+      <color name="base"      value="${c.base}"/>
+      <color name="mantle"    value="${c.mantle}"/>
+      <color name="crust"     value="${c.crust}"/>
+
+      <style name="text"                    foreground="text"     background="base"/>
+      <style name="selection"               foreground="crust"    background="mauve"/>
+      <style name="cursor"                  foreground="rosewater"/>
+      <style name="current-line"            background="surface0"/>
+      <style name="line-numbers"            foreground="overlay1" background="mantle"/>
+      <style name="current-line-number"     foreground="subtext1" background="mantle"/>
+      <style name="draw-spaces"             foreground="surface1"/>
+      <style name="bracket-match"           foreground="crust"    background="mauve"  bold="true"/>
+      <style name="bracket-mismatch"        foreground="red"                          bold="true"/>
+      <style name="right-margin"            foreground="surface0" background="surface0"/>
+      <style name="search-match"            foreground="crust"    background="green"/>
+
+      <style name="def:comment"             foreground="overlay0" italic="true"/>
+      <style name="def:doc-comment"         foreground="overlay0" italic="true"/>
+      <style name="def:doc-comment-element" foreground="overlay0"/>
+      <style name="def:constant"            foreground="peach"/>
+      <style name="def:string"              foreground="green"/>
+      <style name="def:special-char"        foreground="pink"/>
+      <style name="def:keyword"             foreground="mauve"/>
+      <style name="def:statement"           foreground="mauve"/>
+      <style name="def:operator"            foreground="sky"/>
+      <style name="def:identifier"          foreground="lavender"/>
+      <style name="def:function"            foreground="blue"/>
+      <style name="def:type"                foreground="blue"/>
+      <style name="def:preprocessor"        foreground="pink"/>
+      <style name="def:error"               foreground="red"      underline="true"/>
+      <style name="def:warning"             foreground="yellow"/>
+      <style name="def:note"                foreground="teal"/>
+      <style name="def:number"              foreground="peach"/>
+      <style name="def:boolean"             foreground="peach"/>
+      <style name="def:variable"            foreground="text"/>
+      <style name="def:builtin"             foreground="red"/>
+      <style name="def:net-address"         foreground="sky"      underline="true"/>
+      <style name="def:heading"             foreground="blue"     bold="true"/>
+      <style name="def:list-marker"         foreground="mauve"/>
+    </style-scheme>
+  '';
+
+  dconf.settings."org/gnome/gedit/preferences/editor"."style-scheme-for-dark-theme-variant"  = "catppuccin-${flavor}";
+  dconf.settings."org/gnome/gedit/preferences/editor"."style-scheme-for-light-theme-variant" = "catppuccin-${flavor}";
 
   # ── Hyprpaper ─────────────────────────────────────────────────────────────
   # Set WALLPAPER to the path of your wallpaper file.
