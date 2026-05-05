@@ -74,6 +74,17 @@ in
     };
   };
 
+  qt = {
+    enable = true;
+    platformTheme.name = "qtct";
+    style = {
+      name    = "kvantum";
+      package = pkgs.kdePackages.qtstyleplugin-kvantum;
+    };
+  };
+
+  catppuccin.kvantum.enable = true;
+
   home.packages = with pkgs; [
     cheatsheet
     imv-open

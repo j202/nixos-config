@@ -64,6 +64,9 @@ gtksourceview
 libgedit
 papirus
 kvantum
+qtct
+qt5ct
+qt6ct
 XCURSOR
 PLATFORMTHEME
 # Tools / commands
