@@ -94,3 +94,5 @@ webp
 # Network
 wifi
 poweroff
+# IPC / bus
+dbus
