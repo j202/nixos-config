@@ -55,7 +55,6 @@
   environment.shells = [ pkgs.fish ];
 
   environment.systemPackages = with pkgs; [
-    agenix
     bat
     btop
     curl
