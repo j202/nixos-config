@@ -41,6 +41,13 @@
 
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.netrc-file = config.age.secrets.netrc.path;
+
+  age.identityPaths = [ "/etc/age/key" ];
+  age.secrets.netrc = {
+    file = ../secrets/netrc.age;
+    mode = "0400";
+  };
 
   hardware.enableRedistributableFirmware = true;
   security.sudo.enable = true;
@@ -48,6 +55,7 @@
   environment.shells = [ pkgs.fish ];
 
   environment.systemPackages = with pkgs; [
+    agenix
     bat
     btop
     curl

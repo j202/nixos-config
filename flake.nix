@@ -19,9 +19,14 @@
     };
 
     catppuccin.url = "github:catppuccin/nix";
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
-  outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, home-manager-stable, catppuccin, ... }: {
+  outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, home-manager-stable, catppuccin, agenix, ... }: {
     nixosConfigurations = {
 
       # Dell XPS M1330 — pinned to nixos-25.11 stable
@@ -29,6 +34,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/xpsm1330/configuration.nix
+          agenix.nixosModules.default
           home-manager-stable.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -43,6 +49,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/alex-pc/configuration.nix
+          agenix.nixosModules.default
           catppuccin.nixosModules.catppuccin
           home-manager.nixosModules.home-manager
           {
