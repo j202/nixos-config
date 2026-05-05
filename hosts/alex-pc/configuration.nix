@@ -43,6 +43,7 @@
     nvme-cli
     obsidian
     spotify
+    vesktop
     vscode
   ];
 

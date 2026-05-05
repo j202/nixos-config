@@ -129,6 +129,7 @@ in
         "wl-paste --type image --watch cliphist store"
         "swayidle -w timeout 300 'hyprlock' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'"
         "steam -silent"
+        "vesktop --start-minimized"
       ];
 
       env = [

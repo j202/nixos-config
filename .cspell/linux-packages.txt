@@ -6,6 +6,7 @@ pinta
 # File managers / desktop apps
 thunar
 tumbler
+vesktop
 gvfs
 gedit
 btop
