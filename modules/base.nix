@@ -64,6 +64,7 @@
     file
     fish
     fzf
+    gdu
     git
     gnupg
     htop
