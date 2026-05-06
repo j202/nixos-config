@@ -4,7 +4,5 @@
 {
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  hardware.bluetooth.settings.Policy.AutoEnable = true;
-  hardware.bluetooth.settings.Policy.ClassicBondedOnly = false;
   services.blueman.enable = true;
 }
