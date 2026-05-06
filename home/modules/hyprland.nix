@@ -192,6 +192,7 @@ in
         force_default_wallpaper = 0;
         disable_hyprland_logo = true;
         vrr = 2;  # FreeSync/VRR when fullscreen only
+        exit_window_retains_fullscreen = true;
       };
 
       ecosystem.no_update_news = true;
