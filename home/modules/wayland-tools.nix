@@ -68,6 +68,8 @@ in
       drun-display-format = "{name}";
       display-drun = " ";
       display-run  = " ";
+      me-select-entry = "";
+      me-accept-entry = "MousePrimary";
     };
   };
 

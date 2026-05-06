@@ -205,14 +205,15 @@ in
         "$mod, Return, exec, kitty"
         "$mod, F1, exec, hyprland-cheatsheet"
         "$mod, R, exec, rofi -show drun"
-        "$mod, E, exec, rofi -show run"
+        "$mod, E, exec, thunar"
+        "$mod, W, exec, brave"
 
         # Windows
         "$mod, Q, killactive,"
         "$mod, F, fullscreen, 0"
         "$mod, V, togglefloating,"
         "$mod, P, pseudo,"
-        "$mod, J, togglesplit,"
+        "$mod, S, togglesplit,"
 
         # Focus
         "$mod, left,  movefocus, l"
@@ -282,6 +283,10 @@ in
         ", XF86AudioPlay,  exec, playerctl play-pause"
         ", XF86AudioNext,  exec, playerctl next"
         ", XF86AudioPrev,  exec, playerctl previous"
+      ];
+
+      bindr = [
+        "$mod, Super_L, exec, rofi -show drun"
       ];
 
       windowrule = [

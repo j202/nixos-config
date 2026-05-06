@@ -44,6 +44,7 @@ nocaps
 bindm
 bindel
 bindl
+bindr
 resizewindow
 windowrule
 keybind
