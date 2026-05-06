@@ -18,6 +18,9 @@
     };
   };
 
+  xdg.configFile."nvim".source =
+    config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/lazyvim";
+
   programs = {
     home-manager.enable = true;
 
@@ -95,7 +98,10 @@
 
     tmux.enable = true;
 
-    yazi.enable = true;
+    yazi = {
+      enable = true;
+      shellWrapperName = "y";
+    };
 
     git = {
       enable = true;
