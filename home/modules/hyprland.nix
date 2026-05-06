@@ -193,6 +193,7 @@ in
         disable_hyprland_logo = true;
         vrr = 2;  # FreeSync/VRR when fullscreen only
         exit_window_retains_fullscreen = true;
+        focus_on_activate = true;
       };
 
       ecosystem.no_update_news = true;
