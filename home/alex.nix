@@ -38,7 +38,6 @@
             --variables=\ee\ev
         bind \ee\eb _git_fzf_echo_branch
 
-        set --global --export BAT_THEME "Catppuccin Mocha"
       '';
       plugins = [
         {
@@ -71,7 +70,32 @@
       ];
     };
 
-    starship.enable = true;
+    starship = {
+      enable = true;
+      settings = {
+        os.disabled = false;
+
+        shell = {
+          disabled = false;
+          fish_indicator = "󰈺";
+          bash_indicator = "";
+          zsh_indicator = "󰬡";
+          unknown_indicator = "󰋗";
+        };
+      };
+    };
+
+    bash.enable = true;
+
+    bat.enable = true;
+
+    btop.enable = true;
+
+    fzf.enable = true;
+
+    tmux.enable = true;
+
+    yazi.enable = true;
 
     git = {
       enable = true;
@@ -102,12 +126,7 @@
       };
     };
 
-    zellij = {
-      enable = true;
-      settings = {
-        theme = "catppuccin-mocha";
-      };
-    };
+    zellij.enable = true;
   };
 
   services.gpg-agent = {
