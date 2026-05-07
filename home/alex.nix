@@ -101,7 +101,17 @@
 
     btop.enable = true;
 
-    fzf.enable = true;
+    fzf = {
+      enable = true;
+      defaultOptions = [
+        "--cycle"
+        "--layout=reverse"
+        "--border"
+        "--height=90%"
+        "--preview-window=wrap"
+        "--marker=*"
+      ];
+    };
 
     tmux.enable = true;
 
