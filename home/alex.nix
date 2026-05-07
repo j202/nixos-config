@@ -37,16 +37,16 @@
         fish_user_key_bindings = ''
           bind --erase --preset \ee
           bind -M insert --erase --preset \ee
-          bind \eee edit_command_buffer
-          bind -M insert \eee edit_command_buffer
+          bind \ee,\ee edit_command_buffer
+          bind -M insert \ee,\ee edit_command_buffer
           fzf_configure_bindings \
-              --directory=\eef \
-              --git_log=\eel \
-              --git_status=\ees \
-              --processes=\eep \
-              --variables=\eev
-          bind \eeb _git_fzf_echo_branch
-          bind -M insert \eeb _git_fzf_echo_branch
+              --directory=\ee,\ef \
+              --git_log=\ee,\el \
+              --git_status=\ee,\es \
+              --processes=\ee,\ep \
+              --variables=\ee,\ev
+          bind \ee,\eb _git_fzf_echo_branch
+          bind -M insert \ee,\eb _git_fzf_echo_branch
         '';
       };
       plugins = [
