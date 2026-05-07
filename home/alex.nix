@@ -35,8 +35,8 @@
       '';
       functions = {
         fish_user_key_bindings = ''
-          bind --erase \ee
-          bind -M insert --erase \ee
+          bind --erase --preset \ee
+          bind -M insert --erase --preset \ee
           bind \ee\ee edit_command_buffer
           bind -M insert \ee\ee edit_command_buffer
           fzf_configure_bindings \
