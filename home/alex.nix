@@ -32,21 +32,23 @@
         export EDITOR=nvim
 
         set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-
-        bind --erase \ee
-        bind -M insert --erase \ee
-        bind \ee\ee edit_command_buffer
-        bind -M insert \ee\ee edit_command_buffer
-        fzf_configure_bindings \
-            --directory=\ee\ef \
-            --git_log=\ee\el \
-            --git_status=\ee\es \
-            --processes=\ee\ep \
-            --variables=\ee\ev
-        bind \ee\eb _git_fzf_echo_branch
-        bind -M insert \ee\eb _git_fzf_echo_branch
-
       '';
+      functions = {
+        fish_user_key_bindings = ''
+          bind --erase \ee
+          bind -M insert --erase \ee
+          bind \ee\ee edit_command_buffer
+          bind -M insert \ee\ee edit_command_buffer
+          fzf_configure_bindings \
+              --directory=\ee\ef \
+              --git_log=\ee\el \
+              --git_status=\ee\es \
+              --processes=\ee\ep \
+              --variables=\ee\ev
+          bind \ee\eb _git_fzf_echo_branch
+          bind -M insert \ee\eb _git_fzf_echo_branch
+        '';
+      };
       plugins = [
         {
           name = "replay.fish";
