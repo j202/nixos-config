@@ -35,18 +35,18 @@
       '';
       functions = {
         fish_user_key_bindings = ''
-          bind --erase --preset \ee
-          bind -M insert --erase --preset \ee
-          bind \ee,\ee edit_command_buffer
-          bind -M insert \ee,\ee edit_command_buffer
+          bind --erase --preset alt-e
+          bind -M insert --erase --preset alt-e
+          bind alt-e,alt-e edit_command_buffer
+          bind -M insert alt-e,alt-e edit_command_buffer
           fzf_configure_bindings \
-              --directory=\ee,\ef \
-              --git_log=\ee,\el \
-              --git_status=\ee,\es \
-              --processes=\ee,\ep \
-              --variables=\ee,\ev
-          bind \ee,\eb _git_fzf_echo_branch
-          bind -M insert \ee,\eb _git_fzf_echo_branch
+              --directory=alt-e,alt-f \
+              --git_log=alt-e,alt-l \
+              --git_status=alt-e,alt-s \
+              --processes=alt-e,alt-p \
+              --variables=alt-e,alt-v
+          bind alt-e,alt-b _git_fzf_echo_branch
+          bind -M insert alt-e,alt-b _git_fzf_echo_branch
         '';
       };
       plugins = [
