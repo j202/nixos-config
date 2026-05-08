@@ -71,6 +71,7 @@ qt6ct
 XCURSOR
 PLATFORMTHEME
 # Tools / commands
+pkill
 wpctl
 playerctl
 brightnessctl

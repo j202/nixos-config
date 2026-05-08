@@ -286,7 +286,7 @@ in
       ];
 
       bindr = [
-        "$mod, Super_L, exec, rofi -show drun"
+        "$mod, Super_L, exec, pkill rofi || rofi -show drun"
       ];
 
       windowrule = [
