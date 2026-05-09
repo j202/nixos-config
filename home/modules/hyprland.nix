@@ -363,7 +363,7 @@ in
       spacing = 4;
 
       modules-left   = [ "hyprland/workspaces" "hyprland/window" ];
-      modules-center = [];
+      modules-center = [ "mpris" ];
       modules-right  = [ "wireplumber" "network" "cpu" "memory" "tray" "clock" "custom/power" ];
 
       "hyprland/workspaces" = {
@@ -375,6 +375,22 @@ in
       "hyprland/window" = {
         max-length = 60;
         separate-outputs = false;
+      };
+
+      "mpris" = {
+        format = "{status_icon}  {artist} – {title}";
+        format-stopped = "";
+        status-icons = {
+          playing = "▶";
+          paused  = "󰏤";
+          stopped = "󰓛";
+        };
+        max-length = 60;
+        tooltip-format = "{album}\n{player}";
+        on-click = "playerctl play-pause";
+        on-scroll-up = "playerctl next";
+        on-scroll-down = "playerctl previous";
+        interval = 1;
       };
 
       "clock" = {
@@ -491,6 +507,9 @@ in
 
       #wireplumber       { color: @pink;     background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
       #wireplumber.muted { color: @overlay0; background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
+
+      #mpris        { color: @mauve;    background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 10px; }
+      #mpris.paused { color: @overlay1; background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 10px; }
 
       #tray { background-color: @base; border: 1px solid @accent; border-radius: 16px; margin: 4px 0; padding: 0 8px; }
       #tray > .passive        { -gtk-icon-effect: dim; }
