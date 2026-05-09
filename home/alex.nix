@@ -39,6 +39,10 @@
         set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
       '';
       functions = {
+        # Rewrites HTTPS→SSH for interactive shell use only; Neovim/lazy.nvim bypass fish functions and use HTTPS directly (no passphrase prompts).
+        git = ''
+          command git -c 'url.git@github.com:.insteadOf=https://github.com/' $argv
+        '';
         fish_user_key_bindings = ''
           bind --erase --preset alt-e
           bind -M insert --erase --preset alt-e
@@ -148,9 +152,6 @@
         pull.rebase = true;
         rebase.autoSquash = true;
         init.defaultBranch = "main";
-        url."git@github.com:" = {
-          insteadOf = "https://github.com/";
-        };
       };
     };
 
