@@ -120,7 +120,6 @@ in
       exec-once = [
         "hyprpaper"
         "bash -c 'while ! hyprctl hyprpaper listactive >/dev/null 2>&1; do sleep 0.1; done; hyprctl hyprpaper wallpaper \"DP-1,${config.home.homeDirectory}/Pictures/wallpaper.jpg\"; hyprctl hyprpaper wallpaper \"DP-4,${config.home.homeDirectory}/Pictures/wallpaper.jpg\"'"
-        "waybar"
         "mako"
         "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent"
         "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
@@ -352,6 +351,8 @@ in
   };
 
   # ── Waybar ────────────────────────────────────────────────────────────────
+
+  services.waybar.systemd.enable = true;
 
   programs.waybar = {
     enable = true;
