@@ -1,0 +1,115 @@
+// keybindings.json — vim-style UI navigation for VSCode
+//
+// These bindings cover focus contexts outside the editor (sidebar, panels).
+// The main which-key leader menu and editor bindings live in settings.json.
+//
+// When-clause context quick reference:
+//   sideBarFocus         — any sidebar view (Explorer, SCM, Extensions …)
+//   explorerViewletFocus — Explorer file tree specifically
+//   panelFocus           — any bottom panel (Problems, Output, Terminal …)
+//   terminalFocus        — integrated terminal (always excluded below)
+//   inputFocus           — a text input widget is active (rename box, search …)
+//   listFocus            — a list / tree widget has keyboard focus
+//
+// Terminal safety: none of these bindings include terminalFocus, and the
+// which-key space trigger in settings.json only fires through VSCodeVim
+// (editorTextFocus required), so the terminal is completely unaffected.
+[
+  // ── Sidebar: vim hjkl navigation ─────────────────────────────────────────
+  // Fires whenever a sidebar view has focus and no input field is active.
+  // Rename / search inputs keep their natural behaviour because of !inputFocus.
+  { "key": "j",     "command": "list.focusDown",    "when": "sideBarFocus && !inputFocus" },
+  { "key": "k",     "command": "list.focusUp",      "when": "sideBarFocus && !inputFocus" },
+  // h collapses the current tree node; on a file it moves up to the parent.
+  { "key": "h",     "command": "list.collapse",     "when": "sideBarFocus && !inputFocus" },
+  // l selects: expands a folder or opens a file (keeps focus in sidebar for folders).
+  { "key": "l",     "command": "list.select",       "when": "sideBarFocus && !inputFocus" },
+  // o and Space toggle expand/collapse without opening the file.
+  { "key": "o",     "command": "list.toggleExpand", "when": "sideBarFocus && !inputFocus" },
+  // Escape returns focus to the active editor from anywhere in the sidebar.
+  { "key": "escape","command": "workbench.action.focusActiveEditorGroup", "when": "sideBarFocus && !inputFocus" },
+
+  // ── Explorer: close sidebar ───────────────────────────────────────────────
+  { "key": "q", "command": "workbench.action.toggleSidebarVisibility", "when": "explorerViewletFocus && !inputFocus" },
+
+  // ── Explorer: file operations ─────────────────────────────────────────────
+  // explorerViewletFocus scopes these to the file tree only (not SCM, Extensions).
+  { "key": "a",       "command": "explorer.newFile",   "when": "explorerViewletFocus && !inputFocus" },
+  { "key": "shift+a", "command": "explorer.newFolder", "when": "explorerViewletFocus && !inputFocus" },
+  { "key": "r",       "command": "renameFile",         "when": "explorerViewletFocus && !inputFocus" },
+  // shift+d for delete (capital D) to reduce accidental deletions.
+  { "key": "shift+d", "command": "deleteFile",         "when": "explorerViewletFocus && !inputFocus" },
+
+  // ── Shift+H/L: universal tab navigation outside the editor and terminal ──────
+  // Mirrors vim normalModeKeyBindingsNonRecursive H/L for contexts where vim is
+  // not active (git graph, sidebar, panels, Claude Code tab, etc.).
+  // !inputFocus is required here — unlike Ctrl combos, Shift+H/L type characters
+  // in text fields so we must not fire there.
+  { "key": "shift+h", "command": "workbench.action.previousEditor", "when": "!editorTextFocus && !terminalFocus && !inputFocus && !inQuickOpen" },
+  { "key": "shift+l", "command": "workbench.action.nextEditor",     "when": "!editorTextFocus && !terminalFocus && !inputFocus && !inQuickOpen" },
+
+  // ── Ctrl+hjkl: universal pane navigation outside the editor and terminal ─────
+  // Covers Claude Code tab (webview), sidebar, panels, and any other non-editor
+  // context where vim's normalModeKeyBindingsNonRecursive can't fire.
+  // !inputFocus guards rename boxes, search fields, etc.
+  { "key": "ctrl+h", "command": "workbench.action.navigateLeft",  "when": "!editorTextFocus && !terminalFocus && !inQuickOpen" },
+  { "key": "ctrl+j", "command": "workbench.action.navigateDown",  "when": "!editorTextFocus && !terminalFocus && !inQuickOpen" },
+  { "key": "ctrl+k", "command": "workbench.action.navigateUp",    "when": "!editorTextFocus && !terminalFocus && !inQuickOpen" },
+  { "key": "ctrl+l", "command": "workbench.action.navigateRight", "when": "!editorTextFocus && !terminalFocus && !inQuickOpen" },
+
+  // ── Panel (Problems, Output, etc.) — terminal explicitly excluded ──────────
+  // j/k navigate list items in panels that expose a list (e.g. Problems view).
+  // The listFocus guard prevents firing in text-output panels (e.g. Output).
+  { "key": "j",     "command": "list.focusDown", "when": "panelFocus && !terminalFocus && !inputFocus && listFocus" },
+  { "key": "k",     "command": "list.focusUp",   "when": "panelFocus && !terminalFocus && !inputFocus && listFocus" },
+  // Escape from a non-terminal panel back to the editor.
+  { "key": "escape","command": "workbench.action.focusActiveEditorGroup", "when": "panelFocus && !terminalFocus && !inputFocus" },
+
+  // ── Space: universal which-key trigger outside editor and terminal ────────────
+  // The editor in vim Normal mode handles Space via normalModeKeyBindingsNonRecursive.
+  // This fires from sidebar, panels, Claude Code tab, git graph, and any other
+  // non-editor non-terminal context where vim isn't active.
+  { "key": "space", "command": "whichkey.show", "when": "(sideBarFocus || (panelFocus && !terminalFocus)) && !inputFocus && !inQuickOpen" },
+
+  // ── Terminal toggle ───────────────────────────────────────────────────────────
+  // Ctrl+/ toggles the terminal panel globally. This overrides the default
+  // editor.action.commentLine binding on Ctrl+/ — use <Space>/ for comments.
+  { "key": "ctrl+/", "command": "workbench.action.terminal.toggleTerminal" },
+
+  // ── Alt+Space: universal which-key leader ─────────────────────────────────────
+  // Fires from any context (terminal, Claude Code pane, sidebar, panels) where
+  // the vim layer is not active or not in Normal mode. No when-condition so it
+  // always takes precedence. Use this when Space alone won't reach the vim layer.
+  { "key": "alt+space", "command": "whichkey.show" },
+
+  // ── Ctrl+N / Ctrl+P: pass through to the terminal ───────────────────────────
+  // VSCode's default ctrl+p (workbench.action.quickOpen) has no when condition,
+  // so it fires even when the terminal has focus. Send the raw control-character
+  // sequences instead so the shell receives them (ctrl+p = 0x10, ctrl+n = 0x0e).
+  { "key": "ctrl+p", "command": "workbench.action.terminal.sendSequence", "args": { "text": "\u0010" }, "when": "terminalFocus" },
+  { "key": "ctrl+n", "command": "workbench.action.terminal.sendSequence", "args": { "text": "\u000e" }, "when": "terminalFocus" },
+
+  // ── Ctrl+N / Ctrl+P: navigate the command palette and IntelliSense ────────
+  // User keybindings have higher priority than VSCodeVim's extension bindings,
+  // so these fire in preference to extension.vim_ctrl+n/p when the widget is
+  // visible — no need to set vim.handleKeys.
+  //
+  // inQuickOpen covers: command palette, file picker, symbol picker, which-key
+  // popup, and any other QuickPick/QuickOpen widget.
+  { "key": "ctrl+n", "command": "workbench.action.quickOpenSelectNext",     "when": "inQuickOpen" },
+  { "key": "ctrl+p", "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
+  // suggestWidgetVisible covers the IntelliSense completion dropdown.
+  { "key": "ctrl+n", "command": "selectNextSuggestion",                     "when": "suggestWidgetVisible && textInputFocus && !inSnippetMode" },
+  { "key": "ctrl+p", "command": "selectPrevSuggestion",                     "when": "suggestWidgetVisible && textInputFocus && !inSnippetMode" },
+
+  // ── Ctrl+[ = Escape ───────────────────────────────────────────────────────
+  // In the editor with vim active: VSCodeVim's extension.vim_ctrl+[ already
+  // handles this as Escape (it beats the editor.action.outdentLines default
+  // because extension keybindings outrank VSCode defaults). Nothing to add.
+  //
+  // In quick open (command palette, file picker, which-key popup):
+  // editorTextFocus is false so vim's binding does not fire. Add it here.
+  { "key": "ctrl+[", "command": "workbench.action.closeQuickOpen", "when": "inQuickOpen" },
+  // In the sidebar: treat as Escape (return to editor), matching the binding above.
+  { "key": "ctrl+[", "command": "workbench.action.focusActiveEditorGroup", "when": "sideBarFocus && !inputFocus" }
+]

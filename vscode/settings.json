@@ -1,0 +1,257 @@
+{
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "[python]": {
+    "editor.formatOnType": true,
+  },
+  "background.enabled": true,
+  "background.fullscreen": {
+    "images": [
+      "file:///C:/Users/Alex/OneDrive/Pictures/night-sky-space-colorful-scenery-4k-wallpaper-uhdpaper.com.jpg",
+      "https://image-2.uhdpaper.com/wallpaper/night-sky-space-colorful-scenery-4k-wallpaper-uhdpaper.com-651@2@b.jpg",
+    ],
+    "interval": 0,
+    "opacity": 0.1,
+    "position": "center",
+    "random": false,
+    "size": "cover",
+  },
+  "background.usefront": false,
+  "better-yaml.indentSeq": true,
+  "debug.console.fontFamily": "'RobotoMono Nerd Font', default",
+  "dev.containers.defaultExtensions": [
+    "esbenp.prettier-vscode",
+    "GitHub.vscode-github-actions",
+    "GitHub.vscode-pull-request-github",
+    "mhutchie.git-graph",
+    "mk12.better-git-line-blame",
+  ],
+  "editor.autoClosingBrackets": "never",
+  "editor.autoClosingQuotes": "never",
+  "editor.codeActionsOnSave": {
+    "formatOnSave": "always",
+    "source.fixAll": "explicit",
+  },
+  "editor.codeLensFontFamily": "'RobotoMono Nerd Font'",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.fontFamily": "'RobotoMono Nerd Font', Consolas, 'Courier New', monospace",
+  "editor.fontVariations": false,
+  "editor.formatOnSave": true,
+  "editor.inlayHints.fontFamily": "'RobotoMono Nerd Font'",
+  "editor.inlineSuggest.fontFamily": "'RobotoMono Nerd Font', default",
+  "editor.minimap.autohide": "mouseover",
+  "editor.suggest.insertMode": "replace",
+  "editor.suggest.preview": true,
+  "errorLens.fontFamily": "'RobotoMono Nerd Font', default",
+  "files.autoSave": "afterDelay",
+  "fzf-quick-open.findDirectoriesCmd": "fd --type d",
+  "git-graph.repository.commits.showSignatureStatus": true,
+  "git-graph.repository.sign.commits": true,
+  "git-graph.repository.sign.tags": true,
+  "git.enableCommitSigning": true,
+  "projectManager.git.baseFolders": ["$home/git"],
+  "redhat.telemetry.enabled": false,
+  "remote.extensionKind": {
+    "alefragnani.project-manager": ["workspace"],
+  },
+  "scm.inputFontFamily": "editor",
+  "security.workspace.trust.untrustedFiles": "open",
+  "terminal.integrated.allowChords": false,
+  // Alt+Space (whichkey.show) must be listed here so xterm.js doesn't swallow
+  // it as an escape sequence before VSCode's keybinding system sees it.
+  "terminal.integrated.commandsToSkipShell": ["whichkey.show"],
+  "terminal.integrated.defaultProfile.linux": "fish",
+  "terminal.integrated.fontFamily": "'RobotoMono Nerd Font'",
+  "workbench.iconTheme": "catppuccin-mocha",
+  "workbench.startupEditor": "none",
+  "remote.SSH.remotePlatform": {
+    "dashboard.devpod": "linux",
+    "vscode-remote-try-python.devpod": "linux",
+  },
+  "workbench.editor.empty.hint": "hidden",
+  "bazel.buildifierFixOnFormat": true,
+  "bazel.enableCodeLens": true,
+  "remote.autoForwardPortsSource": "hybrid",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "terminal.integrated.copyOnSelection": true,
+  "files.eol": "\n",
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "git.confirmSync": false,
+
+  // ── VSCodeVim which-key integration ──────────────────────────────────────────
+  // Space is the leader key. In vim Normal mode inside an editor, pressing Space
+  // opens the which-key menu. Insert mode, Visual mode, and the integrated
+  // terminal are completely unaffected — the binding fires only through the vim
+  // layer when editorTextFocus is active.
+  "vim.leader": "<space>",
+  "vim.normalModeKeyBindingsNonRecursive": [
+    { "before": ["<space>"], "commands": [{ "command": "whichkey.show" }] },
+
+    // Window / editor-group navigation — mirrors LazyVim <C-hjkl>.
+    // These override VSCodeVim's default <C-h/j/k/l> behaviour in Normal mode.
+    // Terminal is unaffected: these bindings only reach vim when editorTextFocus
+    // is active, and we have no terminalFocus overrides for these keys.
+    { "before": ["<C-h>"], "commands": ["workbench.action.navigateLeft"] },
+    { "before": ["<C-j>"], "commands": ["workbench.action.navigateDown"] },
+    { "before": ["<C-k>"], "commands": ["workbench.action.navigateUp"] },
+    { "before": ["<C-l>"], "commands": ["workbench.action.navigateRight"] },
+
+    // Buffer / tab navigation — mirrors LazyVim <S-h> and <S-l>.
+    // Overrides vim's default H (top-of-screen) and L (bottom-of-screen).
+    { "before": ["H"], "commands": ["workbench.action.previousEditor"] },
+    { "before": ["L"], "commands": ["workbench.action.nextEditor"] }
+  ],
+
+  // Visual mode bindings — keep this minimal; most leader actions don't make
+  // sense mid-selection and the full which-key menu is not wired to Visual mode.
+  "vim.visualModeKeyBindingsNonRecursive": [
+    // Space+/ calls commentLine directly (no which-key in visual mode).
+    // VSCodeVim keeps the editor selection in sync with the visual selection
+    // before firing commands:, so commentLine receives the full selected range.
+    { "before": ["<space>", "/"], "commands": ["editor.action.commentLine"] },
+    { "before": ["H"], "commands": ["workbench.action.previousEditor"] },
+    { "before": ["L"], "commands": ["workbench.action.nextEditor"] }
+  ],
+
+  // ── Which-key menu (vspacecode.whichkey) ────────────────────────────────────
+  // Opened by the vim leader binding above. delay:0 = show immediately.
+  // sortOrder "none" preserves the order defined here.
+  // Group names are prefixed with '+' so they're visually distinct from
+  // single-command entries in the popup. Press '?' to search all bindings.
+  "whichkey.delay": 0,
+  "whichkey.sortOrder": "none",
+  "whichkey.bindings": [
+    // ── top-level single-key actions ─────────────────────────────────────────
+    { "key": " ", "name": "All editors",     "type": "command", "command": "workbench.action.showAllEditors" },
+    { "key": "?", "name": "Search bindings", "type": "command", "command": "whichkey.searchBindings" },
+    { "key": ".", "name": "Repeat last",     "type": "command", "command": "whichkey.repeatMostRecent" },
+    { "key": ";", "name": "Command palette", "type": "command", "command": "workbench.action.showCommands" },
+    { "key": "e", "name": "Explorer",        "type": "command", "command": "workbench.view.explorer" },
+    { "key": "/", "name": "Comment line",    "type": "command", "command": "editor.action.commentLine" },
+    { "key": "q", "name": "Close editor",    "type": "command", "command": "workbench.action.closeActiveEditor" },
+
+    // ── f: file operations ───────────────────────────────────────────────────
+    {
+      "key": "f", "name": "+File", "type": "bindings",
+      "bindings": [
+        { "key": "f", "name": "Find file",          "type": "command", "command": "workbench.action.quickOpen" },
+        { "key": "r", "name": "Recent files",        "type": "command", "command": "workbench.action.openRecent" },
+        { "key": "g", "name": "Grep / find",         "type": "command", "command": "workbench.action.findInFiles" },
+        { "key": "s", "name": "Save",                "type": "command", "command": "workbench.action.files.save" },
+        { "key": "S", "name": "Save all",            "type": "command", "command": "workbench.action.files.saveAll" },
+        { "key": "n", "name": "New file",            "type": "command", "command": "workbench.action.files.newUntitledFile" },
+        { "key": "e", "name": "Reveal in explorer",  "type": "command", "command": "revealInExplorer" },
+        { "key": "p", "name": "Copy path",           "type": "command", "command": "copyFilePath" }
+      ]
+    },
+
+    // ── b: buffer / tab management ───────────────────────────────────────────
+    {
+      "key": "b", "name": "+Buffer", "type": "bindings",
+      "bindings": [
+        { "key": "b", "name": "All editors",   "type": "command", "command": "workbench.action.showAllEditors" },
+        { "key": "n", "name": "Next",          "type": "command", "command": "workbench.action.nextEditor" },
+        { "key": "p", "name": "Prev",          "type": "command", "command": "workbench.action.previousEditor" },
+        { "key": "d", "name": "Close",         "type": "command", "command": "workbench.action.closeActiveEditor" },
+        { "key": "D", "name": "Close others",  "type": "command", "command": "workbench.action.closeOtherEditors" },
+        { "key": "u", "name": "Reopen closed", "type": "command", "command": "workbench.action.reopenClosedEditor" },
+        { "key": "s", "name": "Pin / unpin",   "type": "command", "command": "workbench.action.pinEditor" }
+      ]
+    },
+
+    // ── w: window / editor group management ─────────────────────────────────
+    {
+      "key": "w", "name": "+Window", "type": "bindings",
+      "bindings": [
+        { "key": "h", "name": "Focus left",        "type": "command", "command": "workbench.action.navigateLeft" },
+        { "key": "j", "name": "Focus down",        "type": "command", "command": "workbench.action.navigateDown" },
+        { "key": "k", "name": "Focus up",          "type": "command", "command": "workbench.action.navigateUp" },
+        { "key": "l", "name": "Focus right",       "type": "command", "command": "workbench.action.navigateRight" },
+        { "key": "H", "name": "Move editor left",  "type": "command", "command": "workbench.action.moveEditorToLeftGroup" },
+        { "key": "J", "name": "Move editor down",  "type": "command", "command": "workbench.action.moveEditorToBelowGroup" },
+        { "key": "K", "name": "Move editor up",    "type": "command", "command": "workbench.action.moveEditorToAboveGroup" },
+        { "key": "L", "name": "Move editor right", "type": "command", "command": "workbench.action.moveEditorToRightGroup" },
+        { "key": "v", "name": "Split right",       "type": "command", "command": "workbench.action.splitEditorRight" },
+        { "key": "s", "name": "Split down",        "type": "command", "command": "workbench.action.splitEditorDown" },
+        { "key": "c", "name": "Close group",       "type": "command", "command": "workbench.action.closeEditorsInGroup" },
+        { "key": "m", "name": "Maximize toggle",   "type": "command", "command": "workbench.action.toggleMaximizeEditorGroup" },
+        { "key": "=", "name": "Equalize widths",   "type": "command", "command": "workbench.action.evenEditorWidths" }
+      ]
+    },
+
+    // ── g: git / SCM ────────────────────────────────────────────────────────
+    {
+      "key": "g", "name": "+Git", "type": "bindings",
+      "bindings": [
+        { "key": "g", "name": "Source control", "type": "command", "command": "workbench.view.scm" },
+        { "key": "G", "name": "Git graph",      "type": "command", "command": "git-graph.view" },
+        { "key": "d", "name": "Diff file",      "type": "command", "command": "git.openChange" },
+        { "key": "b", "name": "Toggle blame",   "type": "command", "command": "betterGitLineBlame.toggleInlineAnnotations" }
+      ]
+    },
+
+    // ── s: search ───────────────────────────────────────────────────────────
+    {
+      "key": "s", "name": "+Search", "type": "bindings",
+      "bindings": [
+        { "key": "s", "name": "Find in files",    "type": "command", "command": "workbench.action.findInFiles" },
+        { "key": "r", "name": "Replace in files", "type": "command", "command": "workbench.action.replaceInFiles" },
+        { "key": "p", "name": "Symbols (project)","type": "command", "command": "workbench.action.showAllSymbols" }
+      ]
+    },
+
+    // ── t: terminal ─────────────────────────────────────────────────────────
+    // These only fire from the vim layer (editorTextFocus required), so the
+    // terminal itself receives all keystrokes unmodified — terminal.integrated.
+    // allowChords is also false as an extra guard.
+    {
+      "key": "t", "name": "+Terminal", "type": "bindings",
+      "bindings": [
+        { "key": "t", "name": "Toggle", "type": "command", "command": "workbench.action.terminal.toggleTerminal" },
+        { "key": "f", "name": "Focus",  "type": "command", "command": "workbench.action.terminal.focus" },
+        { "key": "n", "name": "New",    "type": "command", "command": "workbench.action.terminal.new" },
+        { "key": "s", "name": "Split",  "type": "command", "command": "workbench.action.terminal.split" },
+        { "key": "k", "name": "Kill",   "type": "command", "command": "workbench.action.terminal.kill" }
+      ]
+    },
+
+    // ── x: diagnostics (mirrors <leader>x from LazyVim / Trouble.nvim) ──────
+    {
+      "key": "x", "name": "+Diagnostics", "type": "bindings",
+      "bindings": [
+        { "key": "x", "name": "Problems panel", "type": "command", "command": "workbench.panel.markers.view.focus" },
+        { "key": "n", "name": "Next problem",   "type": "command", "command": "editor.action.marker.nextInFiles" },
+        { "key": "p", "name": "Prev problem",   "type": "command", "command": "editor.action.marker.prevInFiles" },
+        { "key": "h", "name": "Show hover",     "type": "command", "command": "editor.action.showHover" }
+      ]
+    },
+
+    // ── u: UI toggles ────────────────────────────────────────────────────────
+    {
+      "key": "u", "name": "+UI", "type": "bindings",
+      "bindings": [
+        { "key": "s", "name": "Sidebar",      "type": "command", "command": "workbench.action.toggleSidebarVisibility" },
+        { "key": "p", "name": "Panel",        "type": "command", "command": "workbench.action.togglePanel" },
+        { "key": "z", "name": "Zen mode",     "type": "command", "command": "workbench.action.toggleZenMode" },
+        { "key": "m", "name": "Minimap",      "type": "command", "command": "editor.action.toggleMinimap" },
+        { "key": "w", "name": "Word wrap",    "type": "command", "command": "editor.action.toggleWordWrap" },
+        { "key": "b", "name": "Breadcrumbs", "type": "command", "command": "breadcrumbs.toggle" }
+      ]
+    },
+
+    // ── p: prefs / project ───────────────────────────────────────────────────
+    {
+      "key": "p", "name": "+Prefs", "type": "bindings",
+      "bindings": [
+        { "key": "p", "name": "Recent projects", "type": "command", "command": "workbench.action.openRecent" },
+        { "key": "e", "name": "Extensions",      "type": "command", "command": "workbench.view.extensions" },
+        { "key": "s", "name": "Settings",        "type": "command", "command": "workbench.action.openSettings" },
+        { "key": "k", "name": "Keybindings",     "type": "command", "command": "workbench.action.openGlobalKeybindings" }
+      ]
+    }
+  ],
+}
