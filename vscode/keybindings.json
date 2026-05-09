@@ -89,6 +89,12 @@
   { "key": "ctrl+p", "command": "workbench.action.terminal.sendSequence", "args": { "text": "\u0010" }, "when": "terminalFocus" },
   { "key": "ctrl+n", "command": "workbench.action.terminal.sendSequence", "args": { "text": "\u000e" }, "when": "terminalFocus" },
 
+  // ── Ctrl+N / Ctrl+P: navigate the marker (diagnostic) widget ───────────────
+  // When ]d/[d opens the inline diagnostic popup, these let you move to the
+  // next/prev problem without dismissing it first.
+  { "key": "ctrl+n", "command": "editor.action.marker.nextInFiles", "when": "markersNavigationVisible" },
+  { "key": "ctrl+p", "command": "editor.action.marker.prevInFiles", "when": "markersNavigationVisible" },
+
   // ── Ctrl+N / Ctrl+P: navigate the command palette and IntelliSense ────────
   // User keybindings have higher priority than VSCodeVim's extension bindings,
   // so these fire in preference to extension.vim_ctrl+n/p when the widget is

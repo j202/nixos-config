@@ -93,6 +93,10 @@
   "vim.normalModeKeyBindingsNonRecursive": [
     { "before": ["<space>"], "commands": [{ "command": "whichkey.show" }] },
 
+    // Diagnostic navigation — mirrors LazyVim ]d/[d.
+    { "before": ["]", "d"], "commands": ["editor.action.marker.nextInFiles"] },
+    { "before": ["[", "d"], "commands": ["editor.action.marker.prevInFiles"] },
+
     // Window / editor-group navigation — mirrors LazyVim <C-hjkl>.
     // These override VSCodeVim's default <C-h/j/k/l> behaviour in Normal mode.
     // Terminal is unaffected: these bindings only reach vim when editorTextFocus
