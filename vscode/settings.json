@@ -22,6 +22,11 @@
   },
   "background.usefront": false,
   "better-yaml.indentSeq": true,
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "/run/current-system/sw/bin/nil",
+  "nix.serverSettings": {
+    "nil": {}
+  },
   "debug.console.fontFamily": "'RobotoMono Nerd Font', default",
   "dev.containers.defaultExtensions": [
     "esbenp.prettier-vscode",
@@ -92,6 +97,13 @@
   "vim.leader": "<space>",
   "vim.normalModeKeyBindingsNonRecursive": [
     { "before": ["<space>"], "commands": [{ "command": "whichkey.show" }] },
+
+    // LSP goto bindings — mirrors LazyVim. gd/gD/gh already work via VSCodeVim;
+    // these add the ones it doesn't provide natively.
+    { "before": ["g", "I"], "commands": ["editor.action.goToImplementation"] },
+    { "before": ["g", "r"], "commands": ["editor.action.goToReferences"] },
+    { "before": ["g", "y"], "commands": ["editor.action.goToTypeDefinition"] },
+    { "before": ["K"],      "commands": ["editor.action.showHover"] },
 
     // Diagnostic navigation — mirrors LazyVim ]d/[d.
     { "before": ["]", "d"], "commands": ["editor.action.marker.nextInFiles"] },
@@ -169,6 +181,18 @@
       ]
     },
 
+    // ── c: code / LSP actions ───────────────────────────────────────────────
+    {
+      "key": "c", "name": "+Code", "type": "bindings",
+      "bindings": [
+        { "key": "a", "name": "Code action",      "type": "command", "command": "editor.action.quickFix" },
+        { "key": "r", "name": "Rename symbol",    "type": "command", "command": "editor.action.rename" },
+        { "key": "f", "name": "Format",           "type": "command", "command": "editor.action.formatDocument" },
+        { "key": "d", "name": "Line diagnostic",  "type": "command", "command": "editor.action.showHover" },
+        { "key": "o", "name": "Organise imports", "type": "command", "command": "editor.action.organizeImports" }
+      ]
+    },
+
     // ── w: window / editor group management ─────────────────────────────────
     {
       "key": "w", "name": "+Window", "type": "bindings",
@@ -204,9 +228,10 @@
     {
       "key": "s", "name": "+Search", "type": "bindings",
       "bindings": [
-        { "key": "s", "name": "Find in files",    "type": "command", "command": "workbench.action.findInFiles" },
-        { "key": "r", "name": "Replace in files", "type": "command", "command": "workbench.action.replaceInFiles" },
-        { "key": "p", "name": "Symbols (project)","type": "command", "command": "workbench.action.showAllSymbols" }
+        { "key": "s", "name": "Find in files",     "type": "command", "command": "workbench.action.findInFiles" },
+        { "key": "r", "name": "Replace in files",  "type": "command", "command": "workbench.action.replaceInFiles" },
+        { "key": "f", "name": "Symbols (file)",    "type": "command", "command": "workbench.action.gotoSymbol" },
+        { "key": "p", "name": "Symbols (project)", "type": "command", "command": "workbench.action.showAllSymbols" }
       ]
     },
 
@@ -240,12 +265,16 @@
     {
       "key": "u", "name": "+UI", "type": "bindings",
       "bindings": [
-        { "key": "s", "name": "Sidebar",      "type": "command", "command": "workbench.action.toggleSidebarVisibility" },
-        { "key": "p", "name": "Panel",        "type": "command", "command": "workbench.action.togglePanel" },
-        { "key": "z", "name": "Zen mode",     "type": "command", "command": "workbench.action.toggleZenMode" },
-        { "key": "m", "name": "Minimap",      "type": "command", "command": "editor.action.toggleMinimap" },
-        { "key": "w", "name": "Word wrap",    "type": "command", "command": "editor.action.toggleWordWrap" },
-        { "key": "b", "name": "Breadcrumbs", "type": "command", "command": "breadcrumbs.toggle" }
+        { "key": "s", "name": "Sidebar",       "type": "command", "command": "workbench.action.toggleSidebarVisibility" },
+        { "key": "p", "name": "Panel",         "type": "command", "command": "workbench.action.togglePanel" },
+        { "key": "z", "name": "Zen mode",      "type": "command", "command": "workbench.action.toggleZenMode" },
+        { "key": "m", "name": "Minimap",       "type": "command", "command": "editor.action.toggleMinimap" },
+        { "key": "w", "name": "Word wrap",     "type": "command", "command": "editor.action.toggleWordWrap" },
+        { "key": "b", "name": "Breadcrumbs",   "type": "command", "command": "breadcrumbs.toggle" },
+        { "key": "h", "name": "Inlay hints",   "type": "command", "command": "editor.action.inlayHints.toggle" },
+        { "key": "l", "name": "Line numbers",  "type": "command", "command": "editor.action.toggleLineNumbers" },
+        { "key": "d", "name": "Diagnostics",   "type": "command", "command": "workbench.actions.view.problems.focus" },
+        { "key": "f", "name": "Format on save","type": "command", "command": "workbench.action.toggleFormatOnSave" }
       ]
     },
 

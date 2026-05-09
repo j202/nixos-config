@@ -15,6 +15,12 @@
 // which-key space trigger in settings.json only fires through VSCodeVim
 // (editorTextFocus required), so the terminal is completely unaffected.
 [
+  // ── Alt+J/K: move line / selection up or down — mirrors LazyVim <A-j>/<A-k> ──
+  // VSCode's move-line commands handle normal, insert, and visual selection in one.
+  // !editorReadonly prevents firing in diff viewers and read-only files.
+  { "key": "alt+j", "command": "editor.action.moveLinesDownAction", "when": "editorTextFocus && !editorReadonly" },
+  { "key": "alt+k", "command": "editor.action.moveLinesUpAction",   "when": "editorTextFocus && !editorReadonly" },
+
   // ── Sidebar: vim hjkl navigation ─────────────────────────────────────────
   // Fires whenever a sidebar view has focus and no input field is active.
   // Rename / search inputs keep their natural behaviour because of !inputFocus.
