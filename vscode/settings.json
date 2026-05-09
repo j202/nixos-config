@@ -30,6 +30,8 @@
     "mhutchie.git-graph",
     "mk12.better-git-line-blame",
   ],
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
   "editor.autoClosingBrackets": "never",
   "editor.autoClosingQuotes": "never",
   "editor.codeActionsOnSave": {

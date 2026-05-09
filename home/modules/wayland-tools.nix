@@ -85,6 +85,9 @@ in
       window_padding_width = 8;
       confirm_os_window_close = 0;
       enable_audio_bell = false;
+      cursor_trail = 3;
+      cursor_trail_decay = "0.05 0.4";
+      cursor_trail_start_threshold = 2;
     };
   };
 
