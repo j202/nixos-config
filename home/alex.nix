@@ -73,8 +73,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "j202";
             repo = "git-fzf.fish";
-            rev = "00c0123d8e4fa54f17f930f0d3e53e521a9cbad6";
-            sha256 = "C1gyeRpoOLRnMOlXeBilaLJxX8UpGqCUsgZcoS8w18I=";
+            rev = "65aef2bc337671c6afde8c3d674a7eae73bd6602";
+            sha256 = "zHRhRcACFjGjTHRYik/I74OLcULctam2M9+DWlZmIMc=";
           };
         }
       ];
