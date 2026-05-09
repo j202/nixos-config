@@ -352,10 +352,9 @@ in
 
   # ── Waybar ────────────────────────────────────────────────────────────────
 
-  services.waybar.systemd.enable = true;
-
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
 
     settings = [{
       layer = "top";
