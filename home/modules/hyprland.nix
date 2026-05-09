@@ -423,7 +423,7 @@ in
 
       "network" = {
         format-ethernet = "󰈀  {ifname}";
-        format-wifi = "  {essid}";
+        format-wifi = "󰖩  {essid}";
         format-disconnected = "󰖪 ";
         tooltip-format = "{ifname}: {ipaddr}";
       };
