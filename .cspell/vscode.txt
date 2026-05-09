@@ -1,0 +1,16 @@
+# VSCode extension publisher IDs
+alefragnani
+esbenp
+mhutchie
+vspacecode
+# Extension / command names and setting keys
+autohide
+colorful
+buildifier
+devpod
+keybinding
+uhdpaper
+usefront
+whichkey
+# Vim terminology used in comments and key names
+hjkl

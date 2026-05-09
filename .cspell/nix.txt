@@ -36,6 +36,7 @@ sharedModules
 extraConfig
 stateVersion
 # Editor / git config keys
+lazyvim
 nvim
 nvimdiff
 gpgconf

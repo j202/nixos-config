@@ -14,16 +14,21 @@ dictionaryDefinitions:
   - name: linux-packages
     path: ./.cspell/linux-packages.txt
     addWords: true
+  - name: vscode
+    path: ./.cspell/vscode.txt
+    addWords: true
 
 dictionaries:
   - wayland-desktop
   - catppuccin
   - nix
   - linux-packages
+  - vscode
 
 # American spellings used in technical contexts (ignored, not suggested as corrections)
 ignoreWords:
   - color
+  - colorful
   - colors
   - colorschemes
   - flavor

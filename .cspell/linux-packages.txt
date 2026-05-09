@@ -89,6 +89,7 @@ nerdfonts
 fira
 roboto
 noto
+Consolas
 # Image formats
 webp
 # Network
