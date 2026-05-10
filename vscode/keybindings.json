@@ -1,7 +1,11 @@
 // keybindings.json — vim-style UI navigation for VSCode
 //
-// These bindings cover focus contexts outside the editor (sidebar, panels).
-// The main which-key leader menu and editor bindings live in settings.json.
+// These bindings cover the editor (move-line) and focus contexts outside it
+// (sidebar, panels). The main which-key leader menu and editor vim bindings
+// live in settings.json. H/L tab switching is handled by VSCodeVim in
+// normalModeKeyBindingsNonRecursive and is intentionally not duplicated here
+// — webview inputs (Claude Code, git graph) don't set inputFocus so a
+// universal Shift+H/L binding would fire while typing.
 //
 // When-clause context quick reference:
 //   sideBarFocus         — any sidebar view (Explorer, SCM, Extensions …)
@@ -45,14 +49,6 @@
   { "key": "r",       "command": "renameFile",         "when": "explorerViewletFocus && !inputFocus" },
   // shift+d for delete (capital D) to reduce accidental deletions.
   { "key": "shift+d", "command": "deleteFile",         "when": "explorerViewletFocus && !inputFocus" },
-
-  // ── Shift+H/L: universal tab navigation outside the editor and terminal ──────
-  // Mirrors vim normalModeKeyBindingsNonRecursive H/L for contexts where vim is
-  // not active (git graph, sidebar, panels, Claude Code tab, etc.).
-  // !inputFocus is required here — unlike Ctrl combos, Shift+H/L type characters
-  // in text fields so we must not fire there.
-  { "key": "shift+h", "command": "workbench.action.previousEditor", "when": "!editorTextFocus && !terminalFocus && !inputFocus && !inQuickOpen" },
-  { "key": "shift+l", "command": "workbench.action.nextEditor",     "when": "!editorTextFocus && !terminalFocus && !inputFocus && !inQuickOpen" },
 
   // ── Ctrl+hjkl: universal pane navigation outside the editor and terminal ─────
   // Covers Claude Code tab (webview), sidebar, panels, and any other non-editor
