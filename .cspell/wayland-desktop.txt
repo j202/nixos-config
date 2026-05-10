@@ -75,6 +75,7 @@ XCURSOR
 PLATFORMTHEME
 # Noctalia settings values
 centered
+Dgpu
 # Tools / commands
 pgrep
 pkill

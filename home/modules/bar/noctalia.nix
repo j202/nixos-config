@@ -63,6 +63,7 @@ in
             right = [
               { id = "Clock"; }
               { id = "Tray"; drawerEnabled = false; hidePassive = false; colorizeIcons = false; }
+              { id = "SystemMonitor"; }
               { id = "NotificationHistory"; }
               { id = "Bluetooth"; }
               { id = "Network"; }
@@ -107,9 +108,14 @@ in
           };
         };
 
+        appLauncher = {
+          terminalCommand = "kitty";
+        };
+
         ui = {
           fontDefault            = "DejaVu Sans";
           panelBackgroundOpacity = 0.85;
+          translucentWidgets     = true;
           settingsPanelMode      = "centered";
           panelsAttachedToBar    = false;
         };
@@ -124,11 +130,15 @@ in
         };
 
         location = {
-          autoLocate = false;
+          autoLocate = true;
         };
 
         network = {
           networkPanelView = "ethernet";
+        };
+
+        systemMonitor = {
+          enableDgpuMonitoring = true;
         };
       };
     };
