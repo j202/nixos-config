@@ -109,6 +109,7 @@ in
           fontDefault            = "DejaVu Sans";
           panelBackgroundOpacity = 0.85;
           settingsPanelMode      = "centered";
+          panelsAttachedToBar    = false;
         };
 
         osd = {
