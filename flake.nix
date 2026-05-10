@@ -2,6 +2,13 @@
 {
   description = "NixOS configurations";
 
+  nixConfig = {
+    extra-substituters      = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+  };
+
   inputs = {
     # Laptop stays on stable — old hardware needs predictability
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -24,9 +31,14 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
-  outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, home-manager-stable, catppuccin, agenix, ... }: {
+  outputs = { nixpkgs-stable, nixpkgs-unstable, home-manager, home-manager-stable, catppuccin, agenix, noctalia, ... }: {
     nixosConfigurations = {
 
       # Dell XPS M1330 — pinned to nixos-25.11 stable
@@ -56,7 +68,10 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.alex = import ./home/alex-pc.nix;
-            home-manager.sharedModules = [ catppuccin.homeModules.catppuccin ];
+            home-manager.sharedModules = [
+              catppuccin.homeModules.catppuccin
+              noctalia.homeModules.default
+            ];
           }
           # Workaround for NixOS/nixpkgs#513245: pkgsi686Linux.openldap test
           # suite failures break lutris builds on x86_64.

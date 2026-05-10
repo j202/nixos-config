@@ -8,6 +8,8 @@ hyprkeys
 activewindow
 waybar
 mako
+noctalia
+quickshell
 kanshi
 rofi
 kitty
@@ -71,6 +73,8 @@ qt5ct
 qt6ct
 XCURSOR
 PLATFORMTHEME
+# Noctalia settings values
+centered
 # Tools / commands
 pkill
 wpctl
