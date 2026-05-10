@@ -2,8 +2,8 @@
 { config, lib, pkgs, ... }:
 let
   restart-noctalia = pkgs.writeShellScriptBin "restart-noctalia" ''
-    pkill -f noctalia-shell || true
-    sleep 0.3
+    pkill quickshell || true
+    while pgrep quickshell > /dev/null; do sleep 0.1; done
     exec noctalia-shell
   '';
 in
@@ -101,6 +101,8 @@ in
           keybinds = {
             keyUp     = [ "Up"   "Ctrl+P" ];
             keyDown   = [ "Down" "Ctrl+N" ];
+            keyLeft   = [ "Left"  "Ctrl+H" ];
+            keyRight  = [ "Right" "Ctrl+L" ];
             keyEscape = [ "Esc"  "Ctrl+[" ];
           };
         };
