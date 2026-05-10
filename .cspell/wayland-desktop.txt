@@ -52,6 +52,7 @@ keybinds
 submap
 cheatsheet
 # Waybar / Rofi config
+mpris
 ifname
 essid
 rgba

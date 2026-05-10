@@ -91,7 +91,6 @@ in
     screenshot
     pinta
     cliphist
-    hyprpaper
     imv
     thunar
     thunar-archive-plugin
@@ -118,8 +117,6 @@ in
       monitor = [ ",preferred,auto,1" ];
 
       exec-once = [
-        "hyprpaper"
-        "bash -c 'while ! hyprctl hyprpaper listactive >/dev/null 2>&1; do sleep 0.1; done; hyprctl hyprpaper wallpaper \"DP-1,${config.home.homeDirectory}/Pictures/wallpaper.jpg\"; hyprctl hyprpaper wallpaper \"DP-4,${config.home.homeDirectory}/Pictures/wallpaper.jpg\"'"
         "mako"
         "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent"
         "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
@@ -689,10 +686,25 @@ in
 
   services.hyprpaper = {
     enable = true;
-    package = null;
     settings = {
-      ipc = "on";
       splash = false;
+      wallpaper = [
+        {
+          monitor = "DP-1";
+          path = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
+          fit_mode = "cover";
+        }
+        {
+          monitor = "DP-4";
+          path = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
+          fit_mode = "cover";
+        }
+        {
+          monitor = "";
+          path = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
+          fit_mode = "cover";
+        }
+      ];
     };
   };
 
