@@ -87,6 +87,7 @@ in
 
   home.packages = with pkgs; [
     cheatsheet
+    hyprshell
     imv-open
     screenshot
     pinta
@@ -119,7 +120,7 @@ in
       exec-once =
         lib.optional (config.myConfig.desktop.shell == "waybar") "mako"
         ++ lib.optional isNoctalia "noctalia-shell"
-        ++ [
+        ++ [ "hyprshell run"
         "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent"
         "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
         "blueman-applet"
@@ -237,14 +238,17 @@ in
     bindr = $mod, Super_L, exec, ${if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun"} #"App Launcher (tap Super)"
     bindr = $mod, Super_R, exec, ${if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun"} #"App Launcher (tap Super)"
 
-    # 2. Windows
+    # 2. Task Switcher (Alt+Tab = hyprshell, Super+Tab = rofi window list)
+    bind  = $mod,      Tab,   exec, rofi -show window #"Window List (rofi)"
+
+    # 3. Windows
     bind = $mod, Q, killactive  #"Close Window"
     bind = $mod, F, fullscreen, 0 #"Fullscreen"
     bind = $mod, V, togglefloating #"Toggle Float"
     bind = $mod, P, pseudo      #"Pseudo Tile"
     bind = $mod, S, togglesplit #"Toggle Split"
 
-    # 3. Focus
+    # 4. Focus
     bind = $mod, left,  movefocus, l #"Focus Left"
     bind = $mod, right, movefocus, r #"Focus Right"
     bind = $mod, up,    movefocus, u #"Focus Up"
@@ -254,7 +258,7 @@ in
     bind = $mod, k, movefocus, u #"Focus Up (k)"
     bind = $mod, j, movefocus, d #"Focus Down (j)"
 
-    # 4. Move Windows
+    # 5. Move Windows
     bind = $mod SHIFT, left,  movewindow, l #"Move Left"
     bind = $mod SHIFT, right, movewindow, r #"Move Right"
     bind = $mod SHIFT, up,    movewindow, u #"Move Up"
@@ -264,7 +268,7 @@ in
     bind = $mod SHIFT, k, movewindow, u #"Move Up (k)"
     bind = $mod SHIFT, j, movewindow, d #"Move Down (j)"
 
-    # 5. Workspaces
+    # 6. Workspaces
     bind = $mod, 1, workspace, 1 #"Workspace 1"
     bind = $mod, 2, workspace, 2 #"Workspace 2"
     bind = $mod, 3, workspace, 3 #"Workspace 3"
@@ -286,7 +290,7 @@ in
     bind = $mod, mouse_down, workspace, e+1 #"Next Workspace"
     bind = $mod, mouse_up,   workspace, e-1 #"Previous Workspace"
 
-    # 6. Utilities
+    # 7. Utilities
     bind = $mod CTRL,  L,     exec, ${if isNoctalia then "noctalia-shell ipc call lockScreen lock" else "hyprlock"} #"Lock Screen"
     ${if isNoctalia then ''bind = $mod SHIFT, N, exec, restart-noctalia #"Restart Noctalia"'' else ""}
     bind = $mod SHIFT, C,     exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy #"Clipboard History"
@@ -295,7 +299,7 @@ in
     bind = $mod,       Print, exec, screenshot active #"Screenshot Window"
     bind = $mod SHIFT, Print, exec, screenshot output #"Screenshot Monitor"
 
-    # 7. Media
+    # 8. Media
     bindel = , XF86AudioRaiseVolume,  exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ #"Volume Up"
     bindel = , XF86AudioLowerVolume,  exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-       #"Volume Down"
     bindel = , XF86AudioMute,         exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle      #"Mute"
@@ -397,6 +401,43 @@ in
     categories = [ "Graphics" "Viewer" ];
     noDisplay = false;
   };
+
+  xdg.configFile."hyprshell/styles.css".text =
+    let
+      rgba = name: alpha:
+        let col = palette.${flavor}.colors.${name}.rgb;
+        in "rgba(${toString col.r}, ${toString col.g}, ${toString col.b}, ${alpha})";
+    in ''
+      :root {
+        --bg-window-color:     ${rgba "base"     "0.92"};
+        --bg-color:            ${rgba "surface0" "0.85"};
+        --bg-color-hover:      ${rgba "surface1" "0.90"};
+        --border-color:        ${rgba "surface2" "0.50"};
+        --border-color-active: ${rgba accent      "1.0"};
+        --text-color:          ${rgba "text"      "1.0"};
+        --border-radius:       8px;
+        --border-size:         2px;
+      }
+    '';
+
+  xdg.configFile."hyprshell/config.ron".text = ''
+    (
+      version: 3,
+      windows: (
+        switch: (
+          modifier: "alt",
+          key: "Tab",
+          filter_by: [],
+          switch_workspaces: false,
+          exclude_special_workspaces: "",
+        ),
+        switch_2: None,
+        overview: None,
+        scale: 8.5,
+        items_per_row: 5,
+      ),
+    )
+  '';
 
   home.file."Pictures/Screenshots/.keep".text = "";
   home.file."Pictures/wallpapers/.keep".text  = "";

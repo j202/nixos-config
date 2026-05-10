@@ -36,6 +36,7 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
   };
 
   outputs = { nixpkgs-stable, nixpkgs-unstable, home-manager, home-manager-stable, catppuccin, agenix, noctalia, ... }: {

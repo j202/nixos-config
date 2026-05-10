@@ -5,6 +5,7 @@ hyprpaper
 hyprctl
 hyprlang
 hyprkeys
+hyprshell
 activewindow
 waybar
 mako
