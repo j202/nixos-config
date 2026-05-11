@@ -40,8 +40,19 @@
   programs.mtr.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.netrc-file = config.age.secrets.netrc.path;
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    netrc-file = config.age.secrets.netrc.path;
+    trusted-users = [ "root" "alex" ];
+    substituters = [
+      "https://cache.nixos.org"
+      "https://noctalia.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+  };
 
   age.identityPaths = [ "/etc/age/key" ];
   age.secrets.netrc = {

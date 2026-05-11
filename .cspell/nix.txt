@@ -35,6 +35,10 @@ sharedModules
 # NixOS module system
 extraConfig
 stateVersion
+# Binary cache / substituters
+substituters
+cachix
+netrc
 # Editor / git config keys
 lazyvim
 nvim
