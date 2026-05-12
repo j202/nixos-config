@@ -90,10 +90,10 @@ in
       cursor_trail_start_threshold = 2;
       tab_bar_style = "custom";
       tab_bar_margin_height = "4 4";
-      # The Catppuccin theme sets inactive_tab_background to #181825 (mantle),
-      # almost identical to the #11111b bar background. Override to surface1
+      # The Catppuccin theme sets inactive_tab_background to mantle,
+      # almost identical to the bar background. Override to surface1
       # so inactive bubbles are clearly visible.
-      inactive_tab_background = "#45475a";
+      inactive_tab_background = "${palette.${flavor}.colors.surface1.hex}";
     };
   };
 
