@@ -35,6 +35,8 @@ sharedModules
 # NixOS module system
 extraConfig
 stateVersion
+# Systemd service types
+oneshot
 # Binary cache / substituters
 substituters
 cachix

@@ -39,6 +39,44 @@
         set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
       '';
       functions = {
+        nix-diff = ''
+          set --local profile /nix/var/nix/profiles/system
+          set --local gen1
+          set --local gen2
+          if contains -- --help $argv; or contains -- -h $argv
+            echo "Usage: nix-diff [gen1 gen2]"
+            echo ""
+            echo "Diff package changes between two NixOS generations."
+            echo ""
+            echo "  nix-diff          Diff the last two generations"
+            echo "  nix-diff G1 G2    Diff specific generation numbers"
+            echo ""
+            echo "To list available generations:"
+            echo "  nix-env --list-generations --profile $profile"
+            echo ""
+            echo "Profile: $profile"
+            echo "  Each generation is a symlink at $profile-N-link"
+            echo "  The current system is /run/current-system"
+            echo "  All profiles live under /nix/var/nix/profiles/"
+            return 0
+          else if test (count $argv) -eq 2
+            set gen1 $argv[1]
+            set gen2 $argv[2]
+          else if test (count $argv) -eq 0
+            set --local gens (nix-env --list-generations --profile $profile | awk '{print $1}' | tail --lines=2)
+            if test (count $gens) -lt 2
+              echo "nix-diff: need at least 2 generations" >&2
+              return 1
+            end
+            set gen1 $gens[1]
+            set gen2 $gens[2]
+          else
+            echo "Usage: nix-diff [gen1 gen2]" >&2
+            echo "Try 'nix-diff --help' for more information." >&2
+            return 1
+          end
+          nix store diff-closures $profile-$gen1-link $profile-$gen2-link
+        '';
         # Rewrites HTTPS→SSH for interactive shell use only; Neovim/lazy.nvim bypass fish functions and use HTTPS directly (no passphrase prompts).
         git = ''
           command git -c 'url.git@github.com:.insteadOf=https://github.com/' $argv
@@ -156,6 +194,29 @@
     };
 
     zellij.enable = true;
+  };
+
+  systemd.user.services.flake-update = {
+    Unit.Description = "Update nix flake inputs";
+    Service = {
+      Type = "oneshot";
+      ExecStart = toString (pkgs.writeShellScript "flake-update" ''
+        ${pkgs.nix}/bin/nix flake update /home/alex/nixos-config && \
+        ${pkgs.libnotify}/bin/notify-send \
+          --app-name "NixOS" \
+          "Flake inputs updated" \
+          "Review changes and rebuild with nixos-rebuild switch"
+      '');
+    };
+  };
+
+  systemd.user.timers.flake-update = {
+    Unit.Description = "Weekly nix flake update";
+    Timer = {
+      OnCalendar = "weekly";
+      Persistent = true;
+    };
+    Install.WantedBy = [ "timers.target" ];
   };
 
   services.gpg-agent = {
