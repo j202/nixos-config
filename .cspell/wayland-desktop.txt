@@ -29,6 +29,8 @@ wireplumber
 pavucontrol
 imv
 xwayland
+# Kitty tab bar styles
+powerline
 # Hyprland dispatcher commands
 killactive
 togglefloating
