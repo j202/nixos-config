@@ -92,6 +92,7 @@ in
     screenshot
     pinta
     cliphist
+    wl-clip-persist
     imv
     thunar
     thunar-archive-plugin
@@ -126,6 +127,7 @@ in
         "blueman-applet"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
+        "wl-clip-persist --clipboard primary"
         ]
         ++ lib.optional (config.myConfig.desktop.shell == "waybar")
              "swayidle -w timeout 300 'hyprlock' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'"
