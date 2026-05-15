@@ -4,6 +4,7 @@
 {
   environment.systemPackages = with pkgs; [
     cargo
+    claude-code
     clippy
     gcc
     gh
