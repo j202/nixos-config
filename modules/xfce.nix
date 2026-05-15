@@ -12,4 +12,14 @@
   services.pulseaudio.enable = true;
   services.pipewire.enable = false;
   services.pipewire.pulse.enable = false;
+
+  environment.systemPackages = [ pkgs.xfce.xfce4-clipman-plugin ];
+
+  environment.etc."xdg/autostart/xfce4-clipman.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Xfce4 Clipman
+    Exec=xfce4-clipman
+    OnlyShowIn=XFCE;
+  '';
 }
