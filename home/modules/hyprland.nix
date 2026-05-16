@@ -217,6 +217,10 @@ in
         focus_on_activate = true;
       };
 
+      cursor = {
+        no_hardware_cursors = true;
+      };
+
       ecosystem.no_update_news = true;
 
       "$mod" = "SUPER";
@@ -231,6 +235,11 @@ in
           name = "idle-inhibit-fullscreen";
           "match:class" = ".*";
           idle_inhibit = "fullscreen";
+        }
+        {
+          name = "idle-inhibit-steam-games";
+          "match:class" = "^steam_app_";
+          idle_inhibit = "always";
         }
         {
           name = "float-pwvucontrol";
