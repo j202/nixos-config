@@ -5,6 +5,7 @@
   imports = [
     ./alex.nix
     ./modules/qutebrowser.nix
+    ./modules/vkbasalt.nix
     ./modules/wayland-tools.nix
     ./modules/hyprland.nix
     ./modules/bar/options.nix

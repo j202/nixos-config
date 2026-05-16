@@ -129,3 +129,6 @@ pycache
 # Shell tools
 shellcheck
 shfmt
+# Post-processing
+vkbasalt
+VKBASALT

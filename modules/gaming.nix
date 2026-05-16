@@ -23,6 +23,7 @@
 
   environment.systemPackages = with pkgs; [
     mangohud
+    vkbasalt
     wineWow64Packages.waylandFull
     lutris
     ludusavi
