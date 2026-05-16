@@ -150,7 +150,6 @@ in
         ++ [
           "steam -silent"
           "bash -c 'until dbus-send --session --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.GetNameOwner string:org.kde.StatusNotifierWatcher 2>/dev/null; do sleep 0.2; done; exec vesktop --start-minimized'"
-          "proton-pass"
         ];
 
       env = [
