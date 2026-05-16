@@ -4,6 +4,7 @@
 {
   imports = [
     ./alex.nix
+    ./modules/qutebrowser.nix
     ./modules/wayland-tools.nix
     ./modules/hyprland.nix
     ./modules/bar/options.nix

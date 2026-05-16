@@ -134,6 +134,7 @@ in
         ++ [
         "steam -silent"
         "bash -c 'until dbus-send --session --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.GetNameOwner string:org.kde.StatusNotifierWatcher 2>/dev/null; do sleep 0.2; done; exec vesktop --start-minimized'"
+        "proton-pass"
         ];
 
       env = [
@@ -236,7 +237,7 @@ in
     bind = $mod, slash, exec, ${if isNoctalia then "noctalia-shell ipc call plugin:keybind-cheatsheet toggle" else "hyprland-cheatsheet"} #"Keybind Cheatsheet"
     bind = $mod, R,  exec, ${if isNoctalia then "noctalia-shell ipc call launcher toggle" else "rofi -show drun"} #"App Launcher"
     bind = $mod, E,  exec, thunar #"File Manager"
-    bind = $mod, W,  exec, brave  #"Browser"
+    bind = $mod, W,  exec, qutebrowser  #"Browser"
     bindr = $mod, Super_L, exec, ${if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun"} #"App Launcher (tap Super)"
     bindr = $mod, Super_R, exec, ${if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun"} #"App Launcher (tap Super)"
 

@@ -97,3 +97,14 @@ wifi
 poweroff
 # IPC / bus
 dbus
+# Browsers
+qutebrowser
+qute
+# Password managers
+protonpass
+# Web / scripting terms used in userscripts
+jseval
+atob
+urlparse
+userscript
+userscripts
