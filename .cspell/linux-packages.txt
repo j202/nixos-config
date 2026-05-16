@@ -100,6 +100,10 @@ dbus
 # Browsers
 qutebrowser
 qute
+passthrough
+darkmode
+asdfjkl
+searchengines
 # Password managers
 protonpass
 # Web / scripting terms used in userscripts
@@ -108,3 +112,20 @@ atob
 urlparse
 userscript
 userscripts
+# TOTP / OTP authentication
+totp
+TOTP
+otpauth
+# Keyutils / kernel API
+keyutils
+keyctl
+setperm
+KEYCTL
+EACCES
+# Clipboard
+clipman
+# Python
+pycache
+# Shell tools
+shellcheck
+shfmt

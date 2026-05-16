@@ -41,6 +41,18 @@ oneshot
 substituters
 cachix
 netrc
+# Nix tools and authors
+agenix
+ryantm
+nixfmt
+hiPrio
+Prio
+# Filesystem / systemd terms used in nix config
+noatime
+tmpfiles
+esac
+# Nix language terms
+attrsets
 # Editor / git config keys
 lazyvim
 nvim

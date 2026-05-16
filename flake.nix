@@ -3,7 +3,7 @@
   description = "NixOS configurations";
 
   nixConfig = {
-    extra-substituters      = [ "https://noctalia.cachix.org" ];
+    extra-substituters = [ "https://noctalia.cachix.org" ];
     extra-trusted-public-keys = [
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
     ];
@@ -44,80 +44,90 @@
 
   };
 
-  outputs = { nixpkgs-stable, nixpkgs-unstable, home-manager, home-manager-stable, catppuccin, agenix, noctalia, git-hooks, ... }:
-  let
-    system = "x86_64-linux";
-    pkgs   = nixpkgs-unstable.legacyPackages.${system};
-    pre-commit-check = git-hooks.lib.${system}.run {
-      src = ./.;
-      hooks = {
-        nixfmt.enable    = true;
-        statix.enable    = true;
-        cspell = {
-          enable         = true;
-          name           = "cspell";
-          entry          = "${pkgs.cspell}/bin/cspell lint --no-progress";
-          types          = [ "text" ];
-          pass_filenames = true;
+  outputs =
+    {
+      nixpkgs-stable,
+      nixpkgs-unstable,
+      home-manager,
+      home-manager-stable,
+      catppuccin,
+      agenix,
+      noctalia,
+      git-hooks,
+      ...
+    }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs-unstable.legacyPackages.${system};
+      pre-commit-check = git-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          nixfmt.enable = true;
+          cspell = {
+            enable = true;
+            name = "cspell";
+            entry = "${pkgs.cspell}/bin/cspell lint --no-progress";
+            types = [ "text" ];
+            pass_filenames = true;
+          };
         };
       };
-    };
-  in
-  {
-    devShells.${system}.default = pkgs.mkShell {
-      inherit (pre-commit-check) shellHook;
-    };
-
-    checks.${system}.pre-commit-check = pre-commit-check;
-
-    nixosConfigurations = {
-
-      # Dell XPS M1330 — pinned to nixos-25.11 stable
-      xpsm1330 = nixpkgs-stable.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/xpsm1330/configuration.nix
-          agenix.nixosModules.default
-          home-manager-stable.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.alex = import ./home/alex-laptop.nix;
-          }
-        ];
+    in
+    {
+      devShells.${system}.default = pkgs.mkShell {
+        inherit (pre-commit-check) shellHook;
       };
 
-      # ASRock Z790 / i7-13700K / RX 7900 XT — tracks nixos-unstable
-      alex-pc = nixpkgs-unstable.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/alex-pc/configuration.nix
-          agenix.nixosModules.default
-          catppuccin.nixosModules.catppuccin
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.alex = import ./home/alex-pc.nix;
-            home-manager.sharedModules = [
-              catppuccin.homeModules.catppuccin
-              noctalia.homeModules.default
-            ];
-          }
-          # Workaround for NixOS/nixpkgs#513245: pkgsi686Linux.openldap test
-          # suite failures break lutris builds on x86_64.
-          {
-            nixpkgs.overlays = [
-              (_: prev: {
-                openldap = prev.openldap.overrideAttrs {
-                  doCheck = !prev.stdenv.hostPlatform.isi686;
-                };
-              })
-            ];
-          }
-        ];
-      };
+      checks.${system}.pre-commit-check = pre-commit-check;
 
+      nixosConfigurations = {
+
+        # Dell XPS M1330 — pinned to nixos-25.11 stable
+        xpsm1330 = nixpkgs-stable.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/xpsm1330/configuration.nix
+            agenix.nixosModules.default
+            home-manager-stable.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.alex = import ./home/alex-laptop.nix;
+            }
+          ];
+        };
+
+        # ASRock Z790 / i7-13700K / RX 7900 XT — tracks nixos-unstable
+        alex-pc = nixpkgs-unstable.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/alex-pc/configuration.nix
+            agenix.nixosModules.default
+            catppuccin.nixosModules.catppuccin
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.alex = import ./home/alex-pc.nix;
+              home-manager.sharedModules = [
+                catppuccin.homeModules.catppuccin
+                noctalia.homeModules.default
+              ];
+            }
+            # Workaround for NixOS/nixpkgs#513245: pkgsi686Linux.openldap test
+            # suite failures break lutris builds on x86_64.
+            {
+              nixpkgs.overlays = [
+                (_: prev: {
+                  openldap = prev.openldap.overrideAttrs {
+                    doCheck = !prev.stdenv.hostPlatform.isi686;
+                  };
+                })
+              ];
+            }
+          ];
+        };
+
+      };
     };
-  };
 }

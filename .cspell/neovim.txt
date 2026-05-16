@@ -1,0 +1,41 @@
+# Neovim / Lua / plugin ecosystem terms
+# Plugin authors
+mfussenegger
+ellisonleao
+hrsh
+williamboman
+# Neovim built-in options and functions
+relativenumber
+winblend
+getchar
+matchit
+matchparen
+netrw
+tohtml
+stdpath
+# Neovim API and config terminology
+autocmds
+autocmd
+augroup
+keymaps
+keymap
+linters
+lspconfig
+textobjects
+lazypath
+lazyrepo
+lazydev
+# Plugin names
+bufferline
+gitsigns
+grug
+noice
+autotag
+neodev
+neoconf
+tokyonight
+habamax
+venv
+jsonls
+# Misc
+repro
