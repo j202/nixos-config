@@ -6,6 +6,7 @@
     cargo
     claude-code
     clippy
+    cspell
     gcc
     gh
     gnumake
