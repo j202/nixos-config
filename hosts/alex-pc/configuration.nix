@@ -16,6 +16,7 @@
     ../../modules/pipewire.nix
     ../../modules/gaming.nix
     ../../modules/bluetooth.nix
+    ../../modules/vial.nix
   ];
 
   # UEFI / systemd-boot
@@ -46,6 +47,17 @@
     "audio"
     "video"
   ];
+
+  myConfig.vial = {
+    enable = true;
+    keyboards = [
+      {
+        name = "Corne v4";
+        vendorId = "4653";
+        productId = "0004";
+      }
+    ];
+  };
 
   # Wayland-specific and PC-only packages
   environment.systemPackages = with pkgs; [

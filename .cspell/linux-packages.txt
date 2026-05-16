@@ -122,6 +122,18 @@ keyctl
 setperm
 KEYCTL
 EACCES
+# ACL / polkit
+setfacl
+hidraw
+PKEXEC
+pkexec
+polkit
+udevadm
+# Keyboard config
+vial
+foostan
+Corne
+uaccess
 # Clipboard
 clipman
 # Python
