@@ -37,9 +37,39 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
   };
 
-  outputs = { nixpkgs-stable, nixpkgs-unstable, home-manager, home-manager-stable, catppuccin, agenix, noctalia, ... }: {
+  outputs = { nixpkgs-stable, nixpkgs-unstable, home-manager, home-manager-stable, catppuccin, agenix, noctalia, git-hooks, ... }:
+  let
+    system = "x86_64-linux";
+    pkgs   = nixpkgs-unstable.legacyPackages.${system};
+    pre-commit-check = git-hooks.lib.${system}.run {
+      src = ./.;
+      hooks = {
+        nixfmt.enable    = true;
+        statix.enable    = true;
+        cspell = {
+          enable         = true;
+          name           = "cspell";
+          entry          = "${pkgs.cspell}/bin/cspell lint --no-progress";
+          types          = [ "text" ];
+          pass_filenames = true;
+        };
+      };
+    };
+  in
+  {
+    devShells.${system}.default = pkgs.mkShell {
+      inherit (pre-commit-check) shellHook;
+    };
+
+    checks.${system}.pre-commit-check = pre-commit-check;
+
     nixosConfigurations = {
 
       # Dell XPS M1330 — pinned to nixos-25.11 stable

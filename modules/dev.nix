@@ -1,6 +1,11 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Development toolchain — languages, LSPs, and build tools.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   environment.systemPackages = with pkgs; [
     cargo
@@ -19,6 +24,7 @@
     luarocks
     meld
     nil
+    nixfmt
     nodejs
     pkg-config
     pyright
