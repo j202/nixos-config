@@ -228,6 +228,11 @@ in
           suppress_event = "maximize";
         }
         {
+          name = "idle-inhibit-fullscreen";
+          "match:class" = ".*";
+          idle_inhibit = "fullscreen";
+        }
+        {
           name = "float-pwvucontrol";
           "match:class" = "^(pwvucontrol)$";
           float = true;
@@ -350,6 +355,7 @@ in
 
       bindm = $mod, mouse:272, movewindow
       bindm = $mod, mouse:273, resizewindow
+
     '';
   };
 
