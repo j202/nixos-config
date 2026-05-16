@@ -1,6 +1,11 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Dell XPS M1330 — old hardware, resource-constrained
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./hardware-configuration.nix

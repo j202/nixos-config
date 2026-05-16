@@ -1,7 +1,12 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # KDE Plasma 6 — alternative desktop, not active by default.
 # To use: replace modules/hyprland.nix with this in the host config.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   catppuccin.flavor = "mocha";
   catppuccin.accent = "mauve";

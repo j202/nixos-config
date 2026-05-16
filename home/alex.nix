@@ -200,13 +200,15 @@
     Unit.Description = "Update nix flake inputs";
     Service = {
       Type = "oneshot";
-      ExecStart = toString (pkgs.writeShellScript "flake-update" ''
-        ${pkgs.nix}/bin/nix flake update /home/alex/nixos-config && \
-        ${pkgs.libnotify}/bin/notify-send \
-          --app-name "NixOS" \
-          "Flake inputs updated" \
-          "Review changes and rebuild with nixos-rebuild switch"
-      '');
+      ExecStart = toString (
+        pkgs.writeShellScript "flake-update" ''
+          ${pkgs.nix}/bin/nix flake update /home/alex/nixos-config && \
+          ${pkgs.libnotify}/bin/notify-send \
+            --app-name "NixOS" \
+            "Flake inputs updated" \
+            "Review changes and rebuild with nixos-rebuild switch"
+        ''
+      );
     };
   };
 

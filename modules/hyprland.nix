@@ -1,6 +1,11 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # System-level Hyprland setup — display manager, session, Wayland environment.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;

@@ -1,6 +1,11 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Universal baseline — imported by every host.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -23,7 +28,10 @@
 
   users.users.alex = {
     isNormalUser = true;
-    extraGroups = lib.mkDefault [ "wheel" "networkmanager" ];
+    extraGroups = lib.mkDefault [
+      "wheel"
+      "networkmanager"
+    ];
     packages = with pkgs; [ tree ];
     shell = pkgs.fish;
   };
@@ -41,9 +49,15 @@
 
   nixpkgs.config.allowUnfree = true;
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     netrc-file = config.age.secrets.netrc.path;
-    trusted-users = [ "root" "alex" ];
+    trusted-users = [
+      "root"
+      "alex"
+    ];
     substituters = [
       "https://cache.nixos.org"
       "https://noctalia.cachix.org"

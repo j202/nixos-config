@@ -1,7 +1,12 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # XFCE desktop with LightDM and PulseAudio.
 # Video driver is host-specific — set services.xserver.videoDrivers in the host config.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   services.xserver = {
     enable = true;

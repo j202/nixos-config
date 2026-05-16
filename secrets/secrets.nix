@@ -4,6 +4,7 @@
 # use it with: agenix -e <secret> -i /etc/age/key
 let
   alex = "age1hntvavggck24l9pr35c773eeulcqg925qxssaamty7spfs06yvaq5ek8nn";
-in {
+in
+{
   "netrc.age".publicKeys = [ alex ];
 }

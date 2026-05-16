@@ -1,13 +1,18 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Generic Wayland tools — launcher, terminal, notifications.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   palette = builtins.fromJSON (
     builtins.readFile (config.catppuccin.sources.palette + "/palette.json")
   );
   flavor = config.catppuccin.flavor;
-  base   = palette.${flavor}.colors.base.rgb;
+  base = palette.${flavor}.colors.base.rgb;
   bgRgba = "rgba(${toString base.r}, ${toString base.g}, ${toString base.b}, 0.82)";
 in
 {
@@ -67,7 +72,7 @@ in
       icon-theme = "Papirus-Dark";
       drun-display-format = "{name}";
       display-drun = " ";
-      display-run  = " ";
+      display-run = " ";
       me-select-entry = "";
       me-accept-entry = "MousePrimary";
     };

@@ -1,6 +1,11 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # KDE Plasma catppuccin home-manager config — color scheme, Plasma style, icons, cursors.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   catppuccin-kde = pkgs.catppuccin-kde.override {
     flavour = [ "mocha" ];

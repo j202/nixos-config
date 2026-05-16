@@ -1,19 +1,31 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Hyprland core configuration — WM, lock, wallpaper. Bar lives in bar/.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   flavor = config.catppuccin.flavor;
   accent = config.catppuccin.accent;
 
-  palette    = builtins.fromJSON (builtins.readFile (config.catppuccin.sources.palette + "/palette.json"));
-  c          = builtins.mapAttrs (_: v: v.hex) palette.${flavor}.colors;
-  base       = palette.${flavor}.colors.base.rgb;
-  wlRgba     = "rgba(${toString base.r}, ${toString base.g}, ${toString base.b}, 0.88)";
-  flavorName = (lib.toUpper (lib.substring 0 1 flavor)) + (lib.substring 1 (lib.stringLength flavor - 1) flavor);
+  palette = builtins.fromJSON (
+    builtins.readFile (config.catppuccin.sources.palette + "/palette.json")
+  );
+  c = builtins.mapAttrs (_: v: v.hex) palette.${flavor}.colors;
+  base = palette.${flavor}.colors.base.rgb;
+  wlRgba = "rgba(${toString base.r}, ${toString base.g}, ${toString base.b}, 0.88)";
+  flavorName =
+    (lib.toUpper (lib.substring 0 1 flavor)) + (lib.substring 1 (lib.stringLength flavor - 1) flavor);
 
   screenshot = pkgs.writeShellApplication {
     name = "screenshot";
-    runtimeInputs = [ pkgs.grimblast pkgs.libnotify pkgs.xdg-utils ];
+    runtimeInputs = [
+      pkgs.grimblast
+      pkgs.libnotify
+      pkgs.xdg-utils
+    ];
     text = ''
       target="''${1:-area}"
       dir="$HOME/Pictures/Screenshots"
@@ -34,7 +46,11 @@ let
 
   cheatsheet = pkgs.writeShellApplication {
     name = "hyprland-cheatsheet";
-    runtimeInputs = [ pkgs.hyprkeys pkgs.jq pkgs.rofi ];
+    runtimeInputs = [
+      pkgs.hyprkeys
+      pkgs.jq
+      pkgs.rofi
+    ];
     text = ''
       hyprkeys -b -t -j \
         | jq -r '.[] | try select(.mouse == false and .submap == "") | "\(.mods | if . == "" then "         " else . + " " end)\(.key | ascii_upcase)  →  \(if .dispatcher == "exec" then .arg else .dispatcher + " " + .arg end)"' \
@@ -44,23 +60,21 @@ let
 in
 {
   catppuccin.hyprland.enable = true;
-  catppuccin.cursors.enable  = true;
+  catppuccin.cursors.enable = true;
 
   dconf.settings."org/gnome/desktop/wm/preferences".button-layout = "menu:";
-
-
 
   gtk = {
     enable = true;
     theme = {
-      name    = "catppuccin-${flavor}-${accent}-standard";
+      name = "catppuccin-${flavor}-${accent}-standard";
       package = pkgs.catppuccin-gtk.override {
         variant = flavor;
         accents = [ accent ];
       };
     };
     iconTheme = {
-      name    = "Papirus-Dark";
+      name = "Papirus-Dark";
       package = pkgs.catppuccin-papirus-folders.override {
         inherit flavor accent;
       };
@@ -78,7 +92,7 @@ in
     enable = true;
     platformTheme.name = "qtct";
     style = {
-      name    = "kvantum";
+      name = "kvantum";
       package = pkgs.kdePackages.qtstyleplugin-kvantum;
     };
   };
@@ -121,20 +135,22 @@ in
       exec-once =
         lib.optional (config.myConfig.desktop.shell == "waybar") "mako"
         ++ lib.optional isNoctalia "noctalia-shell"
-        ++ [ "hyprshell run"
-        "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent"
-        "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
-        "blueman-applet"
-        "wl-paste --type text --watch cliphist store"
-        "wl-paste --type image --watch cliphist store"
-        "wl-clip-persist --clipboard primary"
-        ]
-        ++ lib.optional (config.myConfig.desktop.shell == "waybar")
-             "swayidle -w timeout 300 'hyprlock' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'"
         ++ [
-        "steam -silent"
-        "bash -c 'until dbus-send --session --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.GetNameOwner string:org.kde.StatusNotifierWatcher 2>/dev/null; do sleep 0.2; done; exec vesktop --start-minimized'"
-        "proton-pass"
+          "hyprshell run"
+          "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent"
+          "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
+          "blueman-applet"
+          "wl-paste --type text --watch cliphist store"
+          "wl-paste --type image --watch cliphist store"
+          "wl-clip-persist --clipboard primary"
+        ]
+        ++
+          lib.optional (config.myConfig.desktop.shell == "waybar")
+            "swayidle -w timeout 300 'hyprlock' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'"
+        ++ [
+          "steam -silent"
+          "bash -c 'until dbus-send --session --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.GetNameOwner string:org.kde.StatusNotifierWatcher 2>/dev/null; do sleep 0.2; done; exec vesktop --start-minimized'"
+          "proton-pass"
         ];
 
       env = [
@@ -159,7 +175,7 @@ in
 
       decoration = {
         rounding = 8;
-        active_opacity   = 0.85;
+        active_opacity = 0.85;
         inactive_opacity = 0.85;
         blur = {
           enabled = true;
@@ -196,7 +212,7 @@ in
       misc = {
         force_default_wallpaper = 0;
         disable_hyprland_logo = true;
-        vrr = 2;  # FreeSync/VRR when fullscreen only
+        vrr = 2; # FreeSync/VRR when fullscreen only
         exit_window_retains_fullscreen = true;
         focus_on_activate = true;
       };
@@ -230,91 +246,111 @@ in
       ];
     };
 
-  extraConfig = ''
-    # 1. Launchers
-    bind = $mod, Return, exec, kitty #"Terminal"
-    bind = $mod, F1,    exec, ${if isNoctalia then "noctalia-shell ipc call plugin:keybind-cheatsheet toggle" else "hyprland-cheatsheet"} #"Keybind Cheatsheet"
-    bind = $mod, slash, exec, ${if isNoctalia then "noctalia-shell ipc call plugin:keybind-cheatsheet toggle" else "hyprland-cheatsheet"} #"Keybind Cheatsheet"
-    bind = $mod, R,  exec, ${if isNoctalia then "noctalia-shell ipc call launcher toggle" else "rofi -show drun"} #"App Launcher"
-    bind = $mod, E,  exec, thunar #"File Manager"
-    bind = $mod, W,  exec, qutebrowser  #"Browser"
-    bindr = $mod, Super_L, exec, ${if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun"} #"App Launcher (tap Super)"
-    bindr = $mod, Super_R, exec, ${if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun"} #"App Launcher (tap Super)"
+    extraConfig = ''
+      # 1. Launchers
+      bind = $mod, Return, exec, kitty #"Terminal"
+      bind = $mod, F1,    exec, ${
+        if isNoctalia then
+          "noctalia-shell ipc call plugin:keybind-cheatsheet toggle"
+        else
+          "hyprland-cheatsheet"
+      } #"Keybind Cheatsheet"
+      bind = $mod, slash, exec, ${
+        if isNoctalia then
+          "noctalia-shell ipc call plugin:keybind-cheatsheet toggle"
+        else
+          "hyprland-cheatsheet"
+      } #"Keybind Cheatsheet"
+      bind = $mod, R,  exec, ${
+        if isNoctalia then "noctalia-shell ipc call launcher toggle" else "rofi -show drun"
+      } #"App Launcher"
+      bind = $mod, E,  exec, thunar #"File Manager"
+      bind = $mod, W,  exec, qutebrowser  #"Browser"
+      bindr = $mod, Super_L, exec, ${
+        if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun"
+      } #"App Launcher (tap Super)"
+      bindr = $mod, Super_R, exec, ${
+        if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun"
+      } #"App Launcher (tap Super)"
 
-    # 2. Task Switcher (Alt+Tab = hyprshell, Super+Tab = rofi window list)
-    bind  = $mod,      Tab,   exec, rofi -show window #"Window List (rofi)"
+      # 2. Task Switcher (Alt+Tab = hyprshell, Super+Tab = rofi window list)
+      bind  = $mod,      Tab,   exec, rofi -show window #"Window List (rofi)"
 
-    # 3. Windows
-    bind = $mod, Q, killactive  #"Close Window"
-    bind = $mod, F, fullscreen, 0 #"Fullscreen"
-    bind = $mod, V, togglefloating #"Toggle Float"
-    bind = $mod, P, pseudo      #"Pseudo Tile"
-    bind = $mod, S, togglesplit #"Toggle Split"
+      # 3. Windows
+      bind = $mod, Q, killactive  #"Close Window"
+      bind = $mod, F, fullscreen, 0 #"Fullscreen"
+      bind = $mod, V, togglefloating #"Toggle Float"
+      bind = $mod, P, pseudo      #"Pseudo Tile"
+      bind = $mod, S, togglesplit #"Toggle Split"
 
-    # 4. Focus
-    bind = $mod, left,  movefocus, l #"Focus Left"
-    bind = $mod, right, movefocus, r #"Focus Right"
-    bind = $mod, up,    movefocus, u #"Focus Up"
-    bind = $mod, down,  movefocus, d #"Focus Down"
-    bind = $mod, h, movefocus, l #"Focus Left (h)"
-    bind = $mod, l, movefocus, r #"Focus Right (l)"
-    bind = $mod, k, movefocus, u #"Focus Up (k)"
-    bind = $mod, j, movefocus, d #"Focus Down (j)"
+      # 4. Focus
+      bind = $mod, left,  movefocus, l #"Focus Left"
+      bind = $mod, right, movefocus, r #"Focus Right"
+      bind = $mod, up,    movefocus, u #"Focus Up"
+      bind = $mod, down,  movefocus, d #"Focus Down"
+      bind = $mod, h, movefocus, l #"Focus Left (h)"
+      bind = $mod, l, movefocus, r #"Focus Right (l)"
+      bind = $mod, k, movefocus, u #"Focus Up (k)"
+      bind = $mod, j, movefocus, d #"Focus Down (j)"
 
-    # 5. Move Windows
-    bind = $mod SHIFT, left,  movewindow, l #"Move Left"
-    bind = $mod SHIFT, right, movewindow, r #"Move Right"
-    bind = $mod SHIFT, up,    movewindow, u #"Move Up"
-    bind = $mod SHIFT, down,  movewindow, d #"Move Down"
-    bind = $mod SHIFT, h, movewindow, l #"Move Left (h)"
-    bind = $mod SHIFT, l, movewindow, r #"Move Right (l)"
-    bind = $mod SHIFT, k, movewindow, u #"Move Up (k)"
-    bind = $mod SHIFT, j, movewindow, d #"Move Down (j)"
+      # 5. Move Windows
+      bind = $mod SHIFT, left,  movewindow, l #"Move Left"
+      bind = $mod SHIFT, right, movewindow, r #"Move Right"
+      bind = $mod SHIFT, up,    movewindow, u #"Move Up"
+      bind = $mod SHIFT, down,  movewindow, d #"Move Down"
+      bind = $mod SHIFT, h, movewindow, l #"Move Left (h)"
+      bind = $mod SHIFT, l, movewindow, r #"Move Right (l)"
+      bind = $mod SHIFT, k, movewindow, u #"Move Up (k)"
+      bind = $mod SHIFT, j, movewindow, d #"Move Down (j)"
 
-    # 6. Workspaces
-    bind = $mod, 1, workspace, 1 #"Workspace 1"
-    bind = $mod, 2, workspace, 2 #"Workspace 2"
-    bind = $mod, 3, workspace, 3 #"Workspace 3"
-    bind = $mod, 4, workspace, 4 #"Workspace 4"
-    bind = $mod, 5, workspace, 5 #"Workspace 5"
-    bind = $mod, 6, workspace, 6 #"Workspace 6"
-    bind = $mod, 7, workspace, 7 #"Workspace 7"
-    bind = $mod, 8, workspace, 8 #"Workspace 8"
-    bind = $mod, 9, workspace, 9 #"Workspace 9"
-    bind = $mod SHIFT, 1, movetoworkspace, 1 #"Send to Workspace 1"
-    bind = $mod SHIFT, 2, movetoworkspace, 2 #"Send to Workspace 2"
-    bind = $mod SHIFT, 3, movetoworkspace, 3 #"Send to Workspace 3"
-    bind = $mod SHIFT, 4, movetoworkspace, 4 #"Send to Workspace 4"
-    bind = $mod SHIFT, 5, movetoworkspace, 5 #"Send to Workspace 5"
-    bind = $mod SHIFT, 6, movetoworkspace, 6 #"Send to Workspace 6"
-    bind = $mod SHIFT, 7, movetoworkspace, 7 #"Send to Workspace 7"
-    bind = $mod SHIFT, 8, movetoworkspace, 8 #"Send to Workspace 8"
-    bind = $mod SHIFT, 9, movetoworkspace, 9 #"Send to Workspace 9"
-    bind = $mod, mouse_down, workspace, e+1 #"Next Workspace"
-    bind = $mod, mouse_up,   workspace, e-1 #"Previous Workspace"
+      # 6. Workspaces
+      bind = $mod, 1, workspace, 1 #"Workspace 1"
+      bind = $mod, 2, workspace, 2 #"Workspace 2"
+      bind = $mod, 3, workspace, 3 #"Workspace 3"
+      bind = $mod, 4, workspace, 4 #"Workspace 4"
+      bind = $mod, 5, workspace, 5 #"Workspace 5"
+      bind = $mod, 6, workspace, 6 #"Workspace 6"
+      bind = $mod, 7, workspace, 7 #"Workspace 7"
+      bind = $mod, 8, workspace, 8 #"Workspace 8"
+      bind = $mod, 9, workspace, 9 #"Workspace 9"
+      bind = $mod SHIFT, 1, movetoworkspace, 1 #"Send to Workspace 1"
+      bind = $mod SHIFT, 2, movetoworkspace, 2 #"Send to Workspace 2"
+      bind = $mod SHIFT, 3, movetoworkspace, 3 #"Send to Workspace 3"
+      bind = $mod SHIFT, 4, movetoworkspace, 4 #"Send to Workspace 4"
+      bind = $mod SHIFT, 5, movetoworkspace, 5 #"Send to Workspace 5"
+      bind = $mod SHIFT, 6, movetoworkspace, 6 #"Send to Workspace 6"
+      bind = $mod SHIFT, 7, movetoworkspace, 7 #"Send to Workspace 7"
+      bind = $mod SHIFT, 8, movetoworkspace, 8 #"Send to Workspace 8"
+      bind = $mod SHIFT, 9, movetoworkspace, 9 #"Send to Workspace 9"
+      bind = $mod, mouse_down, workspace, e+1 #"Next Workspace"
+      bind = $mod, mouse_up,   workspace, e-1 #"Previous Workspace"
 
-    # 7. Utilities
-    bind = $mod CTRL,  L,     exec, ${if isNoctalia then "noctalia-shell ipc call lockScreen lock" else "hyprlock"} #"Lock Screen"
-    ${if isNoctalia then ''bind = $mod SHIFT, N, exec, restart-noctalia #"Restart Noctalia"'' else ""}
-    bind = $mod SHIFT, C,     exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy #"Clipboard History"
-    bind = $mod SHIFT, M,     exec, ${if isNoctalia then "noctalia-shell ipc call sessionMenu toggle" else "wlogout"} #"Session Menu"
-    bind = ,           Print, exec, screenshot area   #"Screenshot Area"
-    bind = $mod,       Print, exec, screenshot active #"Screenshot Window"
-    bind = $mod SHIFT, Print, exec, screenshot output #"Screenshot Monitor"
+      # 7. Utilities
+      bind = $mod CTRL,  L,     exec, ${
+        if isNoctalia then "noctalia-shell ipc call lockScreen lock" else "hyprlock"
+      } #"Lock Screen"
+      ${if isNoctalia then ''bind = $mod SHIFT, N, exec, restart-noctalia #"Restart Noctalia"'' else ""}
+      bind = $mod SHIFT, C,     exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy #"Clipboard History"
+      bind = $mod SHIFT, M,     exec, ${
+        if isNoctalia then "noctalia-shell ipc call sessionMenu toggle" else "wlogout"
+      } #"Session Menu"
+      bind = ,           Print, exec, screenshot area   #"Screenshot Area"
+      bind = $mod,       Print, exec, screenshot active #"Screenshot Window"
+      bind = $mod SHIFT, Print, exec, screenshot output #"Screenshot Monitor"
 
-    # 8. Media
-    bindel = , XF86AudioRaiseVolume,  exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ #"Volume Up"
-    bindel = , XF86AudioLowerVolume,  exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-       #"Volume Down"
-    bindel = , XF86AudioMute,         exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle      #"Mute"
-    bindel = , XF86MonBrightnessUp,   exec, brightnessctl set 5%+  #"Brightness Up"
-    bindel = , XF86MonBrightnessDown, exec, brightnessctl set 5%-  #"Brightness Down"
-    bindl  = , XF86AudioPlay,  exec, playerctl play-pause #"Play / Pause"
-    bindl  = , XF86AudioNext,  exec, playerctl next       #"Next Track"
-    bindl  = , XF86AudioPrev,  exec, playerctl previous   #"Previous Track"
+      # 8. Media
+      bindel = , XF86AudioRaiseVolume,  exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ #"Volume Up"
+      bindel = , XF86AudioLowerVolume,  exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-       #"Volume Down"
+      bindel = , XF86AudioMute,         exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle      #"Mute"
+      bindel = , XF86MonBrightnessUp,   exec, brightnessctl set 5%+  #"Brightness Up"
+      bindel = , XF86MonBrightnessDown, exec, brightnessctl set 5%-  #"Brightness Down"
+      bindl  = , XF86AudioPlay,  exec, playerctl play-pause #"Play / Pause"
+      bindl  = , XF86AudioNext,  exec, playerctl next       #"Next Track"
+      bindl  = , XF86AudioPrev,  exec, playerctl previous   #"Previous Track"
 
-    bindm = $mod, mouse:272, movewindow
-    bindm = $mod, mouse:273, resizewindow
-  '';
+      bindm = $mod, mouse:272, movewindow
+      bindm = $mod, mouse:273, resizewindow
+    '';
   };
 
   # ── Kanshi (dynamic monitor management) ──────────────────────────────────
@@ -353,7 +389,6 @@ in
     ];
   };
 
-
   # ── Hyprlock ──────────────────────────────────────────────────────────────
 
   catppuccin.hyprlock.enable = true;
@@ -379,9 +414,9 @@ in
       background = [
         {
           # Use "screenshot" for live wallpaper or path to an image file
-          path = "${config.home.homeDirectory}/Pictures/wallpaper.jpg"; 
-          blur_passes = 2;      # Number of blur passes
-          blur_size = 5;        # Blur radius
+          path = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
+          blur_passes = 2; # Number of blur passes
+          blur_size = 5; # Blur radius
           # Optional: Adjust contrast and brightness for better readability
           contrast = 0.8;
           brightness = 0.8;
@@ -397,27 +432,41 @@ in
     genericName = "Image Viewer";
     exec = "${imv-open}/bin/imv-open %f";
     mimeType = [
-      "image/jpeg" "image/png" "image/gif" "image/webp"
-      "image/svg+xml" "image/bmp" "image/tiff" "image/heif"
-      "image/avif" "image/jxl"
+      "image/jpeg"
+      "image/png"
+      "image/gif"
+      "image/webp"
+      "image/svg+xml"
+      "image/bmp"
+      "image/tiff"
+      "image/heif"
+      "image/avif"
+      "image/jxl"
     ];
-    categories = [ "Graphics" "Viewer" ];
+    categories = [
+      "Graphics"
+      "Viewer"
+    ];
     noDisplay = false;
   };
 
   xdg.configFile."hyprshell/styles.css".text =
     let
-      rgba = name: alpha:
-        let col = palette.${flavor}.colors.${name}.rgb;
-        in "rgba(${toString col.r}, ${toString col.g}, ${toString col.b}, ${alpha})";
-    in ''
+      rgba =
+        name: alpha:
+        let
+          col = palette.${flavor}.colors.${name}.rgb;
+        in
+        "rgba(${toString col.r}, ${toString col.g}, ${toString col.b}, ${alpha})";
+    in
+    ''
       :root {
-        --bg-window-color:     ${rgba "base"     "0.92"};
+        --bg-window-color:     ${rgba "base" "0.92"};
         --bg-color:            ${rgba "surface0" "0.85"};
         --bg-color-hover:      ${rgba "surface1" "0.90"};
         --border-color:        ${rgba "surface2" "0.50"};
-        --border-color-active: ${rgba accent      "1.0"};
-        --text-color:          ${rgba "text"      "1.0"};
+        --border-color-active: ${rgba accent "1.0"};
+        --text-color:          ${rgba "text" "1.0"};
         --border-radius:       8px;
         --border-size:         2px;
       }
@@ -443,20 +492,20 @@ in
   '';
 
   home.file."Pictures/Screenshots/.keep".text = "";
-  home.file."Pictures/wallpapers/.keep".text  = "";
+  home.file."Pictures/wallpapers/.keep".text = "";
 
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "image/jpeg"                = "imv.desktop";
-      "image/png"                 = "imv.desktop";
-      "image/gif"                 = "imv.desktop";
-      "image/webp"                = "imv.desktop";
-      "image/svg+xml"             = "imv.desktop";
-      "image/bmp"                 = "imv.desktop";
-      "image/tiff"                = "imv.desktop";
-      "inode/directory"           = "thunar.desktop";
-      "text/plain"                = "org.gnome.gedit.desktop";
+      "image/jpeg" = "imv.desktop";
+      "image/png" = "imv.desktop";
+      "image/gif" = "imv.desktop";
+      "image/webp" = "imv.desktop";
+      "image/svg+xml" = "imv.desktop";
+      "image/bmp" = "imv.desktop";
+      "image/tiff" = "imv.desktop";
+      "inode/directory" = "thunar.desktop";
+      "text/plain" = "org.gnome.gedit.desktop";
     };
   };
 
@@ -532,8 +581,10 @@ in
     </style-scheme>
   '';
 
-  dconf.settings."org/gnome/gedit/preferences/editor"."style-scheme-for-dark-theme-variant"  = "catppuccin-${flavor}";
-  dconf.settings."org/gnome/gedit/preferences/editor"."style-scheme-for-light-theme-variant" = "catppuccin-${flavor}";
+  dconf.settings."org/gnome/gedit/preferences/editor"."style-scheme-for-dark-theme-variant" =
+    "catppuccin-${flavor}";
+  dconf.settings."org/gnome/gedit/preferences/editor"."style-scheme-for-light-theme-variant" =
+    "catppuccin-${flavor}";
 
   # ── Hyprpaper (waybar only — noctalia manages its own wallpaper) ──────────
 
@@ -543,18 +594,18 @@ in
       splash = false;
       wallpaper = [
         {
-          monitor  = "DP-1";
-          path     = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
+          monitor = "DP-1";
+          path = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
           fit_mode = "cover";
         }
         {
-          monitor  = "DP-4";
-          path     = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
+          monitor = "DP-4";
+          path = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
           fit_mode = "cover";
         }
         {
-          monitor  = "";
-          path     = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
+          monitor = "";
+          path = "${config.home.homeDirectory}/Pictures/wallpaper.jpg";
           fit_mode = "cover";
         }
       ];
@@ -566,12 +617,42 @@ in
   programs.wlogout = {
     enable = true;
     layout = [
-      { label = "lock";      action = "hyprlock";           text = "Lock";      keybind = "l"; }
-      { label = "logout";    action = "uwsm stop";           text = "Logout";    keybind = "e"; }
-      { label = "suspend";   action = "systemctl suspend";   text = "Suspend";   keybind = "u"; }
-      { label = "hibernate"; action = "systemctl hibernate"; text = "Hibernate"; keybind = "h"; }
-      { label = "reboot";    action = "systemctl reboot";    text = "Reboot";    keybind = "r"; }
-      { label = "shutdown";  action = "systemctl poweroff";  text = "Shutdown";  keybind = "s"; }
+      {
+        label = "lock";
+        action = "hyprlock";
+        text = "Lock";
+        keybind = "l";
+      }
+      {
+        label = "logout";
+        action = "uwsm stop";
+        text = "Logout";
+        keybind = "e";
+      }
+      {
+        label = "suspend";
+        action = "systemctl suspend";
+        text = "Suspend";
+        keybind = "u";
+      }
+      {
+        label = "hibernate";
+        action = "systemctl hibernate";
+        text = "Hibernate";
+        keybind = "h";
+      }
+      {
+        label = "reboot";
+        action = "systemctl reboot";
+        text = "Reboot";
+        keybind = "r";
+      }
+      {
+        label = "shutdown";
+        action = "systemctl poweroff";
+        text = "Shutdown";
+        keybind = "s";
+      }
     ];
     style = ''
       * {

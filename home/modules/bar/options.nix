@@ -4,8 +4,11 @@
 { lib, ... }:
 {
   options.myConfig.desktop.shell = lib.mkOption {
-    type        = lib.types.enum [ "waybar" "noctalia" ];
-    default     = "waybar";
+    type = lib.types.enum [
+      "waybar"
+      "noctalia"
+    ];
+    default = "waybar";
     description = "Desktop bar/shell — 'waybar' or 'noctalia'.";
   };
 }

@@ -66,7 +66,7 @@
           cspell = {
             enable = true;
             name = "cspell";
-            entry = "${pkgs.cspell}/bin/cspell lint --no-progress";
+            entry = "${pkgs.cspell}/bin/cspell lint --no-progress --no-must-find-files";
             types = [ "text" ];
             pass_filenames = true;
           };

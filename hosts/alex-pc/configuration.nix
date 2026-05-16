@@ -1,6 +1,11 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # ASRock Z790 PG Lightning / Intel i7-13700K / AMD Radeon RX 7900 XT
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./hardware-configuration.nix
@@ -35,7 +40,12 @@
   hardware.cpu.intel.updateMicrocode = true;
 
   # Extra groups beyond the common wheel+networkmanager
-  users.users.alex.extraGroups = [ "wheel" "networkmanager" "audio" "video" ];
+  users.users.alex.extraGroups = [
+    "wheel"
+    "networkmanager"
+    "audio"
+    "video"
+  ];
 
   # Wayland-specific and PC-only packages
   environment.systemPackages = with pkgs; [
@@ -48,22 +58,24 @@
     # creates the local encryption key with user=view-only, then fails
     # KEYCTL_LINK cross-thread, leaving an orphaned key that returns EACCES
     # on every subsequent invocation. Fix the permissions before each call.
-    (lib.hiPrio (pkgs.writeShellApplication {
-      name = "pass-cli";
-      runtimeInputs = [ keyutils ];
-      text = ''
-        keyctl list @u 2>/dev/null | while IFS= read -r line; do
-          case "$line" in
-            *ProtonPassCLI*)
-              id="''${line%%:*}"
-              id="''${id// /}"
-              [[ "$id" =~ ^[0-9]+$ ]] && keyctl setperm "$id" 0x3f3f0000 2>/dev/null || true
-              ;;
-          esac
-        done || true
-        exec ${proton-pass-cli}/bin/pass-cli "$@"
-      '';
-    }))
+    (lib.hiPrio (
+      pkgs.writeShellApplication {
+        name = "pass-cli";
+        runtimeInputs = [ keyutils ];
+        text = ''
+          keyctl list @u 2>/dev/null | while IFS= read -r line; do
+            case "$line" in
+              *ProtonPassCLI*)
+                id="''${line%%:*}"
+                id="''${id// /}"
+                [[ "$id" =~ ^[0-9]+$ ]] && keyctl setperm "$id" 0x3f3f0000 2>/dev/null || true
+                ;;
+            esac
+          done || true
+          exec ${proton-pass-cli}/bin/pass-cli "$@"
+        '';
+      }
+    ))
     qutebrowser
     spotify
     vesktop
@@ -73,7 +85,10 @@
   fileSystems."/games" = {
     device = "/dev/disk/by-uuid/91dd4605-cdf2-4851-b6de-40639d3189a2";
     fsType = "btrfs";
-    options = [ "subvol=@games" "noatime" ];
+    options = [
+      "subvol=@games"
+      "noatime"
+    ];
   };
 
   systemd.tmpfiles.rules = [
