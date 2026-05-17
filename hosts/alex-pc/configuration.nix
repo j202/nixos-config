@@ -90,6 +90,7 @@
         '';
       }
     ))
+    protonmail-desktop
     qutebrowser
     spotify
     vesktop

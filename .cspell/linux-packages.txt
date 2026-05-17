@@ -105,6 +105,7 @@ darkmode
 asdfjkl
 searchengines
 # Password managers
+protonmail
 protonpass
 # Web / scripting terms used in userscripts
 jseval
