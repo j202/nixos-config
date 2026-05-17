@@ -7,7 +7,7 @@
     ./modules/qutebrowser.nix
     ./modules/vkbasalt.nix
     ./modules/wayland-tools.nix
-    ./modules/hyprland.nix
+    ./modules/hyprland
     ./modules/bar/options.nix
     ./modules/bar/waybar.nix
     ./modules/bar/noctalia.nix
