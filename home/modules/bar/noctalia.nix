@@ -74,21 +74,21 @@ in
               }
             ];
             right = [
-              { id = "Clock"; }
+              { id = "SystemMonitor"; }
+              { id = "Bluetooth"; }
+              { id = "Network"; }
+              { id = "NotificationHistory"; }
+              {
+                id = "Volume";
+                middleClickCommand = "pwvucontrol || pavucontrol";
+              }
               {
                 id = "Tray";
                 drawerEnabled = false;
                 hidePassive = false;
                 colorizeIcons = false;
               }
-              { id = "SystemMonitor"; }
-              { id = "NotificationHistory"; }
-              { id = "Bluetooth"; }
-              { id = "Network"; }
-              {
-                id = "Volume";
-                middleClickCommand = "pwvucontrol || pavucontrol";
-              }
+              { id = "Clock"; }
               { id = "ControlCenter"; }
             ];
           };
