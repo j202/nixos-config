@@ -144,3 +144,12 @@ shfmt
 # Post-processing
 vkbasalt
 VKBASALT
+btusb
+bluetoothd
+devid
+coreutils
+iface
+MGMT
+bluez
+hciconfig
+bluetoothctl
