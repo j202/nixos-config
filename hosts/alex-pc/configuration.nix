@@ -40,6 +40,20 @@
   };
   hardware.cpu.intel.updateMicrocode = true;
 
+  # The i40e (Intel X710 10GbE) driver hits a NULL pointer dereference in
+  # i40e_clear_lan_tx_queue_context when NetworkManager re-raises the interface
+  # after S3 resume, because tx_ring->desc is not yet allocated at that point.
+  # Reloading the module before NM gets there avoids the race entirely.
+  environment.etc."systemd/system-sleep/i40e-resume" = {
+    mode = "0755";
+    text = ''
+      #!/bin/sh
+      [ "$1" = "post" ] || exit 0
+      ${pkgs.kmod}/bin/modprobe -r i40e
+      ${pkgs.kmod}/bin/modprobe i40e
+    '';
+  };
+
   # Extra groups beyond the common wheel+networkmanager
   users.users.alex.extraGroups = [
     "wheel"
