@@ -67,23 +67,25 @@
     proton-pass
     proton-pass-cli
     # Wrapper shadowing the real pass-cli binary. The linux-keyutils backend
-    # creates the local encryption key with user=view-only, then fails
-    # KEYCTL_LINK cross-thread, leaving an orphaned key that returns EACCES
-    # on every subsequent invocation. Fix the permissions before each call.
+    # stores the local encryption key in the session keyring (@s) with
+    # user=view-only, so cross-thread reads fail with EACCES. Elevate to
+    # user=full before each call. Check @u, @s, and @us — pass-cli uses @s.
     (lib.hiPrio (
       pkgs.writeShellApplication {
         name = "pass-cli";
         runtimeInputs = [ keyutils ];
         text = ''
-          keyctl list @u 2>/dev/null | while IFS= read -r line; do
-            case "$line" in
-              *ProtonPassCLI*)
-                id="''${line%%:*}"
-                id="''${id// /}"
-                [[ "$id" =~ ^[0-9]+$ ]] && keyctl setperm "$id" 0x3f3f0000 2>/dev/null || true
-                ;;
-            esac
-          done || true
+          for keyring in @u @s @us; do
+            keyctl list "$keyring" 2>/dev/null | while IFS= read -r line; do
+              case "$line" in
+                *ProtonPassCLI*)
+                  id="''${line%%:*}"
+                  id="''${id// /}"
+                  [[ "$id" =~ ^[0-9]+$ ]] && keyctl setperm "$id" 0x3f3f0000 2>/dev/null || true
+                  ;;
+              esac
+            done || true
+          done
           exec ${proton-pass-cli}/bin/pass-cli "$@"
         '';
       }

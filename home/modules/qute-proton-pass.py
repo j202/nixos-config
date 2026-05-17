@@ -31,7 +31,8 @@ def send(fifo, *cmds):
 def run_cli(*args):
     result = subprocess.run(["pass-cli", *args], capture_output=True, text=True)
     if result.returncode != 0:
-        raise RuntimeError(result.stderr.strip() or "pass-cli exited non-zero")
+        stderr = " — ".join(result.stderr.strip().splitlines()) or "pass-cli exited non-zero"
+        raise RuntimeError(stderr)
     return json.loads(result.stdout)
 
 
@@ -143,14 +144,36 @@ def js_fill_cmd(username, email, password):
     return f"jseval -q eval(atob('{b64}'))"
 
 
+AUTH_KEYWORDS = ("auth", "login", "session", "sign", "unauthorized", "unauthenticated")
+
+
+def looks_like_auth_error(msg):
+    return any(w in msg.lower() for w in AUTH_KEYWORDS)
+
+
+def notify_and_launch(fifo, msg):
+    """Show a desktop notification and open a terminal to run pass-cli login."""
+    send(fifo, f"message-error 'Proton Pass: {msg}'",
+         "spawn --detach kitty -- pass-cli login")
+    subprocess.run(
+        ["notify-send", "-u", "normal", "-i", "dialog-password",
+         "Proton Pass", "Not signed in — signing in via browser."],
+        capture_output=True,
+    )
+
+
 def fetch_items(fifo):
     try:
         data = run_cli("item", "list", "--filter-type", "login", "--output", "json")
     except RuntimeError as e:
-        send(fifo, f"message-error 'Proton Pass: {e}'")
+        msg = str(e)
+        if looks_like_auth_error(msg):
+            notify_and_launch(fifo, "not signed in")
+        else:
+            send(fifo, f"message-error 'Proton Pass: {msg}'")
         return None
     except json.JSONDecodeError:
-        send(fifo, "message-error 'Proton Pass: unexpected output — run pass-cli login first'")
+        notify_and_launch(fifo, "not signed in")
         return None
 
     items = data.get("items", []) if isinstance(data, dict) else data
