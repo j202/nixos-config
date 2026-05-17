@@ -116,7 +116,7 @@ in
           lockScreenAnimations = true;
           enableLockScreenMediaControls = true;
           clockFormat = "HH:mm ";
-          lockScreenMonitors = [ "DP-1" ];
+          lockScreenMonitors = [ ];
           lockScreenBlur = 0.8;
           telemetryEnabled = false;
           showChangelogOnStartup = false;
