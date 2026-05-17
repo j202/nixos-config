@@ -156,6 +156,8 @@ in
           "gh":      "https://github.com/search?q={}",
           "yt":      "https://youtube.com/results?search_query={}",
           "nix":     "https://search.nixos.org/packages?query={}",
+          "g":       "https://www.google.com/search?q={}",
+          "brave":   "https://search.brave.com/search?q={}",
       }
     '';
 
