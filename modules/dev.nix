@@ -8,6 +8,7 @@
 }:
 {
   environment.systemPackages = with pkgs; [
+    ansible
     cargo
     claude-code
     clippy
