@@ -30,8 +30,9 @@ let
     ];
     text = ''
       export VIAL_KEYBOARD_IDS="${keyboardIds}"
+      export ACTION=grant
     ''
-    + builtins.readFile ./vial-hidraw-grant.sh;
+    + builtins.readFile ./vial-hidraw.sh;
   };
 
   vial-hidraw-revoke = pkgs.writeShellApplication {
@@ -42,8 +43,9 @@ let
     ];
     text = ''
       export VIAL_KEYBOARD_IDS="${keyboardIds}"
+      export ACTION=revoke
     ''
-    + builtins.readFile ./vial-hidraw-revoke.sh;
+    + builtins.readFile ./vial-hidraw.sh;
   };
 
   # Shadows the real vial binary: prompts for password, runs vial, revokes on exit.

@@ -15,7 +15,7 @@
     ../../modules/pipewire.nix
     ../../modules/gaming.nix
     ../../modules/bluetooth.nix
-    ../../modules/vial.nix
+    ../../modules/vial
   ];
 
   # UEFI / systemd-boot
