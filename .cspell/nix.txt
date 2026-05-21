@@ -46,6 +46,7 @@ agenix
 ryantm
 nixfmt
 deadnix
+nullary
 statix
 hiPrio
 Prio

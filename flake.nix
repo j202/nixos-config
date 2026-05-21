@@ -64,6 +64,17 @@
         hooks = {
           nixfmt.enable = true;
           end-of-file-fixer.enable = true;
+          shellcheck = {
+            enable = true;
+            types = [ "file" ];
+            files = "\\.sh$";
+          };
+          shfmt = {
+            enable = true;
+            types = [ "file" ];
+            files = "\\.sh$";
+            entry = "${pkgs.shfmt}/bin/shfmt -w -i 2 -sr";
+          };
           trim-trailing-whitespace = {
             enable = true;
             excludes = [ "\\.md$" ];
