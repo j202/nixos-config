@@ -134,6 +134,12 @@
             files = "\\.sh$";
             entry = "${pkgs.shfmt}/bin/shfmt -w -i 2 -sr";
           };
+          stylua = {
+            enable = true;
+          };
+          markdownlint = {
+            enable = true;
+          };
           trim-trailing-whitespace = {
             enable = true;
             excludes = [ "\\.md$" ];

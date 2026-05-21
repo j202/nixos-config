@@ -59,6 +59,7 @@ attrsets
 # Git
 toplevel
 # Editor / git config keys
+stylua
 lazyvim
 nvim
 nvimdiff
