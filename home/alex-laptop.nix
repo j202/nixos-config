@@ -1,6 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Laptop-specific home config — shared base plus XFCE desktop.
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 let
   xfce_terminal_catppuccin_themes = pkgs.fetchFromGitHub {
     owner = "catppuccin";

@@ -1,7 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # ASRock Z790 PG Lightning / Intel i7-13700K / AMD Radeon RX 7900 XT
 {
-  config,
   lib,
   pkgs,
   ...

@@ -1,8 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Gaming stack — Steam, performance tools, controller support.
 {
-  config,
-  lib,
   pkgs,
   ...
 }:

@@ -2,12 +2,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
   flavor = config.catppuccin.flavor;
-  accent = config.catppuccin.accent;
   palette = builtins.fromJSON (
     builtins.readFile (config.catppuccin.sources.palette + "/palette.json")
   );

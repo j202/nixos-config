@@ -5,8 +5,6 @@
 # Keybind: ,p  → fill username + password for the current page.
 {
   config,
-  lib,
-  pkgs,
   ...
 }:
 

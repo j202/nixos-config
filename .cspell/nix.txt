@@ -45,6 +45,8 @@ netrc
 agenix
 ryantm
 nixfmt
+deadnix
+statix
 hiPrio
 Prio
 # Filesystem / systemd terms used in nix config

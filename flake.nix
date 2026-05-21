@@ -63,6 +63,10 @@
         src = ./.;
         hooks = {
           nixfmt.enable = true;
+          deadnix = {
+            enable = true;
+            excludes = [ "hardware-configuration\\.nix" ];
+          };
           cspell = {
             enable = true;
             name = "cspell";

@@ -2,8 +2,6 @@
 # KDE Plasma 6 — alternative desktop, not active by default.
 # To use: replace modules/hyprland.nix with this in the host config.
 {
-  config,
-  lib,
   pkgs,
   ...
 }:

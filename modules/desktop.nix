@@ -1,8 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Common desktop services and packages — imported by all hosts with a display.
 {
-  config,
-  lib,
   pkgs,
   ...
 }:
