@@ -10,11 +10,20 @@ Personal NixOS configuration for:
 After cloning, install the pre-commit hooks:
 
 ```bash
-nix develop
-exit
+nix develop --command true
 ```
 
-This installs git hooks that run **nixfmt** (formatter) and **cspell** (spell checker) on every commit. The hooks are pinned to the versions in `flake.lock` and will be identical on any machine.
+This installs git hooks that run on every commit:
+
+| Hook | What it does |
+|------|-------------|
+| **nixfmt** | Formats all `.nix` files |
+| **cspell** | Spell-checks all text files |
+| **deadnix** | Flags unused let bindings and lambda args |
+| **statix** | Flags Nix anti-patterns (e.g. repeated keys) |
+| **verify-hyprland-config** | Validates the generated Hyprland config with `hyprland --verify-config` |
+
+The hooks are pinned to the versions in `flake.lock` and will be identical on any machine. Re-run `nix develop --command true` after any `flake.lock` update to pick up new versions.
 
 ## Rebuild
 
