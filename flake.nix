@@ -63,6 +63,7 @@
         src = ./.;
         hooks = {
           nixfmt.enable = true;
+          end-of-file-fixer.enable = true;
           statix = {
             enable = true;
             settings.ignore = [ "hardware-configuration.nix" ];
