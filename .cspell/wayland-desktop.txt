@@ -32,6 +32,7 @@ xwayland
 # Kitty tab bar styles
 powerline
 # Hyprland dispatcher commands
+layoutmsg
 killactive
 togglefloating
 togglesplit

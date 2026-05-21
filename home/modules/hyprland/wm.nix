@@ -70,6 +70,7 @@ in
 
   wayland.windowManager.hyprland = {
     enable = true;
+    configType = "lua";
     systemd.enable = true;
     systemd.variables = [ "--all" ];
 
@@ -149,7 +150,6 @@ in
       };
 
       dwindle = {
-        pseudotile = true;
         preserve_split = true;
       };
 
@@ -238,8 +238,8 @@ in
       bind = $mod, Q, killactive  #"Close Window"
       bind = $mod, F, fullscreen, 0 #"Fullscreen"
       bind = $mod, V, togglefloating #"Toggle Float"
-      bind = $mod, P, pseudo      #"Pseudo Tile"
-      bind = $mod, S, togglesplit #"Toggle Split"
+      bind = $mod, P, layoutmsg, pseudo      #"Pseudo Tile"
+      bind = $mod, S, layoutmsg, togglesplit #"Toggle Split"
 
       # 4. Focus
       bind = $mod, left,  movefocus, l #"Focus Left"
