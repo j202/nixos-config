@@ -201,6 +201,12 @@ in
           float = true;
           pin = true;
         }
+        {
+          name = "opaque-fullscreen-browser";
+          "match:class" = "^(qutebrowser|brave-browser)$";
+          "match:fullscreen" = 1;
+          opacity = "1.0 override 1.0 override";
+        }
       ];
     };
 
