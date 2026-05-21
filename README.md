@@ -24,6 +24,8 @@ This installs git hooks that run on every commit:
 | **check-merge-conflict** | Fails if any file contains a merge conflict marker (`<<<<<<<`, `=======`, `>>>>>>>`) |
 | **detect-private-key** | Fails if any file contains a private key header (RSA, EC, OpenSSH, etc.) |
 | **check-added-large-files** | Fails if any staged file exceeds 500 KB |
+| **check-json** | Validates `.json` files are well-formed (excludes `vscode/` which uses JSONC) |
+| **mixed-line-ending** | Fails if any file contains CRLF line endings |
 | **end-of-file-fixer** | Ensures all files end with a single newline |
 | **trim-trailing-whitespace** | Removes trailing whitespace (`.md` files excluded) |
 | **shellcheck** | Lints `.sh` files; config in `.shellcheckrc` |

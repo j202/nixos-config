@@ -64,6 +64,27 @@
         hooks = {
           nixfmt.enable = true;
           end-of-file-fixer.enable = true;
+          check-json = {
+            enable = true;
+            excludes = [ "^vscode/" ];
+          };
+          mixed-line-ending = {
+            enable = true;
+            name = "mixed-line-ending";
+            entry = toString (
+              pkgs.writeShellScript "mixed-line-ending" ''
+                found=0
+                for f in "$@"; do
+                  if grep -qF $'\r' "''${f}"; then
+                    echo "mixed-line-ending: carriage return (CR) character found in ''${f}"
+                    found=1
+                  fi
+                done
+                exit ''${found}
+              ''
+            );
+            types = [ "text" ];
+          };
           check-merge-conflict = {
             enable = true;
             name = "check-merge-conflict";
