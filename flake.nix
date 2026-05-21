@@ -64,6 +64,65 @@
         hooks = {
           nixfmt.enable = true;
           end-of-file-fixer.enable = true;
+          check-merge-conflict = {
+            enable = true;
+            name = "check-merge-conflict";
+            entry = toString (
+              pkgs.writeShellScript "check-merge-conflict" ''
+                found=0
+                for f in "$@"; do
+                  if grep -qE '^(<{7}|={7}|>{7})( |$)' "''${f}"; then
+                    echo "check-merge-conflict: conflict marker found in ''${f}"
+                    found=1
+                  fi
+                done
+                exit ''${found}
+              ''
+            );
+            types = [ "text" ];
+          };
+          detect-private-key =
+            let
+              patterns = pkgs.writeText "private-key-patterns" (
+                builtins.readFile ./hooks/private-key-patterns.txt
+              );
+            in
+            {
+              enable = true;
+              name = "detect-private-key";
+              entry = toString (
+                pkgs.writeShellScript "detect-private-key" ''
+                  found=0
+                  for f in "$@"; do
+                    if grep -qFf ${patterns} "''${f}"; then
+                      echo "detect-private-key: private key material found in ''${f}"
+                      found=1
+                    fi
+                  done
+                  exit ''${found}
+                ''
+              );
+              types = [ "text" ];
+              excludes = [ "hooks/private-key-patterns\\.txt" ];
+            };
+          check-added-large-files = {
+            enable = true;
+            name = "check-added-large-files";
+            entry = toString (
+              pkgs.writeShellScript "check-added-large-files" ''
+                max_kb=500
+                found=0
+                for f in "$@"; do
+                  size_kb=$(du -k "''${f}" | cut -f1)
+                  if [ "''${size_kb}" -gt "''${max_kb}" ]; then
+                    echo "check-added-large-files: ''${f} is ''${size_kb}KB (limit: ''${max_kb}KB)"
+                    found=1
+                  fi
+                done
+                exit ''${found}
+              ''
+            );
+          };
           shellcheck = {
             enable = true;
             types = [ "file" ];

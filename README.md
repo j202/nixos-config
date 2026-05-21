@@ -21,6 +21,9 @@ This installs git hooks that run on every commit:
 | **cspell** | Spell-checks all text files |
 | **deadnix** | Flags unused let bindings and lambda args |
 | **statix** | Flags Nix anti-patterns (e.g. repeated keys) |
+| **check-merge-conflict** | Fails if any file contains a merge conflict marker (`<<<<<<<`, `=======`, `>>>>>>>`) |
+| **detect-private-key** | Fails if any file contains a private key header (RSA, EC, OpenSSH, etc.) |
+| **check-added-large-files** | Fails if any staged file exceeds 500 KB |
 | **end-of-file-fixer** | Ensures all files end with a single newline |
 | **trim-trailing-whitespace** | Removes trailing whitespace (`.md` files excluded) |
 | **shellcheck** | Lints `.sh` files; config in `.shellcheckrc` |
