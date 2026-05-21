@@ -15,16 +15,7 @@ let
       pkgs.libnotify
       pkgs.xdg-utils
     ];
-    text = ''
-      target="''${1:-area}"
-      dir="$HOME/Pictures/Screenshots"
-      file="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
-      grimblast copysave "$target" "$file"
-      action=$(notify-send --wait -A "default=Open folder" -i "$file" "Screenshot" "$(basename "$file")" || true)
-      if [[ "$action" == "default" ]]; then
-        xdg-open "$dir"
-      fi
-    '';
+    text = builtins.readFile ./screenshot.sh;
   };
 
   cheatsheet = pkgs.writeShellApplication {
@@ -34,11 +25,7 @@ let
       pkgs.jq
       pkgs.rofi
     ];
-    text = ''
-      hyprkeys -b -t -j \
-        | jq -r '.[] | try select(.mouse == false and .submap == "") | "\(.mods | if . == "" then "         " else . + " " end)\(.key | ascii_upcase)  →  \(if .dispatcher == "exec" then .arg else .dispatcher + " " + .arg end)"' \
-        | rofi -dmenu -i -p " Keybinds" -no-custom
-    '';
+    text = builtins.readFile ./cheatsheet.sh;
   };
 in
 {

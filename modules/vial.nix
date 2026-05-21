@@ -22,46 +22,28 @@ let
 
   # ── Desktop app helpers ────────────────────────────────────────────────────
 
-  # Shell function shared by both grant and revoke scripts.
-  matchScript = ''
-    matches_keyboard() {
-      local dev="$1" props vid pid
-      props=$(${pkgs.systemd}/bin/udevadm info --query=property "$dev" 2>/dev/null) || return 1
-      vid=$(printf '%s' "$props" | grep '^ID_VENDOR_ID=' | cut -d= -f2 || true)
-      pid=$(printf '%s' "$props" | grep '^ID_MODEL_ID=' | cut -d= -f2 || true)
-      # shellcheck disable=SC2043
-      for id in ${keyboardIds}; do
-        local check_vid check_pid
-        check_vid="''${id%%:*}"
-        check_pid="''${id##*:}"
-        [ "$vid" = "$check_vid" ] && [ "$pid" = "$check_pid" ] && return 0
-      done
-      return 1
-    }
-  '';
-
   vial-hidraw-grant = pkgs.writeShellApplication {
     name = "vial-hidraw-grant";
-    runtimeInputs = [ pkgs.acl ];
+    runtimeInputs = [
+      pkgs.acl
+      pkgs.systemd
+    ];
     text = ''
-      ${matchScript}
-      user_name=$(id -un "$PKEXEC_UID")
-      for dev in /dev/hidraw*; do
-        matches_keyboard "$dev" && setfacl -m "u:''${user_name}:rw" "$dev" || true
-      done
-    '';
+      export VIAL_KEYBOARD_IDS="${keyboardIds}"
+    ''
+    + builtins.readFile ./vial-hidraw-grant.sh;
   };
 
   vial-hidraw-revoke = pkgs.writeShellApplication {
     name = "vial-hidraw-revoke";
-    runtimeInputs = [ pkgs.acl ];
+    runtimeInputs = [
+      pkgs.acl
+      pkgs.systemd
+    ];
     text = ''
-      ${matchScript}
-      user_name=$(id -un "$PKEXEC_UID")
-      for dev in /dev/hidraw*; do
-        matches_keyboard "$dev" && setfacl -x "u:''${user_name}" "$dev" 2>/dev/null || true
-      done
-    '';
+      export VIAL_KEYBOARD_IDS="${keyboardIds}"
+    ''
+    + builtins.readFile ./vial-hidraw-revoke.sh;
   };
 
   # Shadows the real vial binary: prompts for password, runs vial, revokes on exit.
@@ -69,13 +51,9 @@ let
     pkgs.writeShellApplication {
       name = "vial";
       text = ''
-        pkexec /run/current-system/sw/bin/vial-hidraw-grant
-        cleanup() { pkexec /run/current-system/sw/bin/vial-hidraw-revoke; }
-        trap cleanup EXIT
-        ${pkgs.vial}/bin/vial "$@" &
-        vial_pid=$!
-        wait "$vial_pid"
-      '';
+        export VIAL_BIN="${pkgs.vial}/bin/vial"
+      ''
+      + builtins.readFile ./vial-launch.sh;
     }
   );
 in
