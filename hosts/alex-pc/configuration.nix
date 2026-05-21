@@ -79,6 +79,7 @@
   # Wayland-specific and PC-only packages
   environment.systemPackages = with pkgs; [
     brave
+    ethtool
     nvme-cli
     obsidian
     proton-pass
