@@ -21,6 +21,8 @@ This installs git hooks that run on every commit:
 | **cspell** | Spell-checks all text files |
 | **deadnix** | Flags unused let bindings and lambda args |
 | **statix** | Flags Nix anti-patterns (e.g. repeated keys) |
+| **end-of-file-fixer** | Ensures all files end with a single newline |
+| **trim-trailing-whitespace** | Removes trailing whitespace (`.md` files excluded) |
 | **verify-hyprland-config** | Validates the generated Hyprland config with `hyprland --verify-config` |
 
 The hooks are pinned to the versions in `flake.lock` and will be identical on any machine. Re-run `nix develop --command true` after any `flake.lock` update to pick up new versions.
