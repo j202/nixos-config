@@ -64,6 +64,10 @@
         hooks = {
           nixfmt.enable = true;
           end-of-file-fixer.enable = true;
+          trim-trailing-whitespace = {
+            enable = true;
+            excludes = [ "\\.md$" ];
+          };
           statix = {
             enable = true;
             settings.ignore = [ "hardware-configuration.nix" ];
