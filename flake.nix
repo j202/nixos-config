@@ -70,6 +70,21 @@
             types = [ "text" ];
             pass_filenames = true;
           };
+          verify-hyprland-config = {
+            enable = true;
+            name = "verify-hyprland-config";
+            entry = toString (
+              pkgs.writeShellScript "verify-hyprland-config" ''
+                root=$(git rev-parse --show-toplevel)
+                config=$(nix eval --impure --raw --expr \
+                  "(builtins.getFlake \"path:$root\").nixosConfigurations.alex-pc.config.home-manager.users.alex.xdg.configFile.\"hypr/hyprland.conf\".source" \
+                  2>&1) || { echo "hyprland config: nix eval failed:"; echo "$config"; exit 1; }
+                exec ${pkgs.hyprland}/bin/hyprland --verify-config -c "$config"
+              ''
+            );
+            files = "home/(modules/hyprland|alex-pc\\.nix)";
+            pass_filenames = false;
+          };
         };
       };
     in

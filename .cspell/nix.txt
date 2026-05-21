@@ -53,6 +53,8 @@ tmpfiles
 esac
 # Nix language terms
 attrsets
+# Git
+toplevel
 # Editor / git config keys
 lazyvim
 nvim

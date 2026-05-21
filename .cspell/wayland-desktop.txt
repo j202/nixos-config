@@ -1,4 +1,5 @@
 # Wayland / Hyprland desktop stack
+hypr
 hyprland
 hyprlock
 hyprpaper
