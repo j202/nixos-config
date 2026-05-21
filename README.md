@@ -23,6 +23,8 @@ This installs git hooks that run on every commit:
 | **statix** | Flags Nix anti-patterns (e.g. repeated keys) |
 | **end-of-file-fixer** | Ensures all files end with a single newline |
 | **trim-trailing-whitespace** | Removes trailing whitespace (`.md` files excluded) |
+| **shellcheck** | Lints `.sh` files; config in `.shellcheckrc` |
+| **shfmt** | Formats `.sh` files (2-space indent, space after redirects) |
 | **verify-hyprland-config** | Validates the generated Hyprland config with `hyprland --verify-config` |
 
 The hooks are pinned to the versions in `flake.lock` and will be identical on any machine. Re-run `nix develop --command true` after any `flake.lock` update to pick up new versions.
