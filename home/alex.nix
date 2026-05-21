@@ -202,7 +202,7 @@
       Type = "oneshot";
       ExecStart = toString (
         pkgs.writeShellScript "flake-update" ''
-          ${pkgs.nix}/bin/nix flake update /home/alex/nixos-config && \
+          ${pkgs.nix}/bin/nix flake update --flake /home/alex/nixos-config && \
           ${pkgs.libnotify}/bin/notify-send \
             --app-name "NixOS" \
             "Flake inputs updated" \
