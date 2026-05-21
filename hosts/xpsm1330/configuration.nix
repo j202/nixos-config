@@ -10,11 +10,15 @@
     ../../modules/xfce.nix
   ];
 
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = false;
-  # Limit RAM to 2 GB — hardware cap on this machine
-  boot.kernelParams = [ "mem=2G" ];
+  boot = {
+    loader.grub = {
+      enable = true;
+      device = "/dev/sda";
+      useOSProber = false;
+    };
+    # Limit RAM to 2 GB — hardware cap on this machine
+    kernelParams = [ "mem=2G" ];
+  };
 
   networking.hostName = "xpsm1330";
 

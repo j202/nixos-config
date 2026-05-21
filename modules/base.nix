@@ -18,13 +18,14 @@
     useXkbConfig = true;
   };
 
-  services.xserver.xkb = {
-    layout = "gb";
-    options = "ctrl:nocaps";
+  services = {
+    xserver.xkb = {
+      layout = "gb";
+      options = "ctrl:nocaps";
+    };
+    fstrim.enable = true;
+    openssh.enable = true;
   };
-
-  services.fstrim.enable = true;
-  services.openssh.enable = true;
 
   users.users.alex = {
     isNormalUser = true;
@@ -36,16 +37,17 @@
     shell = pkgs.fish;
   };
 
-  programs.fish = {
-    enable = true;
-    shellAliases = {
-      ll = "eza --long --header --group-directories-first --icons=auto --group";
-      la = "eza --long --header --group-directories-first --icons=auto --group --all --all";
+  programs = {
+    fish = {
+      enable = true;
+      shellAliases = {
+        ll = "eza --long --header --group-directories-first --icons=auto --group";
+        la = "eza --long --header --group-directories-first --icons=auto --group --all --all";
+      };
     };
+    nix-ld.enable = true;
+    mtr.enable = true;
   };
-
-  programs.nix-ld.enable = true;
-  programs.mtr.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   nix.settings = {

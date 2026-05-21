@@ -5,13 +5,14 @@
   ...
 }:
 {
-  services.libinput.enable = true;
-  services.upower.enable = true;
-  services.power-profiles-daemon.enable = true;
-
-  # Secret Service D-Bus API for apps like VS Code that store credentials via
-  # libsecret. PAM integration auto-unlocks the login keyring at login.
-  services.gnome.gnome-keyring.enable = true;
+  services = {
+    libinput.enable = true;
+    upower.enable = true;
+    power-profiles-daemon.enable = true;
+    # Secret Service D-Bus API for apps like VS Code that store credentials via
+    # libsecret. PAM integration auto-unlocks the login keyring at login.
+    gnome.gnome-keyring.enable = true;
+  };
   security.pam.services.login.enableGnomeKeyring = true;
 
   fonts = {

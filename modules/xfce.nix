@@ -6,15 +6,18 @@
   ...
 }:
 {
-  services.xserver = {
-    enable = true;
-    displayManager.lightdm.enable = true;
-    desktopManager.xfce.enable = true;
+  services = {
+    xserver = {
+      enable = true;
+      displayManager.lightdm.enable = true;
+      desktopManager.xfce.enable = true;
+    };
+    pulseaudio.enable = true;
+    pipewire = {
+      enable = false;
+      pulse.enable = false;
+    };
   };
-
-  services.pulseaudio.enable = true;
-  services.pipewire.enable = false;
-  services.pipewire.pulse.enable = false;
 
   environment.systemPackages = [ pkgs.xfce.xfce4-clipman-plugin ];
 

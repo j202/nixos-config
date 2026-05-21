@@ -1,8 +1,7 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # vkBasalt post-processing layer config.
 # Enable per game with ENABLE_VKBASALT=1 in Steam launch options.
-{ ... }:
-{
+_: {
   xdg.configFile."vkBasalt/vkBasalt.conf".text = ''
     effects = cas
 

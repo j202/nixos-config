@@ -6,13 +6,15 @@
   ...
 }:
 {
-  catppuccin.flavor = "mocha";
-  catppuccin.accent = "mauve";
-  catppuccin.sddm.enable = true;
-  catppuccin.sddm.background = "${pkgs.fetchurl {
-    url = "https://assets.alex-sh.co.uk/wallpaper/night-sky-space-colorful-scenery-4k-wallpaper-uhdpaper.com.jpg";
-    hash = "sha256-B8GwZ/n0pty4zvsWiEeXy8SMrlWU5gzBAP4MROmWfq4=";
-  }}";
+  catppuccin = {
+    flavor = "mocha";
+    accent = "mauve";
+    sddm.enable = true;
+    sddm.background = "${pkgs.fetchurl {
+      url = "https://assets.alex-sh.co.uk/wallpaper/night-sky-space-colorful-scenery-4k-wallpaper-uhdpaper.com.jpg";
+      hash = "sha256-B8GwZ/n0pty4zvsWiEeXy8SMrlWU5gzBAP4MROmWfq4=";
+    }}";
+  };
 
   services.displayManager.sddm = {
     enable = true;

@@ -19,11 +19,15 @@
   ];
 
   # UEFI / systemd-boot
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 10;
-  # Keep kernel off swap — 32 GB RAM means we never want to swap
-  boot.kernel.sysctl."vm.swappiness" = 10;
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      systemd-boot.configurationLimit = 10;
+      efi.canTouchEfiVariables = true;
+    };
+    # Keep kernel off swap — 32 GB RAM means we never want to swap
+    kernel.sysctl."vm.swappiness" = 10;
+  };
 
   networking.hostName = "alex-pc";
 

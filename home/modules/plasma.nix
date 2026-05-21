@@ -53,21 +53,81 @@ let
   '';
 in
 {
-  home.packages = [
-    catppuccin-kde
-    pkgs.papirus-icon-theme
-    pkgs.kdePackages.qtstyleplugin-kvantum
-  ];
+  home = {
+    packages = [
+      catppuccin-kde
+      pkgs.papirus-icon-theme
+      pkgs.kdePackages.qtstyleplugin-kvantum
+    ];
+
+    # Alt+Space → rofi via KDE global shortcuts.
+    # kglobalacceld nests desktop-file launchers under [services][name.desktop].
+    # Using two --group flags writes directly to that nested path.
+    # Also disables krunner's Alt+Space so it doesn't compete.
+    # Takes effect next login (kwriteconfig6 is pure file I/O, no D-Bus needed).
+    activation.rofiShortcut = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+        --file kglobalshortcutsrc \
+        --group "services" --group "rofi-drun.desktop" \
+        --key "_launch" "Alt+Space"
+      ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+        --file kglobalshortcutsrc \
+        --group "org.kde.krunner.desktop" \
+        --key "_launch" "none,Alt+Space,KRunner"
+    '';
+  };
 
   # Link all catppuccin-kde assets into ~/.local/share so KDE can discover them.
   # home.packages alone doesn't put them on KDE's XDG search path.
-  xdg.dataFile = {
-    "plasma/look-and-feel/Catppuccin-Mocha-Mauve".source =
-      "${catppuccin-kde}/share/plasma/look-and-feel/Catppuccin-Mocha-Mauve";
-    "color-schemes/CatppuccinMochaMauve.colors".source =
-      "${catppuccin-kde}/share/color-schemes/CatppuccinMochaMauve.colors";
-    "aurorae/themes/CatppuccinMocha-Modern".source =
-      "${catppuccin-kde}/share/aurorae/themes/CatppuccinMocha-Modern";
+  xdg = {
+    dataFile = {
+      "plasma/look-and-feel/Catppuccin-Mocha-Mauve".source =
+        "${catppuccin-kde}/share/plasma/look-and-feel/Catppuccin-Mocha-Mauve";
+      "color-schemes/CatppuccinMochaMauve.colors".source =
+        "${catppuccin-kde}/share/color-schemes/CatppuccinMochaMauve.colors";
+      "aurorae/themes/CatppuccinMocha-Modern".source =
+        "${catppuccin-kde}/share/aurorae/themes/CatppuccinMocha-Modern";
+    };
+
+    configFile = {
+      # kdeglobals: inline colour values for Plasma 6 QML/Kirigami apps
+      "kdeglobals" = {
+        force = true;
+        source = kdeglobalsFile;
+      };
+      # Plasma panel/shell theme. "default" follows the active colour scheme.
+      # With catppuccin colours now inline in kdeglobals, the panel renders in
+      # Colors:Complementary (#181824) rather than the Breeze Dark grey.
+      "plasmarc" = {
+        force = true;
+        text = ''
+          [Theme]
+          name=default
+        '';
+      };
+      # Lock screen theme and wallpaper.
+      "kscreenlockerrc" = {
+        force = true;
+        text = ''
+          [Daemon]
+          Timeout=30
+
+          [Greeter]
+          Theme=Catppuccin-Mocha-Mauve
+          WallpaperPlugin=org.kde.image
+
+          [Greeter][Wallpaper][org.kde.image][General]
+          Image=${wallpaper}
+        '';
+      };
+    };
+
+    # Desktop entry for rofi — KDE needs a .desktop file to register the global shortcut.
+    desktopEntries.rofi-drun = {
+      name = "Rofi";
+      exec = "${pkgs.rofi}/bin/rofi -show drun";
+      noDisplay = true;
+    };
   };
 
   # Kvantum Qt style (catppuccin theme applied via catppuccin.kvantum)
@@ -75,63 +135,9 @@ in
     enable = true;
     style.name = "kvantum";
   };
-  catppuccin.kvantum.enable = true;
 
-  # Catppuccin cursor theme
-  catppuccin.cursors.enable = true;
-
-  xdg.configFile."kdeglobals" = {
-    force = true;
-    source = kdeglobalsFile;
-  };
-
-  # Plasma panel/shell theme. "default" follows the active colour scheme.
-  # With catppuccin colours now inline in kdeglobals, the panel renders in
-  # Colors:Complementary (#181824) rather than the Breeze Dark grey.
-  xdg.configFile."plasmarc" = {
-    force = true;
-    text = ''
-      [Theme]
-      name=default
-    '';
-  };
-
-  # Desktop entry for rofi — KDE needs a .desktop file to register the global shortcut.
-  xdg.desktopEntries.rofi-drun = {
-    name = "Rofi";
-    exec = "${pkgs.rofi}/bin/rofi -show drun";
-    noDisplay = true;
-  };
-
-  # Alt+Space → rofi via KDE global shortcuts.
-  # kglobalacceld nests desktop-file launchers under [services][name.desktop].
-  # Using two --group flags writes directly to that nested path.
-  # Also disables krunner's Alt+Space so it doesn't compete.
-  # Takes effect next login (kwriteconfig6 is pure file I/O, no D-Bus needed).
-  home.activation.rofiShortcut = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
-      --file kglobalshortcutsrc \
-      --group "services" --group "rofi-drun.desktop" \
-      --key "_launch" "Alt+Space"
-    ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
-      --file kglobalshortcutsrc \
-      --group "org.kde.krunner.desktop" \
-      --key "_launch" "none,Alt+Space,KRunner"
-  '';
-
-  # Lock screen theme and wallpaper.
-  xdg.configFile."kscreenlockerrc" = {
-    force = true;
-    text = ''
-      [Daemon]
-      Timeout=30
-
-      [Greeter]
-      Theme=Catppuccin-Mocha-Mauve
-      WallpaperPlugin=org.kde.image
-
-      [Greeter][Wallpaper][org.kde.image][General]
-      Image=${wallpaper}
-    '';
+  catppuccin = {
+    kvantum.enable = true;
+    cursors.enable = true;
   };
 }

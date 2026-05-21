@@ -17,15 +17,16 @@
   #              "waybar"   (minimal bar + mako notifications)
   myConfig.desktop.shell = "noctalia";
 
-  catppuccin.flavor = "mocha";
-  catppuccin.accent = "mauve";
-
-  catppuccin.bat.enable = true;
-  catppuccin.fish.enable = true;
-  catppuccin.starship.enable = true;
-  catppuccin.btop.enable = true;
-  catppuccin.fzf.enable = true;
-  catppuccin.tmux.enable = true;
-  catppuccin.yazi.enable = true;
-  catppuccin.zellij.enable = true;
+  catppuccin = {
+    flavor = "mocha";
+    accent = "mauve";
+    bat.enable = true;
+    fish.enable = true;
+    starship.enable = true;
+    btop.enable = true;
+    fzf.enable = true;
+    tmux.enable = true;
+    yazi.enable = true;
+    zellij.enable = true;
+  };
 }

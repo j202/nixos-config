@@ -1,7 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # PipeWire audio stack with ALSA, PulseAudio compat, and 32-bit support for games.
-{ ... }:
-{
+_: {
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

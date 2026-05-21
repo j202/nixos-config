@@ -18,13 +18,13 @@
     };
   };
 
-  xdg.configFile."nvim".source =
-    config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/lazyvim";
-
-  xdg.configFile."Code/User/settings.json".source =
-    config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/vscode/settings.json";
-  xdg.configFile."Code/User/keybindings.json".source =
-    config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/vscode/keybindings.json";
+  xdg.configFile = {
+    "nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/lazyvim";
+    "Code/User/settings.json".source =
+      config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/vscode/settings.json";
+    "Code/User/keybindings.json".source =
+      config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/vscode/keybindings.json";
+  };
 
   programs = {
     home-manager.enable = true;

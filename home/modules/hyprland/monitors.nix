@@ -1,6 +1,5 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
-{ ... }:
-{
+_: {
   # services.kanshi runs as a systemd user service and starts automatically
   # via graphical-session.target — no exec-once entry needed.
   services.kanshi = {

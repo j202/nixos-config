@@ -5,24 +5,27 @@
   ...
 }:
 {
-  programs.hyprland.enable = true;
-  programs.hyprland.xwayland.enable = true;
-  programs.hyprland.withUWSM = true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    withUWSM = true;
+  };
 
-  catppuccin.flavor = "mocha";
-  catppuccin.accent = "mauve";
+  catppuccin = {
+    flavor = "mocha";
+    accent = "mauve";
+    sddm = {
+      enable = true;
+      background = "${pkgs.fetchurl {
+        url = "https://assets.alex-sh.co.uk/wallpaper/night-sky-space-colorful-scenery-4k-wallpaper-uhdpaper.com.jpg";
+        hash = "sha256-B8GwZ/n0pty4zvsWiEeXy8SMrlWU5gzBAP4MROmWfq4=";
+      }}";
+    };
+  };
 
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
-  };
-
-  catppuccin.sddm = {
-    enable = true;
-    background = "${pkgs.fetchurl {
-      url = "https://assets.alex-sh.co.uk/wallpaper/night-sky-space-colorful-scenery-4k-wallpaper-uhdpaper.com.jpg";
-      hash = "sha256-B8GwZ/n0pty4zvsWiEeXy8SMrlWU5gzBAP4MROmWfq4=";
-    }}";
   };
 
   security.pam.services.hyprlock = { };

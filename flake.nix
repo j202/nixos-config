@@ -63,6 +63,10 @@
         src = ./.;
         hooks = {
           nixfmt.enable = true;
+          statix = {
+            enable = true;
+            settings.ignore = [ "hardware-configuration.nix" ];
+          };
           deadnix = {
             enable = true;
             excludes = [ "hardware-configuration\\.nix" ];
@@ -109,9 +113,11 @@
             agenix.nixosModules.default
             home-manager-stable.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.alex = import ./home/alex-laptop.nix;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.alex = import ./home/alex-laptop.nix;
+              };
             }
           ];
         };
@@ -125,13 +131,15 @@
             catppuccin.nixosModules.catppuccin
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.alex = import ./home/alex-pc.nix;
-              home-manager.sharedModules = [
-                catppuccin.homeModules.catppuccin
-                noctalia.homeModules.default
-              ];
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.alex = import ./home/alex-pc.nix;
+                sharedModules = [
+                  catppuccin.homeModules.catppuccin
+                  noctalia.homeModules.default
+                ];
+              };
             }
             # Workaround for NixOS/nixpkgs#513245: pkgsi686Linux.openldap test
             # suite failures break lutris builds on x86_64.

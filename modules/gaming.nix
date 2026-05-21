@@ -5,14 +5,15 @@
   ...
 }:
 {
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
+  programs = {
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+    };
+    gamemode.enable = true;
+    gamescope.enable = true;
+    corectrl.enable = true;
   };
-  programs.gamemode.enable = true;
-  programs.gamescope.enable = true;
-
-  programs.corectrl.enable = true;
   hardware.amdgpu.overdrive.enable = true;
 
   hardware.xpadneo.enable = true;
