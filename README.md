@@ -32,7 +32,8 @@ This installs git hooks that run on every commit:
 | **markdownlint** | Lints `.md` files; config in `.markdownlint.json` |
 | **verify-hyprland-config** | Validates the generated Hyprland config with `hyprland --verify-config` |
 
-The hooks are pinned to the versions in `flake.lock` and will be identical on any machine. Re-run `nix develop --command true` after any `flake.lock` update to pick up new versions.
+The hooks are pinned to the versions in `flake.lock` and will be identical on any machine.
+Re-run `nix develop --command true` after any `flake.lock` update to pick up new versions.
 
 ## Rebuild
 
@@ -42,9 +43,10 @@ sudo nixos-rebuild switch --flake .#alex-pc
 
 ## Spell checking
 
-Unknown words go in `.cspell/` — pick the most appropriate dictionary file for the term. Use `# cspell:ignore word` inline for one-off suppressions.
+Unknown words go in `.cspell/` — pick the most appropriate dictionary file for the term.
+Use `# cspell:ignore word` inline for one-off suppressions.
 
 ## Markdown linting
 
-Rules are configured in `.markdownlint.json`. MD013 (line length) is disabled
-because tables and URLs naturally exceed 80 characters.
+Rules are configured in `.markdownlint.json`. MD013 (line length) is set to 120
+characters; table rows are excluded since they can't be wrapped.
