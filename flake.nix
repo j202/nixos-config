@@ -186,9 +186,12 @@
             entry = toString (
               pkgs.writeShellScript "verify-hyprland-config" ''
                 root=$(git rev-parse --show-toplevel)
-                config=$(nix eval --impure --raw --expr \
-                  "(builtins.getFlake \"path:$root\").nixosConfigurations.alex-pc.config.home-manager.users.alex.xdg.configFile.\"hypr/hyprland.conf\".source" \
-                  2>&1) || { echo "hyprland config: nix eval failed:"; echo "$config"; exit 1; }
+                attr="(builtins.getFlake \"path:$root\").nixosConfigurations.alex-pc.config.home-manager.users.alex.xdg.configFile.\"hypr/hyprland.conf\".source"
+                config=$(nix build --no-link --print-out-paths --impure --expr "$attr" 2>/dev/null) \
+                  || config=$(nix eval --impure --raw --expr "$attr" 2>&1) \
+                  || { echo "hyprland config: nix eval failed:"; echo "$config"; exit 1; }
+                [ -f "$config" ] \
+                  || { echo "hyprland config: $config not in store; run nixos-rebuild switch"; exit 1; }
                 exec ${pkgs.hyprland}/bin/hyprland --verify-config -c "$config"
               ''
             );

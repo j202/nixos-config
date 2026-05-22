@@ -216,7 +216,7 @@ in
         if isNoctalia then "noctalia-shell ipc call launcher toggle" else "rofi -show drun"
       } #"App Launcher"
       bind = $mod, E,  exec, thunar #"File Manager"
-      bind = $mod, W,  exec, qutebrowser  #"Browser"
+      bind = $mod, W,  exec, brave  #"Browser"
       bindr = $mod, Super_L, exec, ${
         if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun"
       } #"App Launcher (tap Super)"
