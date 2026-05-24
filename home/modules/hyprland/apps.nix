@@ -68,6 +68,10 @@ in
     mimeApps = {
       enable = true;
       defaultApplications = {
+        "x-scheme-handler/http" = "brave-browser.desktop";
+        "x-scheme-handler/https" = "brave-browser.desktop";
+        "text/html" = "brave-browser.desktop";
+        "application/xhtml+xml" = "brave-browser.desktop";
         "image/jpeg" = "imv.desktop";
         "image/png" = "imv.desktop";
         "image/gif" = "imv.desktop";
