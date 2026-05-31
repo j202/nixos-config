@@ -22,7 +22,7 @@
   # the Nix-managed mise below handles the host and config.
   programs.mise = {
     enable = true;
-    settings.tools = {
+    globalConfig.settings.tools = {
       bat = "latest";
       fd = "latest";
       fzf = "latest";

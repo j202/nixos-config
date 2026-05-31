@@ -65,14 +65,20 @@ EOF
 
 ### Apply
 
+On the first run, home-manager is not installed yet so use `nix run`:
+
+```bash
+nix run home-manager -- switch --flake ~/nixos-config#alex-standalone --impure
+```
+
+After that, home-manager is available directly:
+
 ```bash
 home-manager switch --flake ~/nixos-config#alex-standalone --impure
 ```
 
 The `--impure` flag is required — it allows the config to read `$USER` and `$HOME`
 from the environment rather than having them hardcoded in the repo.
-
-Re-run this command to apply any future config changes.
 
 ### Updating
 
@@ -99,7 +105,7 @@ need to be present for container use.
 Add it to `programs.mise.settings.tools` in `home/alex-standalone.nix`:
 
 ```nix
-programs.mise.settings.tools = {
+programs.mise.globalConfig.settings.tools = {
   ripgrep = "latest";
   my-new-tool = "latest";  # add here
 };
@@ -118,7 +124,7 @@ mise installs the tool on activation.
 Use a specific version instead of `"latest"`:
 
 ```nix
-programs.mise.settings.tools = {
+programs.mise.globalConfig.settings.tools = {
   ripgrep = "14.1.1";
 };
 ```
