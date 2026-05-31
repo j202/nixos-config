@@ -12,6 +12,8 @@ in
 {
   imports = [
     ./alex.nix
+    ./modules/git-personal-identity.nix
+    ./modules/git-github-ssh.nix
   ];
 
   home.file.".local/share/xfce4/terminal/colorschemes".source =

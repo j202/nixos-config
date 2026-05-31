@@ -19,11 +19,12 @@
   };
 
   xdg.configFile = {
-    "nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/lazyvim";
+    "nvim".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/lazyvim";
     "Code/User/settings.json".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/vscode/settings.json";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/vscode/settings.json";
     "Code/User/keybindings.json".source =
-      config.lib.file.mkOutOfStoreSymlink "/home/alex/nixos-config/vscode/keybindings.json";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/vscode/keybindings.json";
   };
 
   programs = {
@@ -36,10 +37,16 @@
 
         export EDITOR=nvim
 
-        set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+        if type -q gpgconf
+          set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+        end
       '';
       functions = {
         nix-diff = ''
+          if not test -d /nix/var/nix/profiles
+            echo "nix-diff: not a NixOS system" >&2
+            return 1
+          end
           set --local profile /nix/var/nix/profiles/system
           set --local gen1
           set --local gen2
@@ -76,10 +83,6 @@
             return 1
           end
           nix store diff-closures $profile-$gen1-link $profile-$gen2-link
-        '';
-        # Rewrites HTTPS→SSH for interactive shell use only; Neovim/lazy.nvim bypass fish functions and use HTTPS directly (no passphrase prompts).
-        git = ''
-          command git -c 'url.git@github.com:.insteadOf=https://github.com/' $argv
         '';
         fish_user_key_bindings = ''
           bind --erase --preset alt-e
@@ -170,12 +173,6 @@
     git = {
       enable = true;
       settings = {
-        user = {
-          name = "j202";
-          email = "j202@users.noreply.github.com";
-          signingKey = "6E56467981DB0B21";
-        };
-        commit.gpgsign = true;
         core = {
           editor = "nvim";
           autocrlf = "input";
@@ -185,7 +182,6 @@
           meld = "nvimdiff";
         };
         difftool.guiDefault = true;
-        gpg.program = "${pkgs.gnupg}/bin/gpg";
         fetch.prune = true;
         pull.rebase = true;
         rebase.autoSquash = true;
@@ -202,7 +198,7 @@
       Type = "oneshot";
       ExecStart = toString (
         pkgs.writeShellScript "flake-update" ''
-          ${pkgs.nix}/bin/nix flake update --flake /home/alex/nixos-config && \
+          ${pkgs.nix}/bin/nix flake update --flake ${config.home.homeDirectory}/nixos-config && \
           ${pkgs.libnotify}/bin/notify-send \
             --app-name "NixOS" \
             "Flake inputs updated" \
