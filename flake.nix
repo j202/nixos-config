@@ -261,5 +261,11 @@
         };
 
       };
+
+      homeConfigurations."alex-standalone" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs-unstable.legacyPackages.${system};
+        modules = [ ./home/alex-standalone.nix ];
+      };
+
     };
 }

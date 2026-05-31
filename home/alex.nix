@@ -2,11 +2,16 @@
 # Shared home-manager config for alex on all machines.
 # pkgs comes from the machine's nixpkgs (stable on xpsm1330, unstable on alex-pc).
 
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   home = {
-    username = "alex";
-    homeDirectory = "/home/alex";
+    username = lib.mkDefault "alex";
+    homeDirectory = lib.mkDefault "/home/alex";
     stateVersion = "25.11";
 
     packages = with pkgs; [
