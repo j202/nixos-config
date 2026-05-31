@@ -18,15 +18,11 @@
   myConfig.desktop.shell = "noctalia";
 
   catppuccin = {
+    enable = true;
+    autoEnable = true;
     flavor = "mocha";
     accent = "mauve";
-    bat.enable = true;
-    fish.enable = true;
-    starship.enable = true;
-    btop.enable = true;
-    fzf.enable = true;
-    tmux.enable = true;
-    yazi.enable = true;
-    zellij.enable = true;
+    # catppuccin hyprland uses lua-inline colors not supported until Hyprland >0.55.2
+    hyprland.enable = false;
   };
 }

@@ -136,8 +136,5 @@ in
     style.name = "kvantum";
   };
 
-  catppuccin = {
-    kvantum.enable = true;
-    cursors.enable = true;
-  };
+  catppuccin.cursors.enable = true;
 }

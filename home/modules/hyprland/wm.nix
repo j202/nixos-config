@@ -29,7 +29,6 @@ let
   };
 in
 {
-  catppuccin.hyprland.enable = true;
   catppuccin.cursors.enable = true;
 
   home.packages = with pkgs; [

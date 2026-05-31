@@ -14,9 +14,6 @@ in
 {
   config = lib.mkIf (config.myConfig.desktop.shell == "waybar") {
 
-    catppuccin.waybar.enable = true;
-    catppuccin.mako.enable = true;
-
     programs.waybar = {
       enable = true;
       systemd.enable = true;

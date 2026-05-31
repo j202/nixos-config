@@ -16,9 +16,6 @@ let
   bgRgba = "rgba(${toString base.r}, ${toString base.g}, ${toString base.b}, 0.82)";
 in
 {
-  catppuccin.rofi.enable = true;
-  catppuccin.kitty.enable = true;
-
   home.packages = with pkgs; [
     xdg-utils
   ];

@@ -20,12 +20,6 @@ in
         accents = [ accent ];
       };
     };
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.catppuccin-papirus-folders.override {
-        inherit flavor accent;
-      };
-    };
     gtk4.theme = config.gtk.theme;
     gtk3.extraConfig = {
       gtk-decoration-layout = "menu:";
@@ -44,5 +38,4 @@ in
     };
   };
 
-  catppuccin.kvantum.enable = true;
 }

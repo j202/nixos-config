@@ -1,8 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 { config, ... }:
 {
-  catppuccin.hyprlock.enable = true;
-
   programs.hyprlock = {
     enable = true;
 
