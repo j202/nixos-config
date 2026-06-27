@@ -93,6 +93,8 @@ Consolas
 # Image formats
 webp
 # Network
+nmap
+tcpdump
 wifi
 poweroff
 # IPC / bus

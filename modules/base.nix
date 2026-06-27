@@ -85,6 +85,7 @@
     bat
     btop
     curl
+    dig
     dysk
     eza
     fd
@@ -97,10 +98,12 @@
     htop
     jq
     neovim
+    nmap
     pciutils
     pinentry-qt
     ripgrep
     rsync
+    tcpdump
     tmux
     unzip
     usbutils
