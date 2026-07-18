@@ -81,6 +81,7 @@ PLATFORMTHEME
 # Noctalia settings values
 centered
 Dgpu
+hidpp
 # Tools / commands
 pgrep
 pkill

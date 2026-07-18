@@ -75,6 +75,12 @@ in
             ];
             right = [
               { id = "SystemMonitor"; }
+              {
+                id = "Battery";
+                deviceNativePath = "hidpp_battery_0";
+                displayMode = "icon-always";
+                hideIfNotDetected = true;
+              }
               { id = "Bluetooth"; }
               { id = "Network"; }
               { id = "NotificationHistory"; }
