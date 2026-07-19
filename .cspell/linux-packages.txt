@@ -157,3 +157,4 @@ bluez
 hciconfig
 bluetoothctl
 kmod
+direnv

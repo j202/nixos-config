@@ -156,6 +156,11 @@
 
     btop.enable = true;
 
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+
     fzf = {
       enable = true;
       defaultOptions = [
