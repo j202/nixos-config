@@ -32,10 +32,13 @@
     python3Packages.pip
     python3Packages.requests
     python3Packages.virtualenv
+    ruff
     rust-analyzer
     rustc
     rustfmt
     statix
     tree-sitter
+    ty
+    uv
   ];
 }
