@@ -91,6 +91,17 @@
   { "key": "ctrl+p", "command": "workbench.action.terminal.sendSequence", "args": { "text": "\u0010" }, "when": "terminalFocus" },
   { "key": "ctrl+n", "command": "workbench.action.terminal.sendSequence", "args": { "text": "\u000e" }, "when": "terminalFocus" },
 
+  // ── Ctrl+F / Ctrl+E: pass through to the terminal ───────────────────────
+  // ctrl+f is VSCode's default "Focus Find" for the terminal panel, and ctrl+e
+  // is claimed by another built-in command — both fire before fish ever sees
+  // the keystroke, breaking fish's forward-char/accept-suggestion (ctrl+f) and
+  // end-of-line (ctrl+e) readline bindings. Same fix as ctrl+p/ctrl+n above:
+  // send the raw control bytes so fish gets them (ctrl+f = 0x06, ctrl+e = 0x05).
+  // Terminal search is still reachable via the Command Palette
+  // ("Terminal: Focus Find") if ever needed.
+  { "key": "ctrl+f", "command": "workbench.action.terminal.sendSequence", "args": { "text": "\u0006" }, "when": "terminalFocus" },
+  { "key": "ctrl+e", "command": "workbench.action.terminal.sendSequence", "args": { "text": "\u0005" }, "when": "terminalFocus" },
+
   // ── Ctrl+N / Ctrl+P: navigate the marker (diagnostic) widget ───────────────
   // When ]d/[d opens the inline diagnostic popup, these let you move to the
   // next/prev problem without dismissing it first.
