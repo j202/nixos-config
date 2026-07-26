@@ -30,6 +30,7 @@ let
 in
 {
   catppuccin.cursors.enable = true;
+  home.pointerCursor.enable = true;
 
   home.packages = with pkgs; [
     cheatsheet
