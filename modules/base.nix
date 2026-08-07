@@ -66,13 +66,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  # vesktop pins electron_40, which upstream nixpkgs now marks EOL/insecure
-  # (any electron <41 is flagged). Pinned to this exact version deliberately:
-  # once vesktop bumps its electron dependency, this string stops matching
-  # and the build fails again, forcing this line to be revisited/removed.
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-40.10.5"
-  ];
   nix.settings = {
     experimental-features = [
       "nix-command"
