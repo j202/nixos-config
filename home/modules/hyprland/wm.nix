@@ -288,6 +288,7 @@ in
       bind = ,           Print, exec, screenshot area   #"Screenshot Area"
       bind = $mod,       Print, exec, screenshot active #"Screenshot Window"
       bind = $mod SHIFT, Print, exec, screenshot output #"Screenshot Monitor"
+      bind = $mod SHIFT, B,     exec, hyprctl dispatch dpms toggle DP-1 #"Toggle Monitor Blank"
 
       # 8. Media
       bindel = , XF86AudioRaiseVolume,  exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ #"Volume Up"
