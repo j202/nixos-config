@@ -95,6 +95,7 @@
     dig
     dysk
     eza
+    fastfetch
     fd
     file
     fish
@@ -108,6 +109,7 @@
     nmap
     pciutils
     pinentry-qt
+    pv
     ripgrep
     rsync
     tcpdump

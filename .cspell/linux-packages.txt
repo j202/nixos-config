@@ -11,6 +11,7 @@ gvfs
 gedit
 btop
 dysk
+fastfetch
 yazi
 # Audio / video
 pipewire
