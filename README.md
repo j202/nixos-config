@@ -24,6 +24,36 @@ Rebuild:
 sudo nixos-rebuild switch --flake .#alex-pc
 ```
 
+## Game save backups (alex-pc)
+
+Ludusavi collects game saves and syncs them to Google Drive via rclone, triggered
+after a game session ends rather than on a timer (see `home/modules/game-save-backup.nix`
+and `ludusavi/config.yaml`). The Google Drive connection is authenticated per-machine
+and isn't something Nix can set up for you, so after a fresh install of `alex-pc`:
+
+```bash
+ludusavi cloud set google-drive
+```
+
+This opens a browser for one-time OAuth consent. Only a non-secret remote ID gets
+written back into `ludusavi/config.yaml` (verified against Ludusavi's own config
+schema) — the actual credential lives in rclone's own state, not in this repo.
+
+**Known gotcha**: this can fail with `bind: address already in use` on port `53682`
+(rclone's local OAuth callback listener) if a previous attempt was left running in
+the background without completing. Fix:
+
+```bash
+ss --tcp --listening --numeric --processes | grep 53682   # find the stray rclone process
+kill <pid>              # then retry `ludusavi cloud set google-drive`
+```
+
+Also needed once per game, since Steam/Lutris have no way to apply this globally:
+
+- Steam: prepend `~/.local/bin/game-backup-steam-wrapper.sh` to each game's launch
+  options (e.g. `~/.local/bin/game-backup-steam-wrapper.sh %command%`).
+- Lutris: set the game's "Post-exit script" to `~/.local/bin/game-backup-trigger.sh`.
+
 ## Standalone home-manager (non-NixOS)
 
 ### Prerequisites

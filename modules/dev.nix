@@ -36,6 +36,7 @@
     rust-analyzer
     rustc
     rustfmt
+    shellcheck
     statix
     tree-sitter
     ty

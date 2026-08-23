@@ -110,6 +110,7 @@
     pciutils
     pinentry-qt
     pv
+    rclone
     ripgrep
     rsync
     tcpdump

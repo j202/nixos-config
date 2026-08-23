@@ -9,6 +9,7 @@
     ./modules/qutebrowser.nix
     ./modules/vkbasalt.nix
     ./modules/wayland-tools.nix
+    ./modules/game-save-backup.nix
     ./modules/hyprland
     ./modules/bar/options.nix
     ./modules/bar/waybar.nix

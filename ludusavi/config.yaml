@@ -1,0 +1,86 @@
+---
+runtime:
+  threads: ~
+  networkSecurity: safe
+release:
+  check: true
+manifest:
+  enable: true
+language: en-US
+theme: dark
+roots:
+  - store: steam
+    path: /home/alex/.local/share/Steam
+  - store: steam
+    path: /games
+  - store: lutris
+    path: /home/alex/.local/share/lutris
+    database: /home/alex/.local/share/lutris/pga.db
+redirects: []
+backup:
+  path: /home/alex/.cache/game-save-backup
+  ignoredGames: []
+  filter:
+    excludeStoreScreenshots: false
+    cloud:
+      exclude: false
+      epic: false
+      gog: false
+      origin: false
+      steam: false
+      uplay: false
+    ignoredPaths: []
+    ignoredRegistry: []
+  toggledPaths: {}
+  toggledRegistry: {}
+  sort:
+    key: status
+    reversed: false
+  retention:
+    full: 1
+    differential: 0
+  format:
+    chosen: simple
+    zip:
+      compression: deflate
+    compression:
+      deflate:
+        level: 6
+      bzip2:
+        level: 6
+      zstd:
+        level: 10
+  onlyConstructive: false
+restore:
+  path: /home/alex/.cache/game-save-backup
+  ignoredGames: []
+  toggledPaths: {}
+  toggledRegistry: {}
+  sort:
+    key: status
+    reversed: false
+  reverseRedirects: false
+scan:
+  showDeselectedGames: true
+  showUnchangedGames: true
+  showUnscannedGames: false
+cloud:
+  remote:
+    GoogleDrive:
+      id: ludusavi-1787491490
+  path: ludusavi-backup
+  synchronize: true
+apps:
+  rclone:
+    path: /run/current-system/sw/bin/rclone
+    arguments: "--fast-list --ignore-checksum"
+customGames:
+  - name: "Sid Meier's Civilization VI"
+    integration: override
+    files:
+      - "<winDocuments>/My Games/Sid Meier's Civilization VI/HallofFame.sqlite"
+      - "<winLocalAppData>/Firaxis Games/Sid Meier's Civilization VI/Challenges"
+    registry: []
+    installDir:
+      - "Sid Meier's Civilization VI"
+    winePrefix: []

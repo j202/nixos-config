@@ -27,6 +27,18 @@ mangohud
 lutris
 ludusavi
 winetricks
+# Steam / Proton paths and game-specific terms (game save backups)
+steamuser
+uplay
+zstd
+unscanned
+Hallof
+vars
+teardown
+Firaxis
+Obscur
+postexit
+ENOEXEC
 # KDE / Plasma
 kdePackages
 krunner
@@ -98,6 +110,7 @@ nmap
 tcpdump
 wifi
 poweroff
+rclone
 # IPC / bus
 dbus
 # Browsers
@@ -145,6 +158,7 @@ pycache
 # Shell tools
 shellcheck
 shfmt
+tostring
 # Post-processing
 vkbasalt
 VKBASALT
