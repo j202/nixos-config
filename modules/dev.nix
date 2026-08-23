@@ -37,6 +37,7 @@
     rustc
     rustfmt
     shellcheck
+    shfmt
     statix
     tree-sitter
     ty
