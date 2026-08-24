@@ -18,6 +18,7 @@ let
       pkgs.ludusavi
       pkgs.jq
       pkgs.libnotify
+      pkgs.util-linux # logger, for step-timing sent to the journal
     ];
     text = builtins.readFile ./game-backup-run.sh;
   };
@@ -92,9 +93,21 @@ in
   # game-backup-run.sh waits on the same lock before reading the manifest
   # itself, since Ludusavi doesn't write it atomically.
   systemd.user.services.game-manifest-update = {
-    Unit.Description = "Refresh the Ludusavi game-save manifest";
+    Unit = {
+      Description = "Refresh the Ludusavi game-save manifest";
+      # The daily timer's Persistent=true catch-up run tends to land right at
+      # login/resume-from-suspend (whenever a missed midnight is next caught
+      # up on), which is exactly when the X710 NIC (see project_x710_nic
+      # memory) is still renegotiating link — so the first attempt reliably
+      # fails with "Is your Internet connection down?". Retry a few times
+      # rather than just waiting for tomorrow's timer.
+      StartLimitIntervalSec = 600;
+      StartLimitBurst = 5;
+    };
     Service = {
       Type = "oneshot";
+      Restart = "on-failure";
+      RestartSec = "30s";
       ExecStart = toString (
         pkgs.writeShellScript "game-manifest-update" ''
           ${pkgs.util-linux}/bin/flock -n "$HOME/.cache/game-backup-manifest-update.lock" ${pkgs.ludusavi}/bin/ludusavi manifest update

@@ -39,6 +39,8 @@ Firaxis
 Obscur
 postexit
 ENOEXEC
+journalctl
+EPOCHSECONDS
 # KDE / Plasma
 kdePackages
 krunner

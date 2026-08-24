@@ -22,6 +22,16 @@ notify() {
   notify-send --app-name "Game Save Backup" --urgency "${urgency}" "${title}" "${body}" || true
 }
 
+# Everything else in this script (the --api JSON, stderr) is deleted in
+# on_exit, so without this there's no way to tell after the fact whether a
+# slow-feeling run was the local backup or the cloud upload, or why. Goes to
+# the journal (not a flat file) so it needs no rotation of its own and shows
+# up alongside everything else we already check with journalctl.
+log() {
+  local priority="$1" msg="$2"
+  logger --tag game-save-backup --priority "user.${priority}" "${msg}"
+}
+
 # Civ VI: HallofFame.sqlite and Challenges are tracked normally by Ludusavi
 # (restorable via `ludusavi restore`). Its save folder isn't tracked — the
 # live auto/ folder is kept in full until the next new game starts, too large
@@ -74,20 +84,26 @@ WARN_MSG=""
 BACKUP_JSON=""
 UPLOAD_JSON=""
 STDERR_LOG=""
+SCRIPT_START=${EPOCHSECONDS}
 
 on_exit() {
   rm -f "${BACKUP_JSON}" "${UPLOAD_JSON}" "${STDERR_LOG}"
+  local total=$((EPOCHSECONDS - SCRIPT_START))
   if [ "${SUCCESS}" -eq 1 ]; then
+    log info "done game='${GAME_NAME:-<all>}' total=${total}s"
     if [ -n "${WARN_MSG}" ]; then
       notify normal "Game save backup: some files skipped" "${WARN_MSG}"
     else
       notify normal "Game save backup complete" "Saves backed up and uploaded to Google Drive"
     fi
   else
+    log err "failed game='${GAME_NAME:-<all>}' total=${total}s: ${FAIL_MSG}"
     notify critical "Game save backup FAILED" "${FAIL_MSG:-see journal for details}"
   fi
 }
 trap on_exit EXIT
+
+log info "start game='${GAME_NAME:-<all>}'"
 
 # Single source of truth for the staging path is ludusavi/config.yaml's
 # backup.path — asked for at runtime rather than duplicated here, so the two
@@ -130,10 +146,12 @@ fi
 # `backup` does its own implicit cloud-conflict check (a dry-run rclone sync)
 # as a side effect, entirely redundant with the explicit `cloud upload` call
 # below, and a real (if accidental) source of extra time on every run.
+backup_start=${EPOCHSECONDS}
 if ! ludusavi --no-manifest-update backup --no-cloud-sync --force --api "${GAME_ARGS[@]}" > "${BACKUP_JSON}" 2> "${STDERR_LOG}"; then
   FAIL_MSG="ludusavi backup failed: $(cat "${STDERR_LOG}")"
   exit 1
 fi
+log info "backup ok in $((EPOCHSECONDS - backup_start))s"
 
 failed_files="$(jq -r '[.games[]?.files? // {} | to_entries[] | select(.value.failed == true) | .key] | join(", ")' "${BACKUP_JSON}" 2> /dev/null || true)"
 if [ -n "${failed_files}" ]; then
@@ -151,10 +169,12 @@ if [ -z "${GAME_NAME}" ] || [ "${GAME_NAME}" = "Sid Meier's Civilization VI" ]; 
   fi
 fi
 
+upload_start=${EPOCHSECONDS}
 if ! ludusavi --no-manifest-update cloud upload --force --api "${GAME_ARGS[@]}" > "${UPLOAD_JSON}" 2> "${STDERR_LOG}"; then
   FAIL_MSG="ludusavi cloud upload failed: $(cat "${STDERR_LOG}")"
   exit 1
 fi
+log info "cloud upload ok in $((EPOCHSECONDS - upload_start))s"
 
 upload_errors="$(jq -r 'if .errors then (.errors | tostring) else empty end' "${UPLOAD_JSON}" 2> /dev/null || true)"
 if [ -n "${upload_errors}" ]; then
