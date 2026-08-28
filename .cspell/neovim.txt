@@ -4,6 +4,7 @@ mfussenegger
 ellisonleao
 hrsh
 williamboman
+esmuellert
 # Neovim built-in options and functions
 relativenumber
 winblend
@@ -25,6 +26,8 @@ textobjects
 lazypath
 lazyrepo
 lazydev
+tabpage
+diffthis
 # Plugin names
 bufferline
 gitsigns
@@ -37,5 +40,6 @@ tokyonight
 habamax
 venv
 jsonls
+codediff
 # Misc
 repro
