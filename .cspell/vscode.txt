@@ -1,8 +1,12 @@
 # VSCode extension publisher IDs
 alefragnani
 esbenp
+errorlens
 mhutchie
+usernamehw
 vspacecode
+# GitHub usernames referenced in comments (reference configs)
+wojukasz
 # Extension / command names and setting keys
 autohide
 colorful
@@ -14,3 +18,4 @@ usefront
 whichkey
 # Vim terminology used in comments and key names
 hjkl
+gcap

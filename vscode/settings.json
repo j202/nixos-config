@@ -1,9 +1,27 @@
 {
   // ── Language overrides ───────────────────────────────────────────────────────
-  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[json]":       { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[python]":     { "editor.formatOnType": true },
-
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  // ── Extensions ───────────────────────────────────────────────────────────────
+  "bazel.buildifierFixOnFormat": true,
+  "bazel.enableCodeLens": true,
+  "better-yaml.indentSeq": true,
+  "debug.console.fontFamily": "'RobotoMono Nerd Font', default",
+  "dev.containers.defaultExtensions": [
+    "esbenp.prettier-vscode",
+    "GitHub.vscode-github-actions",
+    "GitHub.vscode-pull-request-github",
+    "mhutchie.git-graph"
+  ],
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.renderSideBySide": false,
   // ── Editor ───────────────────────────────────────────────────────────────────
   "editor.autoClosingBrackets": "never",
   "editor.autoClosingQuotes": "never",
@@ -23,63 +41,59 @@
   "editor.minimap.autohide": "mouseover",
   "editor.suggest.insertMode": "replace",
   "editor.suggest.preview": true,
-
-  // ── Workbench ─────────────────────────────────────────────────────────────────
-  "workbench.colorTheme": "Catppuccin Mocha",
-  "workbench.editor.empty.hint": "hidden",
-  "workbench.iconTheme": "catppuccin-mocha",
-  "workbench.startupEditor": "none",
-
+  "errorLens.fontFamily": "'RobotoMono Nerd Font', default",
   // ── Files ─────────────────────────────────────────────────────────────────────
   "files.autoSave": "afterDelay",
   "files.eol": "\n",
-
-  // ── Terminal ──────────────────────────────────────────────────────────────────
-  "terminal.integrated.allowChords": false,
-  // Alt+Space (whichkey.show) must be listed here so xterm.js doesn't swallow
-  // it as an escape sequence before VSCode's keybinding system sees it.
-  "terminal.integrated.commandsToSkipShell": ["whichkey.show"],
-  "terminal.integrated.copyOnSelection": true,
-  "terminal.integrated.defaultProfile.linux": "fish",
-  "terminal.integrated.fontFamily": "'RobotoMono Nerd Font'",
-
-  // ── Source control ────────────────────────────────────────────────────────────
-  "git.confirmSync": false,
-  "git.enableCommitSigning": true,
-  "scm.inputFontFamily": "editor",
-
-  // ── Extensions ───────────────────────────────────────────────────────────────
-  "bazel.buildifierFixOnFormat": true,
-  "bazel.enableCodeLens": true,
-  "better-yaml.indentSeq": true,
-  "debug.console.fontFamily": "'RobotoMono Nerd Font', default",
-  "dev.containers.defaultExtensions": [
-    "esbenp.prettier-vscode",
-    "GitHub.vscode-github-actions",
-    "GitHub.vscode-pull-request-github",
-    "mhutchie.git-graph",
-    "mk12.better-git-line-blame"
-  ],
-  "diffEditor.ignoreTrimWhitespace": false,
-  "errorLens.fontFamily": "'RobotoMono Nerd Font', default",
   "git-graph.repository.commits.showSignatureStatus": true,
   "git-graph.repository.sign.commits": true,
   "git-graph.repository.sign.tags": true,
+  "git.blame.editorDecoration.enabled": true,
+  // ── Source control ────────────────────────────────────────────────────────────
+  "git.confirmSync": false,
+  "git.enableCommitSigning": true,
   "nix.enableLanguageServer": true,
   "nix.serverPath": "/run/current-system/sw/bin/nil",
-  "nix.serverSettings": { "nil": {} },
-  "projectManager.git.baseFolders": ["$home/git"],
+  "nix.serverSettings": {
+    "nil": {}
+  },
+  "projectManager.git.baseFolders": [
+    "$home/git"
+  ],
   "redhat.telemetry.enabled": false,
   "remote.autoForwardPortsSource": "hybrid",
   "remote.extensionKind": {
-    "alefragnani.project-manager": ["workspace"]
+    "alefragnani.project-manager": [
+      "workspace"
+    ]
   },
   "remote.SSH.remotePlatform": {
     "dashboard.devpod": "linux",
     "vscode-remote-try-python.devpod": "linux"
   },
+  "scm.inputFontFamily": "editor",
   "security.workspace.trust.untrustedFiles": "open",
-
+  // ── Terminal ──────────────────────────────────────────────────────────────────
+  "terminal.integrated.allowChords": false,
+  // Alt+Space (whichkey.show) must be listed here so xterm.js doesn't swallow
+  // it as an escape sequence before VSCode's keybinding system sees it.
+  "terminal.integrated.commandsToSkipShell": [
+    "whichkey.show"
+  ],
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.defaultProfile.linux": "fish",
+  "terminal.integrated.fontFamily": "'RobotoMono Nerd Font'",
+  // Ctrl+h/j/k/l is deliberately NOT handled by VSCodeVim at all — it's bound
+  // purely in keybindings.json (gated on "vim.mode != 'Insert'", not
+  // editorTextFocus or vim.active — see the comment there for why). Setting
+  // handleKeys=false here removes VSCodeVim from the picture entirely so
+  // there's one source of truth instead of an editor-vs-outside split.
+  "vim.handleKeys": {
+    "<C-h>": false,
+    "<C-j>": false,
+    "<C-k>": false,
+    "<C-l>": false
+  },
   // ── VSCodeVim ─────────────────────────────────────────────────────────────────
   // Space is the leader key. In vim Normal mode inside an editor, pressing Space
   // opens the which-key menu. Insert mode, Visual mode, and the integrated
@@ -87,45 +101,667 @@
   // layer when editorTextFocus is active.
   "vim.leader": "<space>",
   "vim.normalModeKeyBindingsNonRecursive": [
-    { "before": ["<space>"], "commands": [{ "command": "whichkey.show" }] },
-
+    {
+      "before": [
+        "<space>"
+      ],
+      "commands": [
+        {
+          "command": "whichkey.show"
+        }
+      ]
+    },
     // LSP goto bindings — mirrors LazyVim. gd/gD/gh already work via VSCodeVim;
     // these add the ones it doesn't provide natively.
-    { "before": ["g", "I"], "commands": ["editor.action.goToImplementation"] },
-    { "before": ["g", "r"], "commands": ["editor.action.goToReferences"] },
-    { "before": ["g", "y"], "commands": ["editor.action.goToTypeDefinition"] },
-    { "before": ["K"],      "commands": ["editor.action.showHover"] },
-
-    // Diagnostic navigation — mirrors LazyVim ]d/[d.
-    { "before": ["]", "d"], "commands": ["editor.action.marker.nextInFiles"] },
-    { "before": ["[", "d"], "commands": ["editor.action.marker.prevInFiles"] },
-
-    // Window / editor-group navigation — mirrors LazyVim <C-hjkl>.
-    // These override VSCodeVim's default <C-h/j/k/l> behaviour in Normal mode.
-    // Terminal is unaffected: these bindings only reach vim when editorTextFocus
-    // is active, and we have no terminalFocus overrides for these keys.
-    { "before": ["<C-h>"], "commands": ["workbench.action.navigateLeft"] },
-    { "before": ["<C-j>"], "commands": ["workbench.action.navigateDown"] },
-    { "before": ["<C-k>"], "commands": ["workbench.action.navigateUp"] },
-    { "before": ["<C-l>"], "commands": ["workbench.action.navigateRight"] },
-
+    {
+      "before": [
+        "g",
+        "I"
+      ],
+      "commands": [
+        "editor.action.goToImplementation"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "r"
+      ],
+      "commands": [
+        "editor.action.goToReferences"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "y"
+      ],
+      "commands": [
+        "editor.action.goToTypeDefinition"
+      ]
+    },
+    {
+      "before": [
+        "K"
+      ],
+      "commands": [
+        "editor.action.showHover"
+      ]
+    },
+    // ]d/[d: NOT here. VSCodeVim's own bracket-prefixed before-array
+    // sequences don't fire reliably (reproduced live: gr/gI/gy above all
+    // work correctly, isolating the bug to brackets specifically; matches a
+    // known class of upstream issue -- comma-prefixed sequences had the same
+    // failure mode, VSCodeVim/Vim#3171). Bound in keybindings.json instead,
+    // using the same oem_6/oem_4 native-chord mechanism already proven
+    // working there for ]c/[c and ]h/[h.
     // Buffer / tab navigation — mirrors LazyVim <S-h> and <S-l>.
     // Overrides vim's default H (top-of-screen) and L (bottom-of-screen).
-    { "before": ["H"], "commands": ["workbench.action.previousEditor"] },
-    { "before": ["L"], "commands": ["workbench.action.nextEditor"] }
+    {
+      "before": [
+        "H"
+      ],
+      "commands": [
+        "workbench.action.previousEditor"
+      ]
+    },
+    {
+      "before": [
+        "L"
+      ],
+      "commands": [
+        "workbench.action.nextEditor"
+      ]
+    },
+    // Clear search highlight — mirrors LazyVim's <Esc> :nohl. Normal-mode-only
+    // (this array), so Insert-mode Escape and the find-widget Ctrl+[/Escape
+    // handling in keybindings.json are unaffected. Escape is a no-op in vim's
+    // own Normal mode by default, so this doesn't lose anything.
+    {
+      "before": [
+        "<Esc>"
+      ],
+      "commands": [
+        ":nohl"
+      ]
+    }
   ],
-
   // Visual mode bindings — keep this minimal; most leader actions don't make
   // sense mid-selection and the full which-key menu is not wired to Visual mode.
+  //
+  // No comment-line binding here: gc (and gcc/gcap etc, via vim's standard
+  // double-operator-letter convention) is a real native VSCodeVim operator
+  // -- confirmed in its own source (this.keys=["g","c"], modes include
+  // Normal/Visual/VisualLine/VisualBlock, runs editor.action.commentLine on
+  // the operated range) and confirmed working live. <space>/ previously
+  // duplicated this; freed up for findInFiles below instead, matching
+  // LazyVim's own real <leader>/ binding.
   "vim.visualModeKeyBindingsNonRecursive": [
-    // Space+/ calls commentLine directly (no which-key in visual mode).
-    // VSCodeVim keeps the editor selection in sync with the visual selection
-    // before firing commands, so commentLine receives the full selected range.
-    { "before": ["<space>", "/"], "commands": ["editor.action.commentLine"] },
-    { "before": ["H"], "commands": ["workbench.action.previousEditor"] },
-    { "before": ["L"], "commands": ["workbench.action.nextEditor"] }
+    {
+      "before": [
+        "H"
+      ],
+      "commands": [
+        "workbench.action.previousEditor"
+      ]
+    },
+    {
+      "before": [
+        "L"
+      ],
+      "commands": [
+        "workbench.action.nextEditor"
+      ]
+    }
   ],
-
+  "whichkey.bindings": [
+    // ── top-level single-key actions ─────────────────────────────────────────
+    {
+      "command": "workbench.action.showAllEditors",
+      "key": " ",
+      "name": "All editors",
+      "type": "command"
+    },
+    {
+      "command": "whichkey.searchBindings",
+      "key": "?",
+      "name": "Search bindings",
+      "type": "command"
+    },
+    {
+      "command": "whichkey.repeatMostRecent",
+      "key": ".",
+      "name": "Repeat last",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.showCommands",
+      "key": ";",
+      "name": "Command palette",
+      "type": "command"
+    },
+    // Explorer: split into two keys rather than one smart toggle.
+    // whichkey.bindings' per-binding "when" (and its "conditional" type) only
+    // matches against a small fixed condition captured when the popup itself
+    // was invoked (which trigger, or file languageId) -- not a live evaluator
+    // of arbitrary context like activeViewlet at keypress time, so a combined
+    // "switch to Explorer, or hide if already showing it" isn't achievable
+    // here. Confirmed by checking wojukasz/VimCode (same extension): it hits
+    // the same wall and uses this exact e/E split rather than one smart key.
+    {
+      "command": "workbench.action.toggleSidebarVisibility",
+      "key": "e",
+      "name": "Toggle sidebar",
+      "type": "command"
+    },
+    {
+      "command": "workbench.files.action.focusFilesExplorer",
+      "key": "E",
+      "name": "Focus explorer",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.findInFiles",
+      // Matches LazyVim's real <leader>/ (Grep Root Dir) -- confirmed against
+      // both the actually-active snacks_picker.lua source and LazyVim's own
+      // official vscode-neovim integration (lazyvim/plugins/extras/vscode.lua),
+      // which maps <leader>/ to workbench.action.findInFiles directly. Same
+      // command as <leader>ss below, just a direct top-level shortcut.
+      "key": "/",
+      "name": "Grep (find in files)",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.closeActiveEditor",
+      "key": "q",
+      "name": "Close editor",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
+      "key": "`",
+      "name": "Last editor",
+      "type": "command"
+    },
+    // ── f: file operations ───────────────────────────────────────────────────
+    {
+      "bindings": [
+        {
+          "command": "workbench.action.quickOpen",
+          "key": "f",
+          "name": "Find file",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.openRecent",
+          "key": "r",
+          "name": "Recent files",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.findInFiles",
+          "key": "g",
+          "name": "Grep / find",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.files.save",
+          "key": "s",
+          "name": "Save",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.files.saveAll",
+          "key": "S",
+          "name": "Save all",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.files.newUntitledFile",
+          "key": "n",
+          "name": "New file",
+          "type": "command"
+        },
+        {
+          "command": "revealInExplorer",
+          "key": "e",
+          "name": "Reveal in explorer",
+          "type": "command"
+        },
+        {
+          "command": "copyFilePath",
+          "key": "p",
+          "name": "Copy path",
+          "type": "command"
+        }
+      ],
+      "key": "f",
+      "name": "+File",
+      "type": "bindings"
+    },
+    // ── b: buffer / tab management ───────────────────────────────────────────
+    {
+      "bindings": [
+        {
+          "command": "workbench.action.showAllEditors",
+          "key": "b",
+          "name": "All editors",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.nextEditor",
+          "key": "n",
+          "name": "Next",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.previousEditor",
+          "key": "p",
+          "name": "Prev",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.closeActiveEditor",
+          "key": "d",
+          "name": "Close",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.closeOtherEditors",
+          "key": "D",
+          "name": "Close others",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.reopenClosedEditor",
+          "key": "u",
+          "name": "Reopen closed",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.pinEditor",
+          // pinEditor's own keybinding rule is disabled once the editor is
+          // already pinned (confirmed in VS Code's source) -- it's pin-only,
+          // not a toggle, so unpinEditor needs its own key.
+          "key": "s",
+          "name": "Pin",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.unpinEditor",
+          "key": "S",
+          "name": "Unpin",
+          "type": "command"
+        }
+      ],
+      "key": "b",
+      "name": "+Buffer",
+      "type": "bindings"
+    },
+    // ── c: code / LSP actions ────────────────────────────────────────────────
+    {
+      "bindings": [
+        {
+          "command": "editor.action.quickFix",
+          "key": "a",
+          "name": "Code action",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.rename",
+          "key": "r",
+          "name": "Rename symbol",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.formatDocument",
+          "key": "f",
+          "name": "Format",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.showHover",
+          "key": "d",
+          "name": "Line diagnostic",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.organizeImports",
+          "key": "o",
+          "name": "Organise imports",
+          "type": "command"
+        }
+      ],
+      "key": "c",
+      "name": "+Code",
+      "type": "bindings"
+    },
+    // ── w: window / editor group management ─────────────────────────────────
+    {
+      "bindings": [
+        {
+          "command": "workbench.action.navigateLeft",
+          "key": "h",
+          "name": "Focus left",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.navigateDown",
+          "key": "j",
+          "name": "Focus down",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.navigateUp",
+          "key": "k",
+          "name": "Focus up",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.navigateRight",
+          "key": "l",
+          "name": "Focus right",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.moveEditorToLeftGroup",
+          "key": "H",
+          "name": "Move editor left",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.moveEditorToBelowGroup",
+          "key": "J",
+          "name": "Move editor down",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.moveEditorToAboveGroup",
+          "key": "K",
+          "name": "Move editor up",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.moveEditorToRightGroup",
+          "key": "L",
+          "name": "Move editor right",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.splitEditorRight",
+          "key": "v",
+          "name": "Split right",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.splitEditorDown",
+          "key": "s",
+          "name": "Split down",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.closeEditorsInGroup",
+          "key": "c",
+          "name": "Close group",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.toggleMaximizeEditorGroup",
+          "key": "m",
+          "name": "Maximise toggle",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.evenEditorWidths",
+          "key": "=",
+          "name": "Equalise widths",
+          "type": "command"
+        }
+      ],
+      "key": "w",
+      "name": "+Window",
+      "type": "bindings"
+    },
+    // ── g: git / SCM ─────────────────────────────────────────────────────────
+    {
+      "bindings": [
+        {
+          "command": "workbench.view.scm",
+          "key": "g",
+          "name": "Source control",
+          "type": "command"
+        },
+        {
+          "command": "git-graph.view",
+          "key": "G",
+          "name": "Git graph",
+          "type": "command"
+        },
+        {
+          "command": "git.openChange",
+          "key": "d",
+          "name": "Diff file",
+          "type": "command"
+        },
+        {
+          // Native VS Code inline blame (bundled `git` extension), replacing
+          // mk12.better-git-line-blame -- now redundant and uninstalled.
+          "command": "git.blame.toggleEditorDecoration",
+          "key": "b",
+          "name": "Toggle blame",
+          "type": "command"
+        }
+      ],
+      "key": "g",
+      "name": "+Git",
+      "type": "bindings"
+    },
+    // ── s: search ────────────────────────────────────────────────────────────
+    {
+      "bindings": [
+        {
+          "command": "workbench.action.findInFiles",
+          "key": "s",
+          "name": "Find in files",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.replaceInFiles",
+          "key": "r",
+          "name": "Replace in files",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.gotoSymbol",
+          "key": "f",
+          "name": "Symbols (file)",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.showAllSymbols",
+          "key": "p",
+          "name": "Symbols (project)",
+          "type": "command"
+        }
+      ],
+      "key": "s",
+      "name": "+Search",
+      "type": "bindings"
+    },
+    // ── t: terminal ──────────────────────────────────────────────────────────
+    // These only fire from the vim layer (editorTextFocus required), so the
+    // terminal itself receives all keystrokes unmodified — terminal.integrated.
+    // allowChords is also false as an extra guard.
+    {
+      "bindings": [
+        {
+          "command": "workbench.action.terminal.toggleTerminal",
+          "key": "t",
+          "name": "Toggle",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.terminal.focus",
+          "key": "f",
+          "name": "Focus",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.terminal.new",
+          "key": "n",
+          "name": "New",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.terminal.split",
+          "key": "s",
+          "name": "Split",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.terminal.kill",
+          "key": "k",
+          "name": "Kill",
+          "type": "command"
+        }
+      ],
+      "key": "t",
+      "name": "+Terminal",
+      "type": "bindings"
+    },
+    // ── x: diagnostics (mirrors <leader>x from LazyVim / Trouble.nvim) ──────
+    {
+      "bindings": [
+        {
+          "command": "workbench.panel.markers.view.focus",
+          "key": "x",
+          "name": "Problems panel",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.marker.nextInFiles",
+          "key": "n",
+          "name": "Next problem",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.marker.prevInFiles",
+          "key": "p",
+          "name": "Prev problem",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.showHover",
+          "key": "h",
+          "name": "Show hover",
+          "type": "command"
+        }
+      ],
+      "key": "x",
+      "name": "+Diagnostics",
+      "type": "bindings"
+    },
+    // ── u: UI toggles ─────────────────────────────────────────────────────────
+    {
+      "bindings": [
+        {
+          "command": "workbench.action.toggleSidebarVisibility",
+          "key": "s",
+          "name": "Sidebar",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.togglePanel",
+          "key": "p",
+          "name": "Panel",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.toggleZenMode",
+          "key": "z",
+          "name": "Zen mode",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.toggleMinimap",
+          "key": "m",
+          "name": "Minimap",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.toggleWordWrap",
+          "key": "w",
+          "name": "Word wrap",
+          "type": "command"
+        },
+        {
+          "command": "breadcrumbs.toggle",
+          "key": "b",
+          "name": "Breadcrumbs",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.inlayHints.toggle",
+          "key": "h",
+          "name": "Inlay hints",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.toggleLineNumbers",
+          "key": "l",
+          "name": "Line numbers",
+          "type": "command"
+        },
+        {
+          "command": "workbench.actions.view.problems.focus",
+          "key": "d",
+          "name": "Diagnostics",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.toggleFormatOnSave",
+          "key": "f",
+          "name": "Format on save",
+          "type": "command"
+        }
+      ],
+      "key": "u",
+      "name": "+UI",
+      "type": "bindings"
+    },
+    // ── p: prefs / project ───────────────────────────────────────────────────
+    {
+      "bindings": [
+        {
+          "command": "workbench.action.openRecent",
+          "key": "p",
+          "name": "Recent projects",
+          "type": "command"
+        },
+        {
+          "command": "workbench.view.extensions",
+          "key": "e",
+          "name": "Extensions",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.openSettings",
+          "key": "s",
+          "name": "Settings",
+          "type": "command"
+        },
+        {
+          "command": "workbench.action.openGlobalKeybindings",
+          "key": "k",
+          "name": "Keybindings",
+          "type": "command"
+        }
+      ],
+      "key": "p",
+      "name": "+Prefs",
+      "type": "bindings"
+    }
+  ],
   // ── Which-key ─────────────────────────────────────────────────────────────────
   // Opened by the vim leader binding above. delay:0 = show immediately.
   // sortOrder "none" preserves the order defined here.
@@ -133,151 +769,9 @@
   // single-command entries in the popup. Press '?' to search all bindings.
   "whichkey.delay": 0,
   "whichkey.sortOrder": "none",
-  "whichkey.bindings": [
-    // ── top-level single-key actions ─────────────────────────────────────────
-    { "key": " ", "name": "All editors",     "type": "command", "command": "workbench.action.showAllEditors" },
-    { "key": "?", "name": "Search bindings", "type": "command", "command": "whichkey.searchBindings" },
-    { "key": ".", "name": "Repeat last",     "type": "command", "command": "whichkey.repeatMostRecent" },
-    { "key": ";", "name": "Command palette", "type": "command", "command": "workbench.action.showCommands" },
-    { "key": "e", "name": "Explorer",        "type": "command", "command": "workbench.view.explorer" },
-    { "key": "/", "name": "Comment line",    "type": "command", "command": "editor.action.commentLine" },
-    { "key": "q", "name": "Close editor",    "type": "command", "command": "workbench.action.closeActiveEditor" },
-
-    // ── f: file operations ───────────────────────────────────────────────────
-    {
-      "key": "f", "name": "+File", "type": "bindings",
-      "bindings": [
-        { "key": "f", "name": "Find file",         "type": "command", "command": "workbench.action.quickOpen" },
-        { "key": "r", "name": "Recent files",      "type": "command", "command": "workbench.action.openRecent" },
-        { "key": "g", "name": "Grep / find",       "type": "command", "command": "workbench.action.findInFiles" },
-        { "key": "s", "name": "Save",              "type": "command", "command": "workbench.action.files.save" },
-        { "key": "S", "name": "Save all",          "type": "command", "command": "workbench.action.files.saveAll" },
-        { "key": "n", "name": "New file",          "type": "command", "command": "workbench.action.files.newUntitledFile" },
-        { "key": "e", "name": "Reveal in explorer","type": "command", "command": "revealInExplorer" },
-        { "key": "p", "name": "Copy path",         "type": "command", "command": "copyFilePath" }
-      ]
-    },
-
-    // ── b: buffer / tab management ───────────────────────────────────────────
-    {
-      "key": "b", "name": "+Buffer", "type": "bindings",
-      "bindings": [
-        { "key": "b", "name": "All editors",   "type": "command", "command": "workbench.action.showAllEditors" },
-        { "key": "n", "name": "Next",          "type": "command", "command": "workbench.action.nextEditor" },
-        { "key": "p", "name": "Prev",          "type": "command", "command": "workbench.action.previousEditor" },
-        { "key": "d", "name": "Close",         "type": "command", "command": "workbench.action.closeActiveEditor" },
-        { "key": "D", "name": "Close others",  "type": "command", "command": "workbench.action.closeOtherEditors" },
-        { "key": "u", "name": "Reopen closed", "type": "command", "command": "workbench.action.reopenClosedEditor" },
-        { "key": "s", "name": "Pin / unpin",   "type": "command", "command": "workbench.action.pinEditor" }
-      ]
-    },
-
-    // ── c: code / LSP actions ────────────────────────────────────────────────
-    {
-      "key": "c", "name": "+Code", "type": "bindings",
-      "bindings": [
-        { "key": "a", "name": "Code action",      "type": "command", "command": "editor.action.quickFix" },
-        { "key": "r", "name": "Rename symbol",    "type": "command", "command": "editor.action.rename" },
-        { "key": "f", "name": "Format",           "type": "command", "command": "editor.action.formatDocument" },
-        { "key": "d", "name": "Line diagnostic",  "type": "command", "command": "editor.action.showHover" },
-        { "key": "o", "name": "Organise imports", "type": "command", "command": "editor.action.organizeImports" }
-      ]
-    },
-
-    // ── w: window / editor group management ─────────────────────────────────
-    {
-      "key": "w", "name": "+Window", "type": "bindings",
-      "bindings": [
-        { "key": "h", "name": "Focus left",        "type": "command", "command": "workbench.action.navigateLeft" },
-        { "key": "j", "name": "Focus down",        "type": "command", "command": "workbench.action.navigateDown" },
-        { "key": "k", "name": "Focus up",          "type": "command", "command": "workbench.action.navigateUp" },
-        { "key": "l", "name": "Focus right",       "type": "command", "command": "workbench.action.navigateRight" },
-        { "key": "H", "name": "Move editor left",  "type": "command", "command": "workbench.action.moveEditorToLeftGroup" },
-        { "key": "J", "name": "Move editor down",  "type": "command", "command": "workbench.action.moveEditorToBelowGroup" },
-        { "key": "K", "name": "Move editor up",    "type": "command", "command": "workbench.action.moveEditorToAboveGroup" },
-        { "key": "L", "name": "Move editor right", "type": "command", "command": "workbench.action.moveEditorToRightGroup" },
-        { "key": "v", "name": "Split right",       "type": "command", "command": "workbench.action.splitEditorRight" },
-        { "key": "s", "name": "Split down",        "type": "command", "command": "workbench.action.splitEditorDown" },
-        { "key": "c", "name": "Close group",       "type": "command", "command": "workbench.action.closeEditorsInGroup" },
-        { "key": "m", "name": "Maximise toggle",   "type": "command", "command": "workbench.action.toggleMaximizeEditorGroup" },
-        { "key": "=", "name": "Equalise widths",   "type": "command", "command": "workbench.action.evenEditorWidths" }
-      ]
-    },
-
-    // ── g: git / SCM ─────────────────────────────────────────────────────────
-    {
-      "key": "g", "name": "+Git", "type": "bindings",
-      "bindings": [
-        { "key": "g", "name": "Source control", "type": "command", "command": "workbench.view.scm" },
-        { "key": "G", "name": "Git graph",      "type": "command", "command": "git-graph.view" },
-        { "key": "d", "name": "Diff file",      "type": "command", "command": "git.openChange" },
-        { "key": "b", "name": "Toggle blame",   "type": "command", "command": "betterGitLineBlame.toggleInlineAnnotations" }
-      ]
-    },
-
-    // ── s: search ────────────────────────────────────────────────────────────
-    {
-      "key": "s", "name": "+Search", "type": "bindings",
-      "bindings": [
-        { "key": "s", "name": "Find in files",     "type": "command", "command": "workbench.action.findInFiles" },
-        { "key": "r", "name": "Replace in files",  "type": "command", "command": "workbench.action.replaceInFiles" },
-        { "key": "f", "name": "Symbols (file)",    "type": "command", "command": "workbench.action.gotoSymbol" },
-        { "key": "p", "name": "Symbols (project)", "type": "command", "command": "workbench.action.showAllSymbols" }
-      ]
-    },
-
-    // ── t: terminal ──────────────────────────────────────────────────────────
-    // These only fire from the vim layer (editorTextFocus required), so the
-    // terminal itself receives all keystrokes unmodified — terminal.integrated.
-    // allowChords is also false as an extra guard.
-    {
-      "key": "t", "name": "+Terminal", "type": "bindings",
-      "bindings": [
-        { "key": "t", "name": "Toggle", "type": "command", "command": "workbench.action.terminal.toggleTerminal" },
-        { "key": "f", "name": "Focus",  "type": "command", "command": "workbench.action.terminal.focus" },
-        { "key": "n", "name": "New",    "type": "command", "command": "workbench.action.terminal.new" },
-        { "key": "s", "name": "Split",  "type": "command", "command": "workbench.action.terminal.split" },
-        { "key": "k", "name": "Kill",   "type": "command", "command": "workbench.action.terminal.kill" }
-      ]
-    },
-
-    // ── x: diagnostics (mirrors <leader>x from LazyVim / Trouble.nvim) ──────
-    {
-      "key": "x", "name": "+Diagnostics", "type": "bindings",
-      "bindings": [
-        { "key": "x", "name": "Problems panel", "type": "command", "command": "workbench.panel.markers.view.focus" },
-        { "key": "n", "name": "Next problem",   "type": "command", "command": "editor.action.marker.nextInFiles" },
-        { "key": "p", "name": "Prev problem",   "type": "command", "command": "editor.action.marker.prevInFiles" },
-        { "key": "h", "name": "Show hover",     "type": "command", "command": "editor.action.showHover" }
-      ]
-    },
-
-    // ── u: UI toggles ─────────────────────────────────────────────────────────
-    {
-      "key": "u", "name": "+UI", "type": "bindings",
-      "bindings": [
-        { "key": "s", "name": "Sidebar",        "type": "command", "command": "workbench.action.toggleSidebarVisibility" },
-        { "key": "p", "name": "Panel",          "type": "command", "command": "workbench.action.togglePanel" },
-        { "key": "z", "name": "Zen mode",       "type": "command", "command": "workbench.action.toggleZenMode" },
-        { "key": "m", "name": "Minimap",        "type": "command", "command": "editor.action.toggleMinimap" },
-        { "key": "w", "name": "Word wrap",      "type": "command", "command": "editor.action.toggleWordWrap" },
-        { "key": "b", "name": "Breadcrumbs",    "type": "command", "command": "breadcrumbs.toggle" },
-        { "key": "h", "name": "Inlay hints",    "type": "command", "command": "editor.action.inlayHints.toggle" },
-        { "key": "l", "name": "Line numbers",   "type": "command", "command": "editor.action.toggleLineNumbers" },
-        { "key": "d", "name": "Diagnostics",    "type": "command", "command": "workbench.actions.view.problems.focus" },
-        { "key": "f", "name": "Format on save", "type": "command", "command": "workbench.action.toggleFormatOnSave" }
-      ]
-    },
-
-    // ── p: prefs / project ───────────────────────────────────────────────────
-    {
-      "key": "p", "name": "+Prefs", "type": "bindings",
-      "bindings": [
-        { "key": "p", "name": "Recent projects", "type": "command", "command": "workbench.action.openRecent" },
-        { "key": "e", "name": "Extensions",      "type": "command", "command": "workbench.view.extensions" },
-        { "key": "s", "name": "Settings",        "type": "command", "command": "workbench.action.openSettings" },
-        { "key": "k", "name": "Keybindings",     "type": "command", "command": "workbench.action.openGlobalKeybindings" }
-      ]
-    }
-  ]
+  // ── Workbench ─────────────────────────────────────────────────────────────────
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "workbench.editor.empty.hint": "hidden",
+  "workbench.iconTheme": "catppuccin-mocha",
+  "workbench.startupEditor": "none"
 }

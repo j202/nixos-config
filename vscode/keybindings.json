@@ -19,6 +19,74 @@
 // which-key space trigger in settings.json only fires through VSCodeVim
 // (editorTextFocus required), so the terminal is completely unaffected.
 [
+  // ── t: toggle diff editor side-by-side / inline — mirrors codediff.nvim's t ──
+  // toggle.diff.renderSideBySide is a real VS Code command (verified in its
+  // own bundled source, not the docs) with no default keybinding. Scoped to
+  // isInDiffEditor so it only affects diff views -- but within one, it does
+  // override vim's own "t{char}" till-motion, since there's no way to keep
+  // both on the same key.
+  { "key": "t", "command": "toggle.diff.renderSideBySide", "when": "isInDiffEditor" },
+
+  // ── ]c/[c: next/prev change in diff editor — mirrors LazyVim/codediff.nvim ──
+  // VS Code's own defaults for these are F7/Shift+F7; this rebinds to the
+  // vim-styled keys instead. Verified command ids directly in VS Code's
+  // bundled source (workbench.action.compareEditor.{next,previous}Change).
+  //
+  // Key chords need a space between the two keys, and named tokens
+  // (oem_6/oem_4) instead of the literal ]/[ characters -- confirmed against
+  // wojukasz/VimCode's own working ]h/[h bindings, which use this exact
+  // syntax. My first attempt ("]c"/"[c", no space, literal brackets) was
+  // silently invalid.
+  { "key": "oem_6 c", "command": "workbench.action.compareEditor.nextChange",     "when": "isInDiffEditor" },
+  { "key": "oem_4 c", "command": "workbench.action.compareEditor.previousChange", "when": "isInDiffEditor" },
+
+  // ── ]h/[h: next/prev git change in a regular file — mirrors LazyVim ]h/[h ──
+  // Distinct from ]c/[c above: this navigates SCM gutter change markers in
+  // any file with uncommitted changes, not the standalone diff editor view.
+  { "key": "oem_6 h", "command": "workbench.action.editor.nextChange",     "when": "editorTextFocus && vim.mode != 'Insert'" },
+  { "key": "oem_4 h", "command": "workbench.action.editor.previousChange", "when": "editorTextFocus && vim.mode != 'Insert'" },
+
+  // ── ]d/[d: next/prev diagnostic — mirrors LazyVim ]d/[d ──────────────────
+  // Bound here (native chord), not as vim.normalModeKeyBindingsNonRecursive
+  // -- that mechanism's bracket-prefixed before-arrays don't fire reliably
+  // in VSCodeVim (reproduced live: gr/gI/gy in settings.json all work
+  // correctly, isolating the bug to brackets specifically). marker.next/prev
+  // (not the "InFiles" variants) are the current-file-only commands,
+  // confirmed directly in VS Code's source -- matches real LazyVim's
+  // buffer-scoped ]d/[d. No ]e/[e (errors-only) or ]w/[w (warnings-only)
+  // pairs: VS Code has no severity-filtered marker navigation command at
+  // all -- confirmed by checking every editor.action.marker.* command that
+  // exists, and every command the installed usernamehw.errorlens extension
+  // contributes. A real platform gap, not something to fake.
+  { "key": "oem_6 d", "command": "editor.action.marker.next", "when": "editorTextFocus && vim.mode != 'Insert'" },
+  { "key": "oem_4 d", "command": "editor.action.marker.prev", "when": "editorTextFocus && vim.mode != 'Insert'" },
+
+  // ── ]b/[b: next/prev buffer — mirrors LazyVim ]b/[b ──────────────────────
+  // Redundant with H/L below (same commands) -- real LazyVim binds both as
+  // alternate paths to the same action, not one replacing the other.
+  { "key": "oem_6 b", "command": "workbench.action.nextEditor",     "when": "editorTextFocus && vim.mode != 'Insert'" },
+  { "key": "oem_4 b", "command": "workbench.action.previousEditor", "when": "editorTextFocus && vim.mode != 'Insert'" },
+
+  // ── ]q/[q: next/prev quickfix item — approximates LazyVim ]q/[q ──────────
+  // VS Code has no quickfix-list concept, so this maps to the closest analog:
+  // search results navigation, not an exact equivalent. Gated on
+  // hasSearchResult (singular -- confirmed as the exact context-key string
+  // in VS Code's own source; my first attempt used "hasSearchResults",
+  // plural, an undefined key that's always false, which is why this never
+  // fired regardless of search state) plus editorTextFocus, matching every
+  // other working bracket-chord in this file.
+  { "key": "oem_6 q", "command": "search.action.focusNextSearchResult",     "when": "editorTextFocus && hasSearchResult && vim.mode != 'Insert'" },
+  { "key": "oem_4 q", "command": "search.action.focusPreviousSearchResult", "when": "editorTextFocus && hasSearchResult && vim.mode != 'Insert'" },
+
+  // ── Ctrl+arrows: resize the focused split — mirrors LazyVim/vim resize ────
+  // Gated the same way as the Ctrl+hjkl navigation above (vim.mode, not
+  // vim.active/editorTextFocus) for the same reason: works even with no file
+  // open yet, since there's nothing editor-specific about resizing a group.
+  { "key": "ctrl+up",    "command": "workbench.action.increaseViewHeight", "when": "!terminalFocus && vim.mode != 'Insert'" },
+  { "key": "ctrl+down",  "command": "workbench.action.decreaseViewHeight", "when": "!terminalFocus && vim.mode != 'Insert'" },
+  { "key": "ctrl+left",  "command": "workbench.action.decreaseViewWidth",  "when": "!terminalFocus && vim.mode != 'Insert'" },
+  { "key": "ctrl+right", "command": "workbench.action.increaseViewWidth",  "when": "!terminalFocus && vim.mode != 'Insert'" },
+
   // ── Alt+J/K: move line / selection up or down — mirrors LazyVim <A-j>/<A-k> ──
   // VSCode's move-line commands handle normal, insert, and visual selection in one.
   // !editorReadonly prevents firing in diff viewers and read-only files.
@@ -50,14 +118,26 @@
   // shift+d for delete (capital D) to reduce accidental deletions.
   { "key": "shift+d", "command": "deleteFile",         "when": "explorerViewletFocus && !inputFocus" },
 
-  // ── Ctrl+hjkl: universal pane navigation outside the editor and terminal ─────
-  // Covers Claude Code tab (webview), sidebar, panels, and any other non-editor
-  // context where vim's normalModeKeyBindingsNonRecursive can't fire.
-  // !inputFocus guards rename boxes, search fields, etc.
-  { "key": "ctrl+h", "command": "workbench.action.navigateLeft",  "when": "!editorTextFocus && !terminalFocus && !inQuickOpen" },
-  { "key": "ctrl+j", "command": "workbench.action.navigateDown",  "when": "!editorTextFocus && !terminalFocus && !inQuickOpen" },
-  { "key": "ctrl+k", "command": "workbench.action.navigateUp",    "when": "!editorTextFocus && !terminalFocus && !inQuickOpen" },
-  { "key": "ctrl+l", "command": "workbench.action.navigateRight", "when": "!editorTextFocus && !terminalFocus && !inQuickOpen" },
+  // ── Ctrl+hjkl: universal pane navigation ───────────────────────────────────
+  // Single source of truth for all of h/j/k/l — VSCodeVim is told (via
+  // vim.handleKeys in settings.json) not to touch these keys at all, so there
+  // is no editor-vs-outside split to keep in sync.
+  //
+  // navigateLeft/Right/Up/Down, not focusLeftGroup/etc: the focus*Group family
+  // only moves between editor group splits and can't reach the sidebar at all
+  // -- navigate* is the one that crosses from the editor area into the
+  // sidebar/panel, which is required here.
+  //
+  // Gated on vim.mode instead of vim.active/editorTextFocus: vim.active
+  // requires VSCodeVim to be actively attached to an editor, which isn't true
+  // with no file open yet -- so a binding gated on it silently does nothing
+  // in that state, same failure mode editorTextFocus had. vim.mode has no
+  // such dependency (it's simply not 'Insert' when there's no editor), so the
+  // binding fires uniformly everywhere except while actually typing.
+  { "key": "ctrl+h", "command": "workbench.action.navigateLeft",  "when": "!terminalFocus && !inQuickOpen && vim.mode != 'Insert'" },
+  { "key": "ctrl+j", "command": "workbench.action.navigateDown",  "when": "!terminalFocus && !inQuickOpen && vim.mode != 'Insert'" },
+  { "key": "ctrl+k", "command": "workbench.action.navigateUp",    "when": "!terminalFocus && !inQuickOpen && vim.mode != 'Insert'" },
+  { "key": "ctrl+l", "command": "workbench.action.navigateRight", "when": "!terminalFocus && !inQuickOpen && vim.mode != 'Insert'" },
 
   // ── Panel (Problems, Output, etc.) — terminal explicitly excluded ──────────
   // j/k navigate list items in panels that expose a list (e.g. Problems view).
@@ -104,9 +184,10 @@
 
   // ── Ctrl+N / Ctrl+P: navigate the marker (diagnostic) widget ───────────────
   // When ]d/[d opens the inline diagnostic popup, these let you move to the
-  // next/prev problem without dismissing it first.
-  { "key": "ctrl+n", "command": "editor.action.marker.nextInFiles", "when": "markersNavigationVisible" },
-  { "key": "ctrl+p", "command": "editor.action.marker.prevInFiles", "when": "markersNavigationVisible" },
+  // next/prev problem without dismissing it first. Matches ]d/[d's own
+  // current-file-only scope rather than the InFiles variant.
+  { "key": "ctrl+n", "command": "editor.action.marker.next", "when": "markersNavigationVisible" },
+  { "key": "ctrl+p", "command": "editor.action.marker.prev", "when": "markersNavigationVisible" },
 
   // ── Ctrl+N / Ctrl+P: navigate the command palette and IntelliSense ────────
   // User keybindings have higher priority than VSCodeVim's extension bindings,
@@ -124,11 +205,24 @@
   // ── Ctrl+[ = Escape ───────────────────────────────────────────────────────
   // In the editor with vim active: VSCodeVim's extension.vim_ctrl+[ already
   // handles this as Escape (it beats the editor.action.outdentLines default
-  // because extension keybindings outrank VSCode defaults). Nothing to add.
+  // because extension keybindings outrank VSCode defaults). Nothing to add
+  // — except the find/replace widget case below, which VSCodeVim's Escape
+  // doesn't reach.
   //
   // In quick open (command palette, file picker, which-key popup):
   // editorTextFocus is false so vim's binding does not fire. Add it here.
   { "key": "ctrl+[", "command": "workbench.action.closeQuickOpen", "when": "inQuickOpen" },
   // In the sidebar: treat as Escape (return to editor), matching the binding above.
-  { "key": "ctrl+[", "command": "workbench.action.focusActiveEditorGroup", "when": "sideBarFocus && !inputFocus" }
+  { "key": "ctrl+[", "command": "workbench.action.focusActiveEditorGroup", "when": "sideBarFocus && !inputFocus" },
+
+  // ── Find/Replace widget: Escape and Ctrl+[ close it ────────────────────────
+  // VS Code's own default binding for this is "escape" when findWidgetVisible
+  // — but VSCodeVim's extension.vim_escape/vim_ctrl+[ also match under
+  // editorFocus (the editor still counts as focused while the find widget
+  // floats over it) and extension keybindings outrank VS Code defaults, so
+  // VSCodeVim's Escape wins and the widget stays open/steals focus. User
+  // keybindings.json entries outrank both defaults and extensions, so an
+  // explicit binding here reliably wins instead.
+  { "key": "escape", "command": "closeFindWidget", "when": "editorFocus && findWidgetVisible" },
+  { "key": "ctrl+[", "command": "closeFindWidget", "when": "editorFocus && findWidgetVisible" }
 ]
