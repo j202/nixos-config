@@ -15,6 +15,7 @@
       enable = true;
       device = "/dev/sda";
       useOSProber = false;
+      configurationLimit = 10;
     };
     # Limit RAM to 2 GB — hardware cap on this machine
     kernelParams = [ "mem=2G" ];
