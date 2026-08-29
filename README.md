@@ -136,22 +136,44 @@ account required):
 
 1. [Google Cloud Console](https://console.cloud.google.com) → new project → enable
    the **Google Drive API**.
-2. **OAuth consent screen**: user type "External", leave publish status at
-   **Testing** (avoids Google's full verification review), add yourself as a test
-   user.
+2. **OAuth consent screen → Data Access → Add or Remove Scopes**: add only
+   `.../auth/drive.file` ("See, edit, create, and delete only the specific Google
+   Drive files you use with this app") — **not** the full `drive` scope. This
+   matters beyond just least-privilege: the full `drive` scope is a Google
+   "restricted" scope, and publishing a restricted-scope app to production requires
+   Google's full manual verification review (privacy policy audit, security
+   assessment, etc.). `drive.file` is non-sensitive, so it can be self-published
+   with no review at all — see step 5.
 3. **Credentials → Create Credentials → OAuth client ID**, application type
    **Desktop app** → note the Client ID and Client Secret.
-4. `rclone config` → `e` (edit existing remote) → select the `ludusavi-<id>` remote
-   → paste the client_id/client_secret when prompted, keep `scope = drive` as
-   before, accept auto config (opens a browser to re-authorize under the new
-   project — click through the "unverified app" warning, expected while the consent
-   screen is in Testing mode) → `y` to keep.
+4. Still on the OAuth consent screen, fill in the fields required to publish: app
+   name, support email (only ever shown to you during consent, never published),
+   homepage URL (e.g. this repo, or a deep link to this section:
+   `.../blob/main/README.md#game-save-backups-alex-pc`), and privacy policy URL —
+   use `.../blob/main/ludusavi/PRIVACY-google-drive-backup.md` (Terms of Service is
+   optional, can be left blank).
+5. **Publish the app to "In production."** Don't skip this and leave it in
+   "Testing" — Testing-status apps get refresh tokens that expire after **7 days**,
+   which would mean re-authorizing weekly. Since the scope is `drive.file` (not
+   sensitive/restricted), publishing is instant self-service with no Google review.
+6. `rclone config` → `e` (edit existing remote) → select the `ludusavi-<id>` remote
+   → paste the client_id/client_secret when prompted, set `scope = drive.file`
+   (not `drive`), accept auto config (opens a browser to re-authorize — should show
+   no "unverified app" warning now that the app is in production).
+7. `drive.file` scope means rclone can only see files/folders it creates itself, so
+   it won't be able to see whatever the previous scope/client uploaded. The next
+   `ludusavi cloud upload` recreates the whole folder from scratch — expect it to
+   take several minutes (508 files took ~5 minutes in testing; file *count* drives
+   this, not total bytes, since Drive charges one API round-trip per new file).
+   Once it finishes, verify the new folder's contents (`rclone size <remote>:`),
+   then delete the old orphaned folder from Drive's web UI (sort by "Last
+   modified" to tell them apart).
 
-This cut a real sync from ~17s to ~6s in testing, with the rate-limit backoff gone
-entirely. Any stray `ludusavi-<id>` remotes left over from earlier setup attempts
-(`rclone config show`) can be deleted the same way (`d`, delete remote) — only the
-one referenced by `cloud.remote.GoogleDrive.id` in `ludusavi/config.yaml` is
-actually used.
+This cut a real single-game sync from ~17s down to ~6s, with the rate-limit backoff
+gone entirely. Any stray `ludusavi-<id>` remotes left over from earlier setup
+attempts (`rclone config show`) can be deleted the same way (`d`, delete remote) —
+only the one referenced by `cloud.remote.GoogleDrive.id` in `ludusavi/config.yaml`
+is actually used.
 
 Also needed once per game, since Steam/Lutris have no way to apply this globally:
 
