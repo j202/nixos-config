@@ -39,6 +39,11 @@
   programs = {
     home-manager.enable = true;
 
+    # command-not-found style "did you mean nix-shell -p X" suggestions —
+    # nix-index instead of NixOS's own module since that one relies on a
+    # channel-provided database that flakes don't populate.
+    nix-index.enable = true;
+
     fish = {
       enable = true;
       interactiveShellInit = ''
