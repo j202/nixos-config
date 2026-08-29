@@ -124,6 +124,35 @@ ss --tcp --listening --numeric --processes | grep 53682   # find the stray rclon
 kill <pid>              # then retry `ludusavi cloud set google-drive`
 ```
 
+**Shared client_id is rate-limited — register your own.** By default `ludusavi
+cloud set google-drive` uses rclone's shared Google Drive client_id, which prints a
+notice on every sync that it "is being retired and will stop working during 2026."
+It's also already noticeably rate-limited: verbose logging
+(`rclone -vv lsf --fast-list -R <remote>:`) showed every sync hitting `403
+rateLimitExceeded` on the shared project's "Requests per minute" quota and backing
+off (1.5s → 2.2s → 4.9s → 8.9s sleeps) before listing could even complete — adding
+10+ seconds to every backup regardless of how little changed. Fix (free, no billing
+account required):
+
+1. [Google Cloud Console](https://console.cloud.google.com) → new project → enable
+   the **Google Drive API**.
+2. **OAuth consent screen**: user type "External", leave publish status at
+   **Testing** (avoids Google's full verification review), add yourself as a test
+   user.
+3. **Credentials → Create Credentials → OAuth client ID**, application type
+   **Desktop app** → note the Client ID and Client Secret.
+4. `rclone config` → `e` (edit existing remote) → select the `ludusavi-<id>` remote
+   → paste the client_id/client_secret when prompted, keep `scope = drive` as
+   before, accept auto config (opens a browser to re-authorize under the new
+   project — click through the "unverified app" warning, expected while the consent
+   screen is in Testing mode) → `y` to keep.
+
+This cut a real sync from ~17s to ~6s in testing, with the rate-limit backoff gone
+entirely. Any stray `ludusavi-<id>` remotes left over from earlier setup attempts
+(`rclone config show`) can be deleted the same way (`d`, delete remote) — only the
+one referenced by `cloud.remote.GoogleDrive.id` in `ludusavi/config.yaml` is
+actually used.
+
 Also needed once per game, since Steam/Lutris have no way to apply this globally:
 
 - Steam: prepend `~/.local/bin/game-backup-steam-wrapper.sh` to each game's launch
