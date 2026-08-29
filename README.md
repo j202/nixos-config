@@ -18,6 +18,11 @@ After cloning, install the pre-commit hooks:
 nix develop --command true
 ```
 
+An `.envrc` (`use flake`) is also checked in, so with `direnv` (already set up via
+`programs.direnv` in `home/alex.nix`) and `direnv allow` run once, the flake's dev
+shell — `agenix`, pre-commit, etc. — loads automatically into your normal shell on
+`cd`, without dropping into a nested `nix develop` subshell.
+
 Rebuild:
 
 ```bash
