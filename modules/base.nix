@@ -72,6 +72,7 @@
       "nix-command"
       "flakes"
     ];
+    auto-optimise-store = true;
     netrc-file = config.age.secrets.netrc.path;
     trusted-users = [
       "root"
