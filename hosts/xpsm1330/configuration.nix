@@ -23,6 +23,10 @@
 
   networking.hostName = "xpsm1330";
 
+  # Compressed RAM swap, preferred over the disk swap partition below it —
+  # much less thrashing than disk swap on this 2 GB machine's old storage.
+  zramSwap.enable = true;
+
   services.xserver.videoDrivers = [ "nouveau" ];
 
   # Limit parallel builds — only 2 GB RAM

@@ -76,6 +76,7 @@ vfat
 smartd
 systembus
 fwupd
+zram
 fmask
 dmask
 fstrim
