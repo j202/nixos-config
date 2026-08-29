@@ -65,5 +65,6 @@ nvim
 nvimdiff
 gpgconf
 gpgsign
+openpgp
 guitool
 difftool
