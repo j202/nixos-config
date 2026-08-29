@@ -21,6 +21,10 @@
     sessionVariables = {
       EDITOR = "nvim";
     };
+
+    # Public half only — private key stays in gpg-agent.
+    file.".ssh/m1330.pub".text =
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1ODlut1FSezgq3BO42P/GgGeC+h6oPLnwsE9VXv+AvUPSpTGglRnhb16fgFJA8UlyhcARaPsK7pg2ywwHw1RLDEo2SnTwjHxVfJkfi1rXS/O4/wNz7SD478OEPcImgOyHpxQyeVKa+JtF+MnjftKdgoP3/WXjD4SKdmmblZpPHFgbiNZWY/ySIRgKen5hjAHrsaVP/c3/E2rUcQyC7O096Hw70p3EScU9Ea46cBx0KzBLvZhjYyu5J0jvY1N4+Eakzb1eaONCWWj75GdqvSP4Y3wuQHV7e2MurVxr5saEG3w9pO8PZ9dQk6gWtQYOApQrk3GVHgTW9210Ys6QywNp6xLz/i9gvMoN2Lkw/broQwrwYxynJiDxo/hw3UMRIJghc2utX/f7imfRE5J4Ynxwd7QXQv+w5af/itHqArOeglHirNfQUu7sN6E7mUORvBVo9jokmpnLzpIjqwru5Dv8v6lNvt1VmOYsVEXiuitZyDqvAYA48CwmSQdKAi0smd52fdgEFVf/I8YnD2b/fH0nHvmpkx7NVApGdiEPrCUsNdBlZu5TWKAKvGNQHenfjCuzM8p9NxaV8YHAoB/SYB3KbsKmh7BscdRN99dJDTSEehZKWRTUPlFRKkdWZ+PITS9Spf1Iguz1M/v44vuY+to85Rst6KLergY7SaQgMz0hvw== openpgp:0x4C145B5F";
   };
 
   xdg.configFile = {

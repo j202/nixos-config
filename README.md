@@ -80,6 +80,26 @@ public key, add it alongside `alex` in `secrets/secrets.nix`, then re-run the `a
 -r` encrypt command for each secret with both public keys passed (one `-r` per
 recipient) so either machine's private key can decrypt it.
 
+## SSH access
+
+Both hosts authorize login via GPG authentication subkeys instead of dedicated SSH
+keypairs (`users.users.alex.openssh.authorizedKeys.keys` in `modules/base.nix`), and
+password authentication is disabled. `gpg-agent` (`enableSshSupport = true` in
+`home/alex.nix`) serves these keys over the SSH agent protocol, but only once each
+subkey's keygrip is registered in `~/.gnupg/sshcontrol`. That file isn't managed by
+Nix, so it needs setting up by hand on any machine you want to SSH *from* using a
+GPG key:
+
+```bash
+gpg --list-secret-keys --with-keygrip   # find the auth subkey's ("ssb ... [A]") keygrip
+echo "<keygrip> 0" >> ~/.gnupg/sshcontrol
+gpgconf --reload gpg-agent
+ssh-add -L                              # confirm the key is now offered
+```
+
+The corresponding SSH public key (what goes in `authorizedKeys.keys`) can be
+exported with `gpg --export-ssh-key <key-id-or-fingerprint>`.
+
 ## Game save backups (alex-pc)
 
 Ludusavi collects game saves and syncs them to Google Drive via rclone, triggered
