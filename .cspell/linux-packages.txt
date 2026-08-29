@@ -75,6 +75,7 @@ subvolumes
 vfat
 smartd
 systembus
+fwupd
 fmask
 dmask
 fstrim

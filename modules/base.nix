@@ -24,6 +24,7 @@
       options = "ctrl:nocaps";
     };
     fstrim.enable = true;
+    fwupd.enable = true;
     smartd = {
       enable = true;
       notifications.systembus-notify.enable = true;
