@@ -128,5 +128,14 @@
     "d /games 0755 alex users - -"
   ];
 
+  # /, /home, /nix, /.snapshots, and /games are all subvolumes of the same
+  # physical btrfs filesystem — scrub operates per-device, so leaving
+  # fileSystems unset lets the module pick one mount point and covers all of
+  # them in a single scrub.
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+  };
+
   system.stateVersion = "25.11";
 }

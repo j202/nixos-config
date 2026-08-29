@@ -71,6 +71,7 @@ microcode
 initrd
 btrfs
 subvol
+subvolumes
 vfat
 fmask
 dmask
