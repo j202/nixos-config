@@ -73,6 +73,8 @@ btrfs
 subvol
 subvolumes
 vfat
+smartd
+systembus
 fmask
 dmask
 fstrim

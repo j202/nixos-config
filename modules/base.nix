@@ -24,6 +24,10 @@
       options = "ctrl:nocaps";
     };
     fstrim.enable = true;
+    smartd = {
+      enable = true;
+      notifications.systembus-notify.enable = true;
+    };
     openssh = {
       enable = true;
       settings = {
