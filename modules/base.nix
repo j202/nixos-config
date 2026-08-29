@@ -78,9 +78,21 @@
   };
 
   age.identityPaths = [ "/etc/age/key" ];
-  age.secrets.netrc = {
-    file = ../secrets/netrc.age;
-    mode = "0400";
+  age.secrets = {
+    netrc = {
+      file = ../secrets/netrc.age;
+      mode = "0400";
+    };
+    # The encrypted secret is canonical, not ~/.ssh/config itself — edit via
+    # `cd secrets && sudo -E agenix -e ssh_config.age -i /etc/age/key`, then
+    # switch. Keeps this repo (public) from ever holding hostnames/usernames
+    # in plaintext.
+    ssh-config = {
+      file = ../secrets/ssh_config.age;
+      path = "/home/alex/.ssh/config";
+      owner = "alex";
+      mode = "0600";
+    };
   };
 
   hardware.enableRedistributableFirmware = true;

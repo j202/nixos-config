@@ -24,6 +24,57 @@ Rebuild:
 sudo nixos-rebuild switch --flake .#alex-pc
 ```
 
+## Secrets (agenix)
+
+Secrets are encrypted with [agenix](https://github.com/ryantm/agenix) and committed
+to this repo as `.age` files under `secrets/` — safe to keep public, since only the
+holder of a matching age private key can decrypt them. `secrets/secrets.nix` lists
+which public key(s) ("recipients") each secret is encrypted for.
+
+Decryption happens automatically on `nixos-rebuild switch`, using the private key at
+`/etc/age/key` (`age.identityPaths` in `modules/base.nix`). That key isn't managed by
+this repo — it's a personal age key kept in the password manager, restored to
+`/etc/age/key` by hand on a fresh machine.
+
+Currently encrypted:
+
+- `netrc.age` → used as `nix.settings.netrc-file` (build system credentials).
+- `ssh_config.age` → deployed to `~/.ssh/config` (`age.secrets.ssh-config` in
+  `modules/base.nix`).
+
+**The encrypted `.age` file is canonical, not the decrypted file on disk** — e.g.
+`~/.ssh/config` is just a deployment target. Editing it directly works until the next
+`nixos-rebuild switch`, which overwrites it back to whatever's committed. To make a
+change stick, edit the secret itself and re-deploy:
+
+```bash
+cd secrets
+sudo -E agenix -e ssh_config.age -i /etc/age/key   # opens $EDITOR, re-encrypts on save
+cd ..
+sudo nixos-rebuild switch --flake .#alex-pc
+```
+
+Run from inside `secrets/`, using the bare filename — agenix looks for `./secrets.nix`
+relative to the current directory (not `secrets/secrets.nix`) and uses whatever you
+pass as the exact lookup key. `sudo` is required to read `/etc/age/key`
+(root-owned, `0400`); `-E` preserves `$EDITOR` through it.
+
+`agenix` itself is on `PATH` both system-wide (`environment.systemPackages` in
+`flake.nix`, for editing on the machine that actually needs the decrypted secret) and
+in `nix develop` (for editing from a checkout that isn't necessarily deployed, e.g.
+before a fresh machine's first switch).
+
+To add a new secret: encrypt a file with `age -r <public-key> -o
+secrets/<name>.age <path-to-plaintext>`, add `"<name>.age".publicKeys = [ alex ];` to
+`secrets/secrets.nix`, then reference it via `age.secrets.<name>` in the relevant
+module (`file`, and optionally `path`/`owner`/`mode` if it needs to land somewhere
+specific, as `ssh-config` does).
+
+To add a second machine as a recipient (e.g. `xpsm1330`): generate/obtain its age
+public key, add it alongside `alex` in `secrets/secrets.nix`, then re-run the `age
+-r` encrypt command for each secret with both public keys passed (one `-r` per
+recipient) so either machine's private key can decrypt it.
+
 ## Game save backups (alex-pc)
 
 Ludusavi collects game saves and syncs them to Google Drive via rclone, triggered

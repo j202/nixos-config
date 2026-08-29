@@ -204,6 +204,7 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         inherit (pre-commit-check) shellHook;
+        packages = [ agenix.packages.${system}.default ];
       };
 
       checks.${system}.pre-commit-check = pre-commit-check;
@@ -216,6 +217,7 @@
           modules = [
             ./hosts/xpsm1330/configuration.nix
             agenix.nixosModules.default
+            { environment.systemPackages = [ agenix.packages.${system}.default ]; }
             home-manager-stable.nixosModules.home-manager
             {
               home-manager = {
@@ -233,6 +235,7 @@
           modules = [
             ./hosts/alex-pc/configuration.nix
             agenix.nixosModules.default
+            { environment.systemPackages = [ agenix.packages.${system}.default ]; }
             catppuccin.nixosModules.catppuccin
             home-manager.nixosModules.home-manager
             {

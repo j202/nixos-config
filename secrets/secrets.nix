@@ -7,4 +7,5 @@ let
 in
 {
   "netrc.age".publicKeys = [ alex ];
+  "ssh_config.age".publicKeys = [ alex ];
 }
