@@ -169,11 +169,15 @@ account required):
    then delete the old orphaned folder from Drive's web UI (sort by "Last
    modified" to tell them apart).
 
-This cut a real single-game sync from ~17s down to ~6s, with the rate-limit backoff
-gone entirely. Any stray `ludusavi-<id>` remotes left over from earlier setup
-attempts (`rclone config show`) can be deleted the same way (`d`, delete remote) —
-only the one referenced by `cloud.remote.GoogleDrive.id` in `ludusavi/config.yaml`
-is actually used.
+This eliminates the rate-limit backoff — confirmed via a real gameplay session's
+journal logs, zero `403 rateLimitExceeded` afterward — but a real single-game sync
+still takes ~15-20s: `--fast-list` enumerates the *entire* remote tree (every
+installed game, not just the one played) before any upload starts, and that
+whole-tree listing cost dominates for a small save. That's inherent to Ludusavi's
+`cloud upload`, not a bug this fixes. Any stray `ludusavi-<id>` remotes left over
+from earlier setup attempts (`rclone config show`) can be deleted the same way
+(`d`, delete remote) — only the one referenced by `cloud.remote.GoogleDrive.id`
+in `ludusavi/config.yaml` is actually used.
 
 Also needed once per game, since Steam/Lutris have no way to apply this globally:
 

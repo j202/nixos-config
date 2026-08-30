@@ -166,6 +166,8 @@ pycache
 shellcheck
 shfmt
 tostring
+mktemp
+inotify
 # Post-processing
 vkbasalt
 VKBASALT

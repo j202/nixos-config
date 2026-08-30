@@ -87,6 +87,12 @@ STDERR_LOG=""
 SCRIPT_START=${EPOCHSECONDS}
 
 on_exit() {
+  # Overwrite the debug output with output from the latest run.
+  local debug_dir="${HOME}/.cache/game-save-backup-debug"
+  mkdir -p "${debug_dir}"
+  cp "${BACKUP_JSON}" "${debug_dir}/latest-backup.json" 2> /dev/null || true
+  cp "${UPLOAD_JSON}" "${debug_dir}/latest-upload.json" 2> /dev/null || true
+  cp "${STDERR_LOG}" "${debug_dir}/latest-stderr.log" 2> /dev/null || true
   rm -f "${BACKUP_JSON}" "${UPLOAD_JSON}" "${STDERR_LOG}"
   local total=$((EPOCHSECONDS - SCRIPT_START))
   if [ "${SUCCESS}" -eq 1 ]; then
