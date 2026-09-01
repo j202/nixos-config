@@ -13,11 +13,11 @@
     # Laptop stays on stable — old hardware needs predictability
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     # PC tracks unstable for newest packages
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixos-unstable";
     };
 
     home-manager-stable = {
@@ -29,17 +29,17 @@
 
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixos-unstable";
     };
 
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell/fe6fa125f5ee7881c4ee0cf9c0a4329a8238d3c2";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixos-unstable";
     };
 
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixos-unstable";
     };
 
   };
@@ -47,7 +47,7 @@
   outputs =
     {
       nixpkgs-stable,
-      nixpkgs-unstable,
+      nixos-unstable,
       home-manager,
       home-manager-stable,
       catppuccin,
@@ -58,7 +58,7 @@
     }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs-unstable.legacyPackages.${system};
+      pkgs = nixos-unstable.legacyPackages.${system};
       pre-commit-check = git-hooks.lib.${system}.run {
         src = ./.;
         hooks = {
@@ -230,7 +230,7 @@
         };
 
         # ASRock Z790 / i7-13700K / RX 7900 XT — tracks nixos-unstable
-        alex-pc = nixpkgs-unstable.lib.nixosSystem {
+        alex-pc = nixos-unstable.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/alex-pc/configuration.nix
@@ -255,7 +255,7 @@
       };
 
       homeConfigurations."alex-standalone" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs-unstable.legacyPackages.${system};
+        pkgs = nixos-unstable.legacyPackages.${system};
         modules = [ ./home/alex-standalone.nix ];
       };
 
