@@ -37,14 +37,19 @@
   // wojukasz/VimCode's own working ]h/[h bindings, which use this exact
   // syntax. My first attempt ("]c"/"[c", no space, literal brackets) was
   // silently invalid.
-  { "key": "oem_6 c", "command": "workbench.action.compareEditor.nextChange",     "when": "isInDiffEditor" },
-  { "key": "oem_4 c", "command": "workbench.action.compareEditor.previousChange", "when": "isInDiffEditor" },
+  //
+  // All oem_6/oem_4 chords below require !inputFocus: without it, typing a
+  // vim "/" search pattern containing a literal [ or ] enters VS Code's
+  // chord-wait mode instead of reaching the search box, since the first
+  // keypress alone satisfies the when-clause and swallows the keystroke.
+  { "key": "oem_6 c", "command": "workbench.action.compareEditor.nextChange",     "when": "isInDiffEditor && !inputFocus" },
+  { "key": "oem_4 c", "command": "workbench.action.compareEditor.previousChange", "when": "isInDiffEditor && !inputFocus" },
 
   // ── ]h/[h: next/prev git change in a regular file — mirrors LazyVim ]h/[h ──
   // Distinct from ]c/[c above: this navigates SCM gutter change markers in
   // any file with uncommitted changes, not the standalone diff editor view.
-  { "key": "oem_6 h", "command": "workbench.action.editor.nextChange",     "when": "editorTextFocus && vim.mode != 'Insert'" },
-  { "key": "oem_4 h", "command": "workbench.action.editor.previousChange", "when": "editorTextFocus && vim.mode != 'Insert'" },
+  { "key": "oem_6 h", "command": "workbench.action.editor.nextChange",     "when": "editorTextFocus && vim.mode != 'Insert' && !inputFocus" },
+  { "key": "oem_4 h", "command": "workbench.action.editor.previousChange", "when": "editorTextFocus && vim.mode != 'Insert' && !inputFocus" },
 
   // ── ]d/[d: next/prev diagnostic — mirrors LazyVim ]d/[d ──────────────────
   // Bound here (native chord), not as vim.normalModeKeyBindingsNonRecursive
@@ -58,14 +63,14 @@
   // all -- confirmed by checking every editor.action.marker.* command that
   // exists, and every command the installed usernamehw.errorlens extension
   // contributes. A real platform gap, not something to fake.
-  { "key": "oem_6 d", "command": "editor.action.marker.next", "when": "editorTextFocus && vim.mode != 'Insert'" },
-  { "key": "oem_4 d", "command": "editor.action.marker.prev", "when": "editorTextFocus && vim.mode != 'Insert'" },
+  { "key": "oem_6 d", "command": "editor.action.marker.next", "when": "editorTextFocus && vim.mode != 'Insert' && !inputFocus" },
+  { "key": "oem_4 d", "command": "editor.action.marker.prev", "when": "editorTextFocus && vim.mode != 'Insert' && !inputFocus" },
 
   // ── ]b/[b: next/prev buffer — mirrors LazyVim ]b/[b ──────────────────────
   // Redundant with H/L below (same commands) -- real LazyVim binds both as
   // alternate paths to the same action, not one replacing the other.
-  { "key": "oem_6 b", "command": "workbench.action.nextEditor",     "when": "editorTextFocus && vim.mode != 'Insert'" },
-  { "key": "oem_4 b", "command": "workbench.action.previousEditor", "when": "editorTextFocus && vim.mode != 'Insert'" },
+  { "key": "oem_6 b", "command": "workbench.action.nextEditor",     "when": "editorTextFocus && vim.mode != 'Insert' && !inputFocus" },
+  { "key": "oem_4 b", "command": "workbench.action.previousEditor", "when": "editorTextFocus && vim.mode != 'Insert' && !inputFocus" },
 
   // ── ]q/[q: next/prev quickfix item — approximates LazyVim ]q/[q ──────────
   // VS Code has no quickfix-list concept, so this maps to the closest analog:
@@ -75,8 +80,8 @@
   // plural, an undefined key that's always false, which is why this never
   // fired regardless of search state) plus editorTextFocus, matching every
   // other working bracket-chord in this file.
-  { "key": "oem_6 q", "command": "search.action.focusNextSearchResult",     "when": "editorTextFocus && hasSearchResult && vim.mode != 'Insert'" },
-  { "key": "oem_4 q", "command": "search.action.focusPreviousSearchResult", "when": "editorTextFocus && hasSearchResult && vim.mode != 'Insert'" },
+  { "key": "oem_6 q", "command": "search.action.focusNextSearchResult",     "when": "editorTextFocus && hasSearchResult && vim.mode != 'Insert' && !inputFocus" },
+  { "key": "oem_4 q", "command": "search.action.focusPreviousSearchResult", "when": "editorTextFocus && hasSearchResult && vim.mode != 'Insert' && !inputFocus" },
 
   // ── Ctrl+arrows: resize the focused split — mirrors LazyVim/vim resize ────
   // Gated the same way as the Ctrl+hjkl navigation above (vim.mode, not
