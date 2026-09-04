@@ -58,8 +58,14 @@ in
   wayland.windowManager.hyprland = {
     enable = true;
     configType = "hyprlang";
-    systemd.enable = true;
-    systemd.variables = [ "--all" ];
+    systemd = {
+      enable = true;
+      variables = [ "--all" ];
+      # Default extraCommands (stop+start hyprland-session.target) cascades into killing
+      # wayland-wm@hyprland.desktop.service itself via BindsTo=graphical-session.target —
+      # drop it, dbus-update-activation-environment alone is still applied.
+      extraCommands = [ ];
+    };
 
     settings = {
       # kanshi manages connected monitors; this fallback covers anything it misses.
