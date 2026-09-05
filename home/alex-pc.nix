@@ -6,7 +6,6 @@
     ./alex.nix
     ./modules/git-personal-identity.nix
     ./modules/git-github-ssh.nix
-    ./modules/qutebrowser.nix
     ./modules/vkbasalt.nix
     ./modules/wayland-tools.nix
     ./modules/game-save-backup.nix

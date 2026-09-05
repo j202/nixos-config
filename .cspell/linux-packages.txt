@@ -120,13 +120,6 @@ poweroff
 rclone
 # IPC / bus
 dbus
-# Browsers
-qutebrowser
-qute
-passthrough
-darkmode
-asdfjkl
-searchengines
 # Password managers
 protonmail
 protonpass

@@ -109,7 +109,6 @@
       }
     ))
     protonmail-desktop
-    qutebrowser
     spotify
     vesktop
     vscode

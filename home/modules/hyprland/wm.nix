@@ -283,7 +283,7 @@ in
         {
           name = "opaque-fullscreen-browser";
           match = {
-            class = "^(qutebrowser|brave-browser)$";
+            class = "^brave-browser$";
             fullscreen = true;
           };
           opacity = "1.0 override 1.0 override";
