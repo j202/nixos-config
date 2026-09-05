@@ -136,7 +136,7 @@ in
 
         control_center = {
           sidebar = "full";
-          sidebar_section = "full";
+          sidebar_section = "compact";
           width = 800;
         };
 
