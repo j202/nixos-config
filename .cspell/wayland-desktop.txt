@@ -82,6 +82,7 @@ hyprcursor
 PLATFORMTHEME
 lockscreen
 anim
+ultrawide
 # Noctalia settings values
 centered
 Dgpu

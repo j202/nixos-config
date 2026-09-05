@@ -184,6 +184,29 @@ in
             "clock"
             "control-center"
           ];
+
+          # DP-4 (1920px) is much narrower than DP-1 (3440px ultrawide) — the
+          # full widget set clashed with the center media widget there. Drops
+          # battery/bluetooth/network/weather, which don't need to show twice.
+          monitor.dp4 = {
+            match = "DP-4";
+            start = [
+              "launcher"
+              "workspaces"
+              "active_window"
+            ];
+            center = [ "media" ];
+            end = [
+              "sysmon-cpu"
+              "sysmon-cpu-temp"
+              "sysmon-ram"
+              "notifications"
+              "volume"
+              "tray"
+              "clock"
+              "control-center"
+            ];
+          };
         };
 
         widget = {
