@@ -186,7 +186,7 @@
             entry = toString (
               pkgs.writeShellScript "verify-hyprland-config" ''
                 root=$(git rev-parse --show-toplevel)
-                attr="(builtins.getFlake \"path:$root\").nixosConfigurations.alex-pc.config.home-manager.users.alex.xdg.configFile.\"hypr/hyprland.conf\".source"
+                attr="(builtins.getFlake \"path:$root\").nixosConfigurations.alex-pc.config.home-manager.users.alex.xdg.configFile.\"hypr/hyprland.lua\".source"
                 config=$(nix build --no-link --print-out-paths --impure --expr "$attr" 2>/dev/null) \
                   || config=$(nix eval --impure --raw --expr "$attr" 2>&1) \
                   || { echo "hyprland config: nix eval failed:"; echo "$config"; exit 1; }
