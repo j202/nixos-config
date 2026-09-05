@@ -67,28 +67,37 @@ let
 in
 {
   catppuccin.cursors.enable = true;
-  home.pointerCursor.enable = true;
 
-  home.packages = with pkgs; [
-    cheatsheet
-    hyprshell
-    screenshot
-    pinta
-    cliphist
-    wl-clip-persist
-    imv
-    thunar
-    thunar-archive-plugin
-    tumbler
-    file-roller
-    gedit
-    gvfs
-    grimblast
-    lxqt.lxqt-policykit
-    networkmanagerapplet
-    pwvucontrol
-    swayidle
-  ];
+  home = {
+    pointerCursor = {
+      enable = true;
+      # catppuccin's hyprland module sets HYPRCURSOR_SIZE from this directly (bypassing
+      # home-manager's own hyprcursor.enable gate) — keep it in sync with the XCURSOR_SIZE
+      # set below via Hyprland's env, or the cursor grows to home-manager's default of 32.
+      size = 24;
+    };
+
+    packages = with pkgs; [
+      cheatsheet
+      hyprshell
+      screenshot
+      pinta
+      cliphist
+      wl-clip-persist
+      imv
+      thunar
+      thunar-archive-plugin
+      tumbler
+      file-roller
+      gedit
+      gvfs
+      grimblast
+      lxqt.lxqt-policykit
+      networkmanagerapplet
+      pwvucontrol
+      swayidle
+    ];
+  };
 
   # ── Hyprland ──────────────────────────────────────────────────────────────
 
@@ -112,6 +121,10 @@ in
           border_size = 2;
           layout = "dwindle";
           resize_on_border = true;
+          col = {
+            active_border = lib.generators.mkLuaInline "colors.mauve";
+            inactive_border = lib.generators.mkLuaInline "colors.overlay0";
+          };
         };
 
         decoration = {

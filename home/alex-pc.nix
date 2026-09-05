@@ -24,7 +24,5 @@
     autoEnable = true;
     flavor = "mocha";
     accent = "mauve";
-    # catppuccin hyprland uses lua-inline colors not supported until Hyprland >0.55.2
-    hyprland.enable = false;
   };
 }

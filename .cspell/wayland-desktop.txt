@@ -77,6 +77,8 @@ qtct
 qt5ct
 qt6ct
 XCURSOR
+HYPRCURSOR
+hyprcursor
 PLATFORMTHEME
 # Noctalia settings values
 centered
