@@ -56,25 +56,35 @@ in
             grid = true;
             # v5 moved the countdown from one global duration to per-action
             # countdown_seconds, which means redeclaring the whole default
-            # action list rather than overriding one field of it.
+            # action list rather than overriding one field of it. Declaring the
+            # array at all also drops v5's built-in "1"-"5" shortcut defaults
+            # (only assigned when actions is left unset entirely), so they're
+            # set explicitly here too.
             actions = [
-              { action = "lock"; }
+              {
+                action = "lock";
+                shortcut = "l";
+              }
               {
                 action = "logout";
                 countdown_seconds = 5;
+                shortcut = "o";
               }
               {
                 action = "lock_and_suspend";
                 countdown_seconds = 5;
+                shortcut = "s";
               }
               {
                 action = "reboot";
                 countdown_seconds = 5;
+                shortcut = "r";
               }
               {
                 action = "shutdown";
                 countdown_seconds = 5;
                 variant = "destructive";
+                shortcut = "u";
               }
             ];
           };
