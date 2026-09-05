@@ -22,12 +22,19 @@ dictionaryDefinitions:
     addWords: true
 
 dictionaries:
-  - neovim
   - wayland-desktop
   - catppuccin
   - nix
   - linux-packages
-  - vscode
+
+overrides:
+  - filename: "lazyvim/**"
+    dictionaries:
+      - neovim
+  - filename: "vscode/**"
+    dictionaries:
+      - vscode
+      - neovim
 
 # American spellings used in technical contexts (ignored, not suggested as corrections)
 ignoreWords:
