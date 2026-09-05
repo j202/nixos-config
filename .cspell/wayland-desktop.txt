@@ -80,6 +80,8 @@ XCURSOR
 HYPRCURSOR
 hyprcursor
 PLATFORMTHEME
+lockscreen
+anim
 # Noctalia settings values
 centered
 Dgpu

@@ -7,9 +7,9 @@
 }:
 let
   restart-noctalia = pkgs.writeShellScriptBin "restart-noctalia" ''
-    pkill quickshell || true
-    while pgrep quickshell > /dev/null; do sleep 0.1; done
-    exec noctalia-shell
+    pkill noctalia || true
+    while pgrep noctalia > /dev/null; do sleep 0.1; done
+    exec noctalia
   '';
 in
 {
@@ -17,171 +17,218 @@ in
 
     home.packages = [ restart-noctalia ];
 
-    programs.noctalia-shell = {
+    # noctalia auto-discovers a terminal via $TERMINAL, falling back to a list of
+    # common emulators (including kitty) if unset — set it explicitly for certainty.
+    home.sessionVariables.TERMINAL = "kitty";
+
+    programs.noctalia = {
       enable = true;
 
-      plugins = {
-        sources = [
-          {
-            enabled = true;
-            name = "Noctalia Plugins";
-            url = "https://github.com/noctalia-dev/noctalia-plugins";
-          }
-        ];
-        states = {
-          "keybind-cheatsheet" = {
-            enabled = true;
-            sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-          };
-        };
-        version = 2;
-      };
-
       settings = {
-        colorSchemes = {
-          predefinedScheme = "Catppuccin";
-          darkMode = true;
-          useWallpaperColors = false;
-          syncGsettings = false;
+        theme = {
+          mode = "dark";
+          source = "builtin";
+          builtin = "Catppuccin";
         };
 
-        bar = {
-          position = "top";
-          displayMode = "always_visible";
-          density = "comfortable";
-          showOutline = true;
-          showCapsule = true;
-          capsuleOpacity = 1;
-          useSeparateOpacity = true;
-          backgroundOpacity = 0.00;
-          marginVertical = 4;
-          marginHorizontal = 4;
-          widgets = {
-            left = [
-              { id = "Launcher"; }
-              { id = "Workspace"; }
+        shell = {
+          font_family = "DejaVu Sans";
+          time_format = "{:%H:%M} ";
+          telemetry_enabled = false;
+          avatar_path = "${config.home.homeDirectory}/.face";
+          # Broad translucency, matching the old ui.translucentWidgets intent.
+          settings_window_translucent = true;
+
+          panel = {
+            transparency_mode = "soft";
+            # Old panelsAttachedToBar = false meant every panel floated, detached
+            # from the bar. Wallpaper/session still follow that; Control Center
+            # was moved back to attached (its v5 default) via the settings GUI.
+            wallpaper_placement = "floating";
+            session_placement = "floating";
+            open_near_click_control_center = true;
+            open_near_click_session = true;
+          };
+
+          screen_corners.enabled = true;
+
+          session = {
+            grid = true;
+            # v5 moved the countdown from one global duration to per-action
+            # countdown_seconds, which means redeclaring the whole default
+            # action list rather than overriding one field of it.
+            actions = [
+              { action = "lock"; }
               {
-                id = "ActiveWindow";
-                maxWidth = 400;
-                useFixedWidth = false;
-              }
-            ];
-            center = [
-              {
-                id = "MediaMini";
-                maxWidth = 500;
-                useFixedWidth = false;
-              }
-            ];
-            right = [
-              { id = "SystemMonitor"; }
-              {
-                id = "Battery";
-                deviceNativePath = "hidpp_battery_0";
-                displayMode = "icon-always";
-                hideIfNotDetected = true;
-              }
-              { id = "Bluetooth"; }
-              { id = "Network"; }
-              { id = "NotificationHistory"; }
-              {
-                id = "Volume";
-                middleClickCommand = "pwvucontrol || pavucontrol";
+                action = "logout";
+                countdown_seconds = 5;
               }
               {
-                id = "Tray";
-                drawerEnabled = false;
-                hidePassive = false;
-                colorizeIcons = false;
+                action = "lock_and_suspend";
+                countdown_seconds = 5;
               }
-              { id = "Clock"; }
-              { id = "ControlCenter"; }
+              {
+                action = "reboot";
+                countdown_seconds = 5;
+              }
+              {
+                action = "shutdown";
+                countdown_seconds = 5;
+                variant = "destructive";
+              }
             ];
           };
         };
-
-        dock.enabled = false;
 
         wallpaper = {
           enabled = true;
           directory = "${config.home.homeDirectory}/Pictures/wallpapers";
-          fillMode = "crop";
+          fill_mode = "crop";
         };
 
-        idle = {
-          enabled = true;
-          lockTimeout = 660;
-          screenOffTimeout = 600;
-          suspendTimeout = 0;
-        };
-
-        general = {
-          avatarImage = "${config.home.homeDirectory}/.face";
-          showScreenCorners = true;
-          forceBlackScreenCorners = true;
-          lockScreenAnimations = true;
-          enableLockScreenMediaControls = true;
-          clockFormat = "HH:mm ";
-          lockScreenMonitors = [ ];
-          lockScreenBlur = 0.8;
-          telemetryEnabled = false;
-          showChangelogOnStartup = false;
-          keybinds = {
-            keyUp = [
-              "Up"
-              "Ctrl+P"
-            ];
-            keyDown = [
-              "Down"
-              "Ctrl+N"
-            ];
-            keyLeft = [
-              "Left"
-              "Ctrl+H"
-            ];
-            keyRight = [
-              "Right"
-              "Ctrl+L"
-            ];
-            keyEscape = [
-              "Esc"
-              "Ctrl+["
-            ];
+        idle.behavior = {
+          lock = {
+            enabled = true;
+            timeout = 660;
+            action = "lock";
+          };
+          "screen-off" = {
+            enabled = true;
+            timeout = 600;
+            action = "screen_off";
           };
         };
 
-        appLauncher = {
-          terminalCommand = "kitty";
+        keybinds = {
+          up = [
+            "up"
+            "ctrl+p"
+          ];
+          down = [
+            "down"
+            "ctrl+n"
+          ];
+          left = [
+            "left"
+            "ctrl+h"
+          ];
+          right = [
+            "right"
+            "ctrl+l"
+          ];
+          cancel = [
+            "escape"
+            "ctrl+["
+          ];
         };
 
-        ui = {
-          fontDefault = "DejaVu Sans";
-          panelBackgroundOpacity = 0.85;
-          translucentWidgets = true;
-          settingsPanelMode = "centered";
-          panelsAttachedToBar = false;
+        osd.background_opacity = 0.85;
+
+        lockscreen = {
+          enabled = true;
+          blur_intensity = 0.8;
+          monitors = [ ];
         };
 
-        osd = {
-          backgroundOpacity = 0.85;
+        location.auto_locate = true;
+
+        weather.enabled = true;
+
+        control_center = {
+          sidebar = "full";
+          sidebar_section = "full";
+          width = 800;
         };
 
-        sessionMenu = {
-          countdownDuration = 5000;
-          largeButtonsLayout = "grid";
+        bar.default = {
+          position = "top";
+          background_opacity = 0.0;
+          capsule = true;
+          capsule_opacity = 1.0;
+          # Tried the old bar.showOutline as border_width = 1.0; turned back off
+          # via the settings GUI, so left at the v5 default (0 = no outline).
+          capsule_border = "primary";
+          capsule_padding = 8.0;
+          # Old marginVertical/marginHorizontal = 4/4 — v5 defaults to a large
+          # inset ("floating pill" look); shrink back to an edge-to-edge bar.
+          margin_ends = 4;
+          margin_edge = 4;
+
+          start = [
+            "launcher"
+            "workspaces"
+            "active_window"
+          ];
+          center = [ "media" ];
+          end = [
+            "sysmon-cpu"
+            "sysmon-cpu-temp"
+            "sysmon-ram"
+            "battery"
+            "bluetooth"
+            "network"
+            "notifications"
+            "volume"
+            "tray"
+            "weather"
+            "clock"
+            "control-center"
+          ];
         };
 
-        location = {
-          autoLocate = true;
+        widget = {
+          active_window = {
+            max_length = 400;
+            # v5 default changed from the old "on hover" scrolling to "none".
+            title_scroll = "on_hover";
+          };
+
+          media = {
+            artist_first = true;
+            max_length = 500;
+            title_scroll = "on_hover";
+            # v5 default is to keep showing the widget with no media; the old
+            # MediaMini hid itself instead.
+            hide_when_no_media = true;
+          };
+
+          # The old single combo "SystemMonitor" widget (CPU%, CPU temp, RAM used)
+          # has no v5 equivalent — each sysmon widget now shows exactly one stat.
+          "sysmon-cpu" = {
+            type = "sysmon";
+            stat = "cpu_usage";
+          };
+          "sysmon-cpu-temp" = {
+            type = "sysmon";
+            stat = "cpu_temp";
+          };
+          "sysmon-ram" = {
+            type = "sysmon";
+            stat = "ram_used";
+          };
+
+          battery = {
+            device = "hidpp_battery_0";
+            display_mode = "glyph";
+          };
+
+          tray = {
+            drawer = false;
+            # v5 defaults hide_passive to true; the old config explicitly kept
+            # passive tray icons visible.
+            hide_passive = false;
+          };
+
+          # Old Volume.middleClickCommand is now the generic widget-actions
+          # system, available on every widget rather than just Volume.
+          volume.actions.middle = "exec pwvucontrol || pavucontrol";
         };
 
-        network = {
-          networkPanelView = "ethernet";
-        };
-
-        systemMonitor = {
-          enableDgpuMonitoring = true;
-        };
+        # kenn/keybind-cheatsheet is the v5 rewrite of the old keybind-cheatsheet
+        # plugin — it parses hyprland.lua directly, matching the numbered
+        # "-- 1. Section" comment convention already used in binds.lua. The
+        # official/community plugin sources ship built in, no need to declare them.
+        plugins.enabled = [ "kenn/keybind-cheatsheet" ];
       };
     };
 

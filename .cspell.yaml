@@ -39,6 +39,7 @@ ignoreWords:
   - dialog
   - analyzer
   - popups
+  - behavior
 
 ignorePaths:
   - flake.lock

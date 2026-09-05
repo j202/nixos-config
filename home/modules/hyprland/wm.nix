@@ -36,18 +36,18 @@ let
 
   cheatsheetCmd =
     if isNoctalia then
-      "noctalia-shell ipc call plugin:keybind-cheatsheet toggle"
+      "noctalia msg panel-toggle kenn/keybind-cheatsheet:cheatsheet"
     else
       "hyprland-cheatsheet";
-  launcherCmd = if isNoctalia then "noctalia-shell ipc call launcher toggle" else "rofi -show drun";
+  launcherCmd = if isNoctalia then "noctalia msg panel-toggle launcher" else "rofi -show drun";
   launcherTapCmd =
-    if isNoctalia then "noctalia-shell ipc call launcher toggle" else "pkill rofi || rofi -show drun";
-  lockCmd = if isNoctalia then "noctalia-shell ipc call lockScreen lock" else "hyprlock";
-  sessionMenuCmd = if isNoctalia then "noctalia-shell ipc call sessionMenu toggle" else "wlogout";
+    if isNoctalia then "noctalia msg panel-toggle launcher" else "pkill rofi || rofi -show drun";
+  lockCmd = if isNoctalia then "noctalia msg session lock" else "hyprlock";
+  sessionMenuCmd = if isNoctalia then "noctalia msg panel-toggle session" else "wlogout";
 
   execOnceCommands =
     lib.optional (config.myConfig.desktop.shell == "waybar") "mako"
-    ++ lib.optional isNoctalia "noctalia-shell"
+    ++ lib.optional isNoctalia "noctalia"
     ++ [
       "hyprshell run"
       "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent"
@@ -301,7 +301,28 @@ in
           };
           opacity = "1.0 override 1.0 override";
         }
-      ];
+      ]
+      ++ lib.optional isNoctalia {
+        name = "float-noctalia-settings";
+        match.class = "dev.noctalia.Noctalia";
+        float = true;
+        size = [
+          1080
+          920
+        ];
+      };
+
+      # Recommended by noctalia's own Hyprland-Lua docs: blur its bar/panels/
+      # notifications and skip Hyprland's layer animations for them, since
+      # noctalia animates those surfaces itself.
+      layer_rule = lib.optional isNoctalia {
+        name = "noctalia";
+        match.namespace = "^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher)$";
+        no_anim = true;
+        ignore_alpha = 0.5;
+        blur = true;
+        blur_popups = true;
+      };
     };
 
     # binds.lua is a real, static Lua file (home/modules/hyprland/binds.lua) — the
