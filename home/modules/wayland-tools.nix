@@ -58,45 +58,55 @@ in
     }
   '';
 
-  programs.rofi = {
-    enable = true;
-    package = pkgs.rofi;
-    theme = lib.mkForce "rofi-ext";
-    terminal = "${pkgs.kitty}/bin/kitty";
-    extraConfig = {
-      modi = "drun,run";
-      show-icons = true;
-      icon-theme = "Papirus-Dark";
-      drun-display-format = "{name}";
-      display-drun = " ";
-      display-run = " ";
-      me-select-entry = "";
-      me-accept-entry = "MousePrimary";
+  programs = {
+    rofi = {
+      enable = true;
+      package = pkgs.rofi;
+      theme = lib.mkForce "rofi-ext";
+      terminal = "${pkgs.kitty}/bin/kitty";
+      extraConfig = {
+        modi = "drun,run";
+        show-icons = true;
+        icon-theme = "Papirus-Dark";
+        drun-display-format = "{name}";
+        display-drun = " ";
+        display-run = " ";
+        me-select-entry = "";
+        me-accept-entry = "MousePrimary";
+      };
     };
-  };
 
-  # ── Kitty ─────────────────────────────────────────────────────────────────
+    # ── Kitty ───────────────────────────────────────────────────────────────
 
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "JetBrainsMono Nerd Font";
-      size = 12;
+    kitty = {
+      enable = true;
+      font = {
+        name = "JetBrainsMono Nerd Font";
+        size = 12;
+      };
+      settings = {
+        window_padding_width = 8;
+        confirm_os_window_close = 0;
+        enable_audio_bell = false;
+        cursor_trail = 3;
+        cursor_trail_decay = "0.05 0.4";
+        cursor_trail_start_threshold = 2;
+        tab_bar_style = "custom";
+        tab_bar_margin_height = "4 4";
+        # The Catppuccin theme sets inactive_tab_background to mantle,
+        # almost identical to the bar background. Override to surface1
+        # so inactive bubbles are clearly visible.
+        inactive_tab_background = "${palette.${flavor}.colors.surface1.hex}";
+      };
     };
-    settings = {
-      window_padding_width = 8;
-      confirm_os_window_close = 0;
-      enable_audio_bell = false;
-      cursor_trail = 3;
-      cursor_trail_decay = "0.05 0.4";
-      cursor_trail_start_threshold = 2;
-      tab_bar_style = "custom";
-      tab_bar_margin_height = "4 4";
-      # The Catppuccin theme sets inactive_tab_background to mantle,
-      # almost identical to the bar background. Override to surface1
-      # so inactive bubbles are clearly visible.
-      inactive_tab_background = "${palette.${flavor}.colors.surface1.hex}";
-    };
+
+    # kitty advertises TERM=xterm-kitty locally, which most remote hosts have
+    # no terminfo entry for — breaks any curses program over ssh (e.g.
+    # gpg-agent's pinentry) with an error that doesn't hint at the cause.
+    # The ssh kitten bootstraps kitty's terminfo onto the remote host for the
+    # session instead, keeping full xterm-kitty fidelity on both ends rather
+    # than downgrading TERM everywhere just for the sake of remote hosts.
+    fish.shellAliases.ssh = "kitty +kitten ssh";
   };
 
   # Filled bubble tabs. Both active and inactive use the same shape; colors

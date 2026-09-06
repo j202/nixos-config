@@ -92,6 +92,9 @@ upower
 pinentry
 libsecret
 # Secrets
+# Terminal emulation
+xterm
+terminfo
 # Dev tools
 clippy
 gnumake
