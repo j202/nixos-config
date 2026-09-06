@@ -1,6 +1,6 @@
 # vim: set ft=nix ts=2 sw=2 sts=2 et:
 # Laptop-specific home config — shared base plus XFCE desktop.
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   xfce_terminal_catppuccin_themes = pkgs.fetchFromGitHub {
     owner = "catppuccin";
@@ -18,4 +18,8 @@ in
 
   home.file.".local/share/xfce4/terminal/colorschemes".source =
     xfce_terminal_catppuccin_themes + "/themes";
+
+  # pinentry-qt fails with "Screen or window too small" on this box (no
+  # xdg-desktop-portal/secrets service either) — curses avoids both.
+  services.gpg-agent.pinentry.package = lib.mkForce pkgs.pinentry-curses;
 }

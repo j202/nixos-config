@@ -71,6 +71,10 @@
       "nix-command"
       "flakes"
     ];
+    # This flake's own nixConfig only ever adds settings already trusted
+    # here, but nix still prompts for it per-user on first use — which
+    # hangs non-interactively under nix-direnv. Skip the prompt.
+    accept-flake-config = true;
     auto-optimise-store = true;
     netrc-file = config.age.secrets.netrc.path;
     trusted-users = [
