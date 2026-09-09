@@ -25,6 +25,7 @@ in
     file = {
       "Pictures/Screenshots/.keep".text = "";
       "Pictures/wallpapers/.keep".text = "";
+      "Pictures/PhoneCamera/.keep".text = "";
     };
 
     # VS Code can write its own fields into argv.json; use activation (not home.file)

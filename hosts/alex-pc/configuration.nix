@@ -15,6 +15,7 @@
     ../../modules/pipewire.nix
     ../../modules/gaming.nix
     ../../modules/bluetooth.nix
+    ../../modules/syncthing.nix
     ../../modules/vial
   ];
 

@@ -179,3 +179,4 @@ bluetoothctl
 kmod
 direnv
 envrc
+syncthing
