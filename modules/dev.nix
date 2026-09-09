@@ -29,6 +29,7 @@
       nixfmt
       nodejs
       pkg-config
+      pre-commit
       pyright
       python3
       python3Packages.numpy
