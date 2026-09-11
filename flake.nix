@@ -2,13 +2,6 @@
 {
   description = "NixOS configurations";
 
-  nixConfig = {
-    extra-substituters = [ "https://noctalia.cachix.org" ];
-    extra-trusted-public-keys = [
-      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-    ];
-  };
-
   inputs = {
     # Laptop stays on stable — old hardware needs predictability
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -32,11 +25,6 @@
       inputs.nixpkgs.follows = "nixos-unstable";
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixos-unstable";
-    };
-
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixos-unstable";
@@ -52,7 +40,6 @@
       home-manager-stable,
       catppuccin,
       agenix,
-      noctalia,
       git-hooks,
       ...
     }:
@@ -245,7 +232,6 @@
                 users.alex = import ./home/alex-pc.nix;
                 sharedModules = [
                   catppuccin.homeModules.catppuccin
-                  noctalia.homeModules.default
                 ];
               };
             }
