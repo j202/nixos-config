@@ -180,3 +180,6 @@ kmod
 direnv
 envrc
 syncthing
+syncthingandroid
+catfriend
+DCIM

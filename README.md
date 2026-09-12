@@ -185,6 +185,34 @@ Also needed once per game, since Steam/Lutris have no way to apply this globally
   options (e.g. `~/.local/bin/game-backup-steam-wrapper.sh %command%`).
 - Lutris: set the game's "Post-exit script" to `~/.local/bin/game-backup-trigger.sh`.
 
+## Phone photo sync (alex-pc)
+
+Syncthing (`modules/syncthing.nix`) pulls the phone's camera roll into
+`~/Pictures/PhoneCamera` over LAN — no cloud, no USB. Nix declares the service, the
+firewall ports, and a LAN-only network policy (local discovery on; global discovery,
+relaying, and NAT traversal all off, so it fails closed instead of quietly syncing
+over the internet via relay). `overrideDevices`/`overrideFolders` are both off, so
+Nix never touches the actual device pairing or folder share — those are pure GUI
+state (`~/.config/syncthing/config.xml`), deliberately left out of this repo since
+it's public.
+
+That means a fresh install of `alex-pc` starts with Syncthing running but with no
+paired devices and no shared folders — the pairing has to be redone by hand:
+
+1. Set a GUI password: open `localhost:8384`, Settings → GUI.
+2. On the phone (Syncthing-Fork, `com.github.catfriend1.syncthingandroid`): Add
+   Device, scan the QR code from the PC's Actions → Show ID, accept the pairing
+   prompt that appears on the PC.
+3. On the phone: Folders → add `DCIM/Camera`, share it with the PC device.
+4. On the PC: accept the incoming folder share, set path to
+   `~/Pictures/PhoneCamera`, set **Folder Type → Receive Only** (so a PC-side
+   deletion never propagates back and wipes the phone's originals), and add `.keep`
+   under Ignore Patterns (excludes the placeholder file home-manager creates so the
+   directory exists before first pairing).
+
+The folder path can't be edited after creation (Syncthing disables that field by
+design) — moving it later means removing and re-adding the folder, not editing it.
+
 ## Standalone home-manager (non-NixOS)
 
 ### Prerequisites

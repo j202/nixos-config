@@ -11,5 +11,21 @@ _: {
     configDir = "/home/alex/.config/syncthing";
     openDefaultPorts = true;
     guiAddress = "127.0.0.1:8384";
+
+    # Both default to true, which deletes any device/folder not declared
+    # here on every rebuild — device pairing and folder shares are set up
+    # via the GUI (they're local runtime state, not committed), so leave
+    # them alone instead of wiping them out from under it.
+    overrideDevices = false;
+    overrideFolders = false;
+
+    # Fail closed instead of silently falling back to the internet: only
+    # sync when both devices are on the same LAN.
+    settings.options = {
+      localAnnounceEnabled = true;
+      globalAnnounceEnabled = false;
+      relaysEnabled = false;
+      natEnabled = false;
+    };
   };
 }
