@@ -34,6 +34,31 @@
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/vscode/settings.json";
     "Code/User/keybindings.json".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/vscode/keybindings.json";
+
+    # Base settings (including catppuccin palette) with plain-text symbols and
+    # no Nerd Font icons, for the Linux console.
+    "starship-tty.toml".source =
+      let
+        merged = lib.recursiveUpdate config.programs.starship.settings {
+          os.disabled = true;
+          shell = {
+            fish_indicator = "fish";
+            bash_indicator = "bash";
+            zsh_indicator = "zsh";
+            unknown_indicator = "?";
+          };
+        };
+        toml = (pkgs.formats.toml { }).generate;
+        # Root keys must precede the preset, whose last table would swallow them.
+        rootKeys = toml "starship-tty-root.toml" (lib.filterAttrs (_: v: !builtins.isAttrs v) merged);
+        tables = toml "starship-tty-tables.toml" (lib.filterAttrs (_: builtins.isAttrs) merged);
+      in
+      pkgs.runCommand "starship-tty.toml" { } ''
+        cp ${rootKeys} $out
+        chmod +w $out
+        ${config.programs.starship.package}/bin/starship preset plain-text-symbols >> $out
+        cat ${tables} >> $out
+      '';
   };
 
   programs = {
@@ -50,6 +75,15 @@
         set fish_greeting # Disable greeting
 
         export EDITOR=nvim
+
+        # Linux console can't render Nerd Font glyphs; use the plain-text
+        # starship variant there. Erase elsewhere so it can't leak into
+        # graphical sessions started from a tty.
+        if test "$TERM" = linux
+          set -gx STARSHIP_CONFIG ${config.xdg.configHome}/starship-tty.toml
+        else
+          set -e STARSHIP_CONFIG
+        end
 
         if type -q gpgconf
           set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)

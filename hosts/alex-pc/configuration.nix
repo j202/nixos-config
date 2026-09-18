@@ -32,6 +32,14 @@
 
   networking.hostName = "alex-pc";
 
+  # Terminus 14x28 suits the 3440x1440 framebuffer; earlySetup applies it in
+  # the initrd so early-boot output uses it too.
+  console = {
+    font = "ter-v28n";
+    packages = [ pkgs.terminus_font ];
+    earlySetup = true;
+  };
+
   # AMD GPU — amdgpu driver, 32-bit for Wine/Steam
   services.xserver = {
     enable = true;
