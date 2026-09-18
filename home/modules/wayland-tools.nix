@@ -63,8 +63,8 @@ in
       enable = true;
       package = pkgs.rofi;
       theme = lib.mkForce "rofi-ext";
-      terminal = "${pkgs.kitty}/bin/kitty";
-      extraConfig = {
+      settings = {
+        terminal = "${pkgs.kitty}/bin/kitty";
         modi = "drun,run";
         show-icons = true;
         icon-theme = "Papirus-Dark";
