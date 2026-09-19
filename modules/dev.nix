@@ -13,6 +13,7 @@
       ansible
       cargo
       clippy
+      commitizen
       cspell
       gcc
       gh

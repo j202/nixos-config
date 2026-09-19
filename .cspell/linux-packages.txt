@@ -96,7 +96,9 @@ libsecret
 xterm
 terminfo
 # Dev tools
+argcomplete
 clippy
+commitizen
 gnumake
 golint
 gopls

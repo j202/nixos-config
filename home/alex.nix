@@ -59,6 +59,12 @@
         ${config.programs.starship.package}/bin/starship preset plain-text-symbols >> $out
         cat ${tables} >> $out
       '';
+
+    # commitizen's packaged completion registers `complete --path <store path>`,
+    # which never matches `cz` resolved via PATH; regenerate it by name.
+    "fish/completions/cz.fish".source = pkgs.runCommand "cz.fish" { } ''
+      ${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete --shell fish cz > $out
+    '';
   };
 
   programs = {
