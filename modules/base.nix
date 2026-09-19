@@ -61,6 +61,10 @@
         la = "eza --long --header --group-directories-first --icons=auto --group --all --all";
       };
     };
+    nh = {
+      enable = true;
+      flake = "/home/alex/nixos-config";
+    };
     nix-ld.enable = true;
     mtr.enable = true;
   };
