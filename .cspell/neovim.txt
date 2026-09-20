@@ -28,6 +28,8 @@ lazyrepo
 lazydev
 tabpage
 diffthis
+plaintex
+typst
 # Plugin names
 bufferline
 gitsigns
