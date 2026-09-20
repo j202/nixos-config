@@ -138,4 +138,15 @@ return {
       { "<leader>gc", open_codediff, desc = "CodeDiff (current file + explorer)" },
     },
   },
+  {
+    "folke/snacks.nvim",
+    opts = {
+      lazygit = {
+        theme = {
+          -- Snacks defaults to FloatBorder, which catppuccin makes near-black
+          inactiveBorderColor = { fg = "Comment" },
+        },
+      },
+    },
+  },
 }
