@@ -94,6 +94,19 @@
         if type -q gpgconf
           set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
         end
+
+        # fish builds its completion path at startup, so completions from a
+        # direnv dev shell (e.g. bazel) are missed; add them when direnv
+        # changes XDG_DATA_DIRS. Defined here, not in functions/, so the
+        # handler is registered at startup rather than on first autoload.
+        function __add_vendor_completions --on-variable XDG_DATA_DIRS
+          for d in (string split : $XDG_DATA_DIRS)
+            set -l c $d/fish/vendor_completions.d
+            if test -d $c; and not contains -- $c $fish_complete_path
+              set -ag fish_complete_path $c
+            end
+          end
+        end
       '';
       functions = {
         nix-diff = ''
