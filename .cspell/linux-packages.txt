@@ -1,6 +1,8 @@
 # Linux software packages and system terms
 # Notification / desktop integration
 libnotify
+# Libraries
+libicu
 # Image editors
 pinta
 # File managers / desktop apps

@@ -25,6 +25,7 @@
       lazygit
       lua-language-server
       luarocks
+      marksman
       meld
       nil
       nixfmt
