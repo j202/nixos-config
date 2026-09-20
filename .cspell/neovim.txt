@@ -5,6 +5,7 @@ ellisonleao
 hrsh
 williamboman
 esmuellert
+stevearc
 # Neovim built-in options and functions
 relativenumber
 winblend
@@ -44,4 +45,5 @@ venv
 jsonls
 codediff
 # Misc
+syntastic
 repro
