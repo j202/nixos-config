@@ -66,10 +66,8 @@
     '';
   };
 
-  # Extra groups beyond the common wheel+networkmanager
+  # Extra groups beyond the common ones in modules/base.nix
   users.users.alex.extraGroups = [
-    "wheel"
-    "networkmanager"
     "audio"
     "video"
   ];

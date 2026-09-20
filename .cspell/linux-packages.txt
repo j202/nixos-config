@@ -68,6 +68,7 @@ ahci
 nvme
 sdhci
 # System / kernel config
+dialout
 amdgpu
 microcode
 initrd

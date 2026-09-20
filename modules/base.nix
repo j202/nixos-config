@@ -2,7 +2,6 @@
 # Universal baseline — imported by every host.
 {
   config,
-  lib,
   pkgs,
   ...
 }:
@@ -40,9 +39,10 @@
 
   users.users.alex = {
     isNormalUser = true;
-    extraGroups = lib.mkDefault [
+    extraGroups = [
       "wheel"
       "networkmanager"
+      "dialout"
     ];
     packages = with pkgs; [ tree ];
     shell = pkgs.fish;
