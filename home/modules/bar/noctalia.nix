@@ -173,6 +173,7 @@ in
           end = [
             "sysmon-cpu"
             "sysmon-cpu-temp"
+            "sysmon-gpu-temp"
             "sysmon-ram"
             "battery"
             "bluetooth"
@@ -234,6 +235,10 @@ in
           "sysmon-cpu-temp" = {
             type = "sysmon";
             stat = "cpu_temp";
+          };
+          "sysmon-gpu-temp" = {
+            type = "sysmon";
+            stat = "gpu_temp";
           };
           "sysmon-ram" = {
             type = "sysmon";
