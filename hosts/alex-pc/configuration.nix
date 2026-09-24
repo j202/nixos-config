@@ -8,6 +8,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./de1-soc.nix
     ../../modules/base.nix
     ../../modules/desktop.nix
     ../../modules/dev.nix

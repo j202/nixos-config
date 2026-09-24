@@ -90,6 +90,7 @@ pciutils
 usbutils
 lxqt
 networkmanager
+dnsmasq
 libinput
 upower
 pinentry
