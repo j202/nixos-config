@@ -91,6 +91,8 @@ usbutils
 lxqt
 networkmanager
 dnsmasq
+clid
+reflashing
 libinput
 upower
 pinentry

@@ -27,8 +27,10 @@ _: {
   };
 
   # Pin the board's lease by the hostname it sends, since its MAC is derived
-  # from the SD card and can change
+  # from the SD card and can change. Reflashing changes the client-ID, so
+  # identify by MAC only, and keep the lease short so a stale one clears fast.
   environment.etc."NetworkManager/dnsmasq-shared.d/de1-soc.conf".text = ''
-    dhcp-host=de1-soc,10.42.0.50
+    dhcp-ignore-clid
+    dhcp-host=de1-soc,10.42.0.50,5m
   '';
 }
