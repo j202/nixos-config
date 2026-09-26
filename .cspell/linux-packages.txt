@@ -166,6 +166,8 @@ uaccess
 clipman
 # Python
 pycache
+# Bazel
+buildifier
 # Shell tools
 shellcheck
 shfmt

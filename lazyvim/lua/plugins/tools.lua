@@ -3,7 +3,10 @@ return {
   { "mason-org/mason.nvim", opts = { PATH = "append" } },
   {
     -- clang-format formats C and C++; the LspAttach in config/autocmds.lua keeps clangd's own formatter out.
+    -- buildifier formats Bazel files (BUILD, MODULE.bazel, .bzl).
     "stevearc/conform.nvim",
-    opts = { formatters_by_ft = { c = { "clang_format" }, cpp = { "clang_format" } } },
+    opts = {
+      formatters_by_ft = { c = { "clang_format" }, cpp = { "clang_format" }, bzl = { "buildifier" } },
+    },
   },
 }
