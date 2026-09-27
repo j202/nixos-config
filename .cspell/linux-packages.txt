@@ -3,6 +3,8 @@
 libnotify
 # Libraries
 libicu
+# Git GUI
+gittyup
 # Image editors
 pinta
 # File managers / desktop apps

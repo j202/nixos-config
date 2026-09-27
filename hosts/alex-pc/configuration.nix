@@ -88,6 +88,7 @@
   environment.systemPackages = with pkgs; [
     brave
     ethtool
+    gittyup
     nvme-cli
     obsidian
     proton-pass
