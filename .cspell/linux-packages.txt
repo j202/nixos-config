@@ -69,6 +69,10 @@ xhci
 ahci
 nvme
 sdhci
+# X11 / Xorg
+xorg
+modesetting
+glamor
 # System / kernel config
 dialout
 amdgpu

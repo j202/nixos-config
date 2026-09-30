@@ -27,7 +27,13 @@
   # much less thrashing than disk swap on this 2 GB machine's old storage.
   zramSwap.enable = true;
 
-  services.xserver.videoDrivers = [ "nouveau" ];
+  # The legacy nouveau DDX (xf86-video-nouveau) fails to load under
+  # nixos-26.05's xorg-server build: "undefined symbol: exaDriverAlloc"
+  # (a long-standing class of bug in EXA-based drivers vs. certain hardening
+  # flags — same root cause reported against Arch/Debian/Ubuntu over the
+  # years). The generic modesetting driver talks to the same nouveau
+  # *kernel* module via KMS/glamor and sidesteps it entirely.
+  services.xserver.videoDrivers = [ "modesetting" ];
 
   # Offload builds to alex-pc instead of building locally on this 2 GB
   # machine. Hostname/user/host-key live only in the encrypted machines
