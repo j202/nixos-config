@@ -67,18 +67,30 @@
     '';
   };
 
-  # Extra groups beyond the common ones in modules/base.nix
-  users.users.alex.extraGroups = [
-    "audio"
-    "video"
-  ];
+  users = {
+    # Extra groups beyond the common ones in modules/base.nix
+    users.alex.extraGroups = [
+      "audio"
+      "video"
+    ];
 
-  # Lets xpsm1330's nix-daemon (root) offload builds here as alex, who's
-  # already a trusted nix user (modules/base.nix). Dedicated keypair, used
-  # for nothing else.
-  users.users.alex.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILR1PEKLvrGBMFTgDC5nxgyfozDYwG81n+9cLDoAgEqk nix-remote-build@xpsm1330"
-  ];
+    # Lets xpsm1330's nix-daemon (root) offload builds here. Unprivileged,
+    # no home/shell/sudo — the nix-daemon socket is world-connectable
+    # (allowed-users defaults to "*", modules/base.nix doesn't narrow it),
+    # so this account doesn't need to be a trusted nix user, just able to
+    # log in. The key is additionally forced to the one command it needs,
+    # so even a leaked key can't open an interactive shell.
+    groups.nix-remote-builder = { };
+    users.nix-remote-builder = {
+      isSystemUser = true;
+      group = "nix-remote-builder";
+      home = "/var/empty";
+      shell = pkgs.bash;
+      openssh.authorizedKeys.keys = [
+        ''command="nice -n15 nix-store --serve --write",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILR1PEKLvrGBMFTgDC5nxgyfozDYwG81n+9cLDoAgEqk nix-remote-build@xpsm1330''
+      ];
+    };
+  };
 
   myConfig.vial = {
     enable = true;
