@@ -73,6 +73,13 @@
     "video"
   ];
 
+  # Lets xpsm1330's nix-daemon (root) offload builds here as alex, who's
+  # already a trusted nix user (modules/base.nix). Dedicated keypair, used
+  # for nothing else.
+  users.users.alex.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILR1PEKLvrGBMFTgDC5nxgyfozDYwG81n+9cLDoAgEqk nix-remote-build@xpsm1330"
+  ];
+
   myConfig.vial = {
     enable = true;
     keyboards = [

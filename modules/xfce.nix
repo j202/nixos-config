@@ -19,7 +19,7 @@
     };
   };
 
-  environment.systemPackages = [ pkgs.xfce.xfce4-clipman-plugin ];
+  environment.systemPackages = [ pkgs.xfce4-clipman-plugin ];
 
   environment.etc."xdg/autostart/xfce4-clipman.desktop".text = ''
     [Desktop Entry]

@@ -4,7 +4,7 @@
 
   inputs = {
     # Laptop stays on stable — old hardware needs predictability
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
     # PC tracks unstable for newest packages
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -14,7 +14,7 @@
     };
 
     home-manager-stable = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
@@ -50,7 +50,10 @@
         src = ./.;
         hooks = {
           nixfmt.enable = true;
-          end-of-file-fixer.enable = true;
+          end-of-file-fixer = {
+            enable = true;
+            excludes = [ "^secrets/.*\\.age$" ];
+          };
           check-json = {
             enable = true;
             excludes = [ "^vscode/" ];
@@ -150,7 +153,10 @@
           };
           trim-trailing-whitespace = {
             enable = true;
-            excludes = [ "\\.md$" ];
+            excludes = [
+              "\\.md$"
+              "^secrets/.*\\.age$"
+            ];
           };
           statix = {
             enable = true;

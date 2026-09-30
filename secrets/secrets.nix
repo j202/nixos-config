@@ -8,4 +8,6 @@ in
 {
   "netrc.age".publicKeys = [ alex ];
   "ssh_config.age".publicKeys = [ alex ];
+  "nix_build_ssh_key.age".publicKeys = [ alex ];
+  "nix_build_machines.age".publicKeys = [ alex ];
 }
