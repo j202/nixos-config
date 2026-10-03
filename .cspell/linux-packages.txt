@@ -199,3 +199,15 @@ syncthing
 syncthingandroid
 catfriend
 DCIM
+# NFS / netboot
+netboot
+netbooted
+writable
+rootfs
+vers
+portmapper
+mountd
+lockd
+nfsd
+exportfs
+etab
