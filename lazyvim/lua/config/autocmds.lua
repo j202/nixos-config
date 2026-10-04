@@ -26,3 +26,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
+
+-- Neovim clears a client's diagnostics on exit only for buffers it was attached to, but servers like
+-- vhdl_ls also publish for unopened project files; after `:lsp restart` those would stay forever.
+local function sweep_dead_lsp_diagnostics()
+  for ns, info in pairs(vim.diagnostic.get_namespaces()) do
+    local id = info.name:match("^nvim%.lsp%..-%.(%d+)")
+    if id and not vim.lsp.get_client_by_id(tonumber(id)) then
+      vim.diagnostic.reset(ns)
+    end
+  end
+end
+
+local sweep_group = vim.api.nvim_create_augroup("sweep_dead_lsp_diagnostics", { clear = true })
+vim.api.nvim_create_autocmd({ "LspAttach", "LspDetach" }, {
+  group = sweep_group,
+  callback = function()
+    vim.schedule(sweep_dead_lsp_diagnostics)
+  end,
+})
