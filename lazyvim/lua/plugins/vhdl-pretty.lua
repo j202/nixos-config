@@ -3,6 +3,6 @@ return {
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   ft = { "vhdl" },
   config = function()
-    require("vhdl_pretty").setup()
+    require("vhdl_pretty").setup({ font = "JetBrainsMono Nerd Font Mono" })
   end,
 }
