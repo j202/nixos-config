@@ -27,6 +27,8 @@
       systemd-boot.configurationLimit = 10;
       efi.canTouchEfiVariables = true;
     };
+    # Nuvoton NCT6798D Super I/O: exposes motherboard fan RPM/PWM in hwmon
+    kernelModules = [ "nct6775" ];
     # Keep kernel off swap — 32 GB RAM means we never want to swap
     kernel.sysctl."vm.swappiness" = 10;
   };

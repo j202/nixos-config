@@ -211,3 +211,6 @@ lockd
 nfsd
 exportfs
 etab
+# Hardware sensors / fan control
+Nuvoton
+hwmon
