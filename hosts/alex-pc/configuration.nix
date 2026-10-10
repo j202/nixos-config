@@ -76,12 +76,11 @@
       "video"
     ];
 
-    # Lets xpsm1330's nix-daemon (root) offload builds here. Unprivileged,
-    # no home/shell/sudo — the nix-daemon socket is world-connectable
-    # (allowed-users defaults to "*", modules/base.nix doesn't narrow it),
-    # so this account doesn't need to be a trusted nix user, just able to
-    # log in. The key is additionally forced to the one command it needs,
-    # so even a leaked key can't open an interactive shell.
+    # Lets xpsm1330's nix-daemon (root) offload builds here. No
+    # home/shell/sudo, and the key is forced to the one command it needs,
+    # so even a leaked key can't open an interactive shell. It does have to
+    # be a trusted nix user (see nix.settings below) — untrusted users are
+    # refused input-addressed builds.
     groups.nix-remote-builder = { };
     users.nix-remote-builder = {
       isSystemUser = true;
@@ -144,10 +143,14 @@
     vscode
   ];
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 90d";
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 90d";
+    };
+    # Required for xpsm1330 to offload builds here.
+    settings.trusted-users = [ "nix-remote-builder" ];
   };
 
   fileSystems."/games" = {
