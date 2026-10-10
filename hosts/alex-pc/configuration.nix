@@ -89,7 +89,7 @@
       home = "/var/empty";
       shell = pkgs.bash;
       openssh.authorizedKeys.keys = [
-        ''command="nice -n15 nix-store --serve --write",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILR1PEKLvrGBMFTgDC5nxgyfozDYwG81n+9cLDoAgEqk nix-remote-build@xpsm1330''
+        ''command="nice -n15 nix-store --serve --write",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINMBnH5bc8hm8ltNxisdtmvhfo3Cv51/LO/a4GhapBZK nix-remote-build@xpsm1330''
       ];
     };
   };
