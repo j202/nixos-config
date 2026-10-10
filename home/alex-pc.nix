@@ -39,4 +39,7 @@ in
   };
 
   services.gpg-agent.pinentry.package = lib.mkForce pinentry-auto;
+
+  # Reads the motherboard's Nuvoton sensors, which only this machine has.
+  xdg.configFile."fish/functions/fans.fish".source = ./modules/fans.fish;
 }

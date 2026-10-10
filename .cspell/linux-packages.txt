@@ -180,6 +180,7 @@ shfmt
 tostring
 mktemp
 inotify
+math
 # Post-processing
 vkbasalt
 VKBASALT
