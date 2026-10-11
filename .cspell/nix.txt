@@ -70,3 +70,4 @@ keygrip
 sshcontrol
 guitool
 difftool
+gnutar

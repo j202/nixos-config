@@ -2,7 +2,8 @@
 # DE1-SoC dev board on the onboard NIC, NATed behind the PC, netbooted over
 # TFTP (U-Boot PXE + kernel) and NFS (root fs). Drop this file from the host's
 # imports to remove the setup.
-_: {
+{ lib, pkgs, ... }:
+{
   networking = {
     # NM's "shared" mode runs dnsmasq (DHCP+DNS) and masquerades out via the uplink
     networkmanager.ensureProfiles.profiles.de1-soc = {
@@ -59,17 +60,97 @@ _: {
     };
   };
 
-  # mountd starts before nfs-server's `exportfs -r` creates etab, and exits if
-  # it is missing
-  systemd.services.nfs-mountd.preStart = ''
-    touch /var/lib/nfs/etab
-  '';
+  systemd = {
+    services = {
+      # mountd starts before nfs-server's `exportfs -r` creates etab, and exits if
+      # it is missing
+      nfs-mountd.preStart = ''
+        touch /var/lib/nfs/etab
+      '';
 
-  # The tftp dir is alex's so a script can write it without sudo (dnsmasq runs
-  # as nobody and only reads it). The rootfs needs root ownership for no_root_squash.
-  systemd.tmpfiles.rules = [
-    "d /srv/de1-soc 0755 root root - -"
-    "d /srv/de1-soc/tftp 0755 alex users - -"
-    "d /srv/de1-soc/rootfs 0755 root root - -"
-  ];
+      de1-soc-rootfs-apply = {
+        description = "Apply a netboot root filesystem deploy from the inbox";
+        restartIfChanged = false;
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = lib.getExe (
+            pkgs.writeShellApplication {
+              name = "de1-soc-rootfs-apply";
+              runtimeInputs = [
+                pkgs.coreutils
+                pkgs.gnutar
+              ];
+              text = ''
+                inbox=/srv/de1-soc/inbox
+                export_dir=/srv/de1-soc/rootfs
+
+                cd "$inbox"
+                rm -f ready status
+
+                if [ ! -f rootfs.tar ] && [ ! -f layers.tar ]; then
+                  echo "nothing to apply: no rootfs.tar or layers.tar" >&2
+                  exit 1
+                fi
+
+                if [ -f rootfs.tar ]; then
+                  rm -rf "$export_dir.new"
+                  mkdir "$export_dir.new"
+                  tar --numeric-owner -xpf rootfs.tar -C "$export_dir.new"
+                  rm -rf "$export_dir.old"
+                  if [ -d "$export_dir" ]; then
+                    mv "$export_dir" "$export_dir.old"
+                  fi
+                  mv "$export_dir.new" "$export_dir"
+                fi
+
+                if [ -f layers.tar ]; then
+                  tar --numeric-owner -xpf layers.tar -C "$export_dir"
+                fi
+              '';
+            }
+          );
+          # Outside the sandbox: exportfs writes /var/lib/nfs and talks to the kernel.
+          ExecStartPost = "+${pkgs.nfs-utils}/bin/exportfs -r";
+          # Runs on failure too, so the script always gets an answer.
+          ExecStopPost = pkgs.writeShellScript "de1-soc-rootfs-apply-status" ''
+            cd /srv/de1-soc/inbox
+            rm -f rootfs.tar layers.tar
+            if [ "$SERVICE_RESULT" = success ]; then
+              echo ok >status
+            else
+              echo failed >status
+            fi
+          '';
+
+          # A hostile tar or a planted symlink in the inbox can only reach /srv/de1-soc.
+          ProtectSystem = "strict";
+          ReadWritePaths = "/srv/de1-soc";
+          ProtectHome = true;
+          PrivateTmp = true;
+          PrivateNetwork = true;
+          NoNewPrivileges = true;
+        };
+      };
+    };
+
+    # The tftp dir and the inbox are alex's so a script can write them without
+    # sudo (dnsmasq runs as nobody and only reads tftp). The rootfs needs root
+    # ownership for no_root_squash, so the apply service fills it from the
+    # inbox.
+    tmpfiles.rules = [
+      "d /srv/de1-soc 0755 root root - -"
+      "d /srv/de1-soc/tftp 0755 alex users - -"
+      "d /srv/de1-soc/inbox 0700 alex users - -"
+      "d /srv/de1-soc/rootfs 0755 root root - -"
+    ];
+
+    # Rootless netboot deploy: the deploy script puts rootfs.tar (whole tree,
+    # swapped in; the old one is kept as rootfs.old) and/or layers.tar (extracted
+    # over it) in the inbox, then touches `ready`. The service applies them as
+    # root and writes `status` (ok/failed) for the script to read.
+    paths.de1-soc-rootfs-apply = {
+      wantedBy = [ "paths.target" ];
+      pathConfig.PathExists = "/srv/de1-soc/inbox/ready";
+    };
+  };
 }
