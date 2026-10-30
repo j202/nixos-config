@@ -54,6 +54,6 @@ ignorePaths:
   - "**/*.lock"
   - ".cspell/**"
   - ".cspell.yaml"
-  - "secrets/secrets.nix"
+  - "secrets/agenix-rules.nix"
   - "lazyvim/lazy-lock.json"
   - "lazyvim/lua/plugins/example.lua"

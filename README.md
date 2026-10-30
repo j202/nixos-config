@@ -33,7 +33,7 @@ sudo nixos-rebuild switch --flake .#alex-pc
 
 Secrets are encrypted with [agenix](https://github.com/ryantm/agenix) and committed
 to this repo as `.age` files under `secrets/` — safe to keep public, since only the
-holder of a matching age private key can decrypt them. `secrets/secrets.nix` lists
+holder of a matching age private key can decrypt them. `secrets/agenix-rules.nix` lists
 which public key(s) ("recipients") each secret is encrypted for.
 
 Decryption happens automatically on `nixos-rebuild switch`, using the private key at
@@ -59,8 +59,8 @@ cd ..
 sudo nixos-rebuild switch --flake .#alex-pc
 ```
 
-Run from inside `secrets/`, using the bare filename — agenix looks for `./secrets.nix`
-relative to the current directory (not `secrets/secrets.nix`) and uses whatever you
+Run from inside `secrets/`, using the bare filename — agenix looks for `./agenix-rules.nix`
+relative to the current directory (not `secrets/agenix-rules.nix`) and uses whatever you
 pass as the exact lookup key. `sudo` is required to read `/etc/age/key`
 (root-owned, `0400`); `-E` preserves `$EDITOR` through it.
 
@@ -71,12 +71,12 @@ before a fresh machine's first switch).
 
 To add a new secret: encrypt a file with `age -r <public-key> -o
 secrets/<name>.age <path-to-plaintext>`, add `"<name>.age".publicKeys = [ alex ];` to
-`secrets/secrets.nix`, then reference it via `age.secrets.<name>` in the relevant
+`secrets/agenix-rules.nix`, then reference it via `age.secrets.<name>` in the relevant
 module (`file`, and optionally `path`/`owner`/`mode` if it needs to land somewhere
 specific, as `ssh-config` does).
 
 To add a second machine as a recipient (e.g. `xpsm1330`): generate/obtain its age
-public key, add it alongside `alex` in `secrets/secrets.nix`, then re-run the `age
+public key, add it alongside `alex` in `secrets/agenix-rules.nix`, then re-run the `age
 -r` encrypt command for each secret with both public keys passed (one `-r` per
 recipient) so either machine's private key can decrypt it.
 
