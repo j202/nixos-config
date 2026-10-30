@@ -215,3 +215,10 @@ etab
 # Hardware sensors / fan control
 Nuvoton
 hwmon
+# gpg / shell / editor terms
+gnupghome
+updatestartuptty
+pubring
+shada
+pipefail
+readlink

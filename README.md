@@ -53,16 +53,27 @@ Currently encrypted:
 change stick, edit the secret itself and re-deploy:
 
 ```bash
-cd secrets
-sudo -E agenix -e ssh_config.age -i /etc/age/key   # opens $EDITOR, re-encrypts on save
-cd ..
+secrets/edit ssh_config.age   # opens the editor, re-encrypts on save
 sudo nixos-rebuild switch --flake .#alex-pc
 ```
 
-Run from inside `secrets/`, using the bare filename — agenix looks for `./agenix-rules.nix`
-relative to the current directory (not `secrets/agenix-rules.nix`) and uses whatever you
-pass as the exact lookup key. `sudo` is required to read `/etc/age/key`
-(root-owned, `0400`); `-E` preserves `$EDITOR` through it.
+`secrets/edit` is a wrapper around the plain agenix command:
+
+```bash
+cd secrets
+EDITOR='nvim --clean -n -i NONE' sudo --preserve-env=EDITOR agenix -e ssh_config.age -i /etc/age/key
+```
+
+It has to run from inside `secrets/` with the bare filename: agenix looks for
+`./agenix-rules.nix` relative to the current directory (not `secrets/agenix-rules.nix`)
+and uses whatever you pass as the exact lookup key. `sudo` is required to read
+`/etc/age/key` (root-owned, `0400`); `--preserve-env=EDITOR` passes the editor through it.
+
+The editor is deliberately bare: `--clean` skips your config and plugins, `-n` skips
+the swap file, and `-i NONE` skips shada. Otherwise nvim writes the decrypted secret
+into undo, swap and shada files under `~/.local`, outside the encryption. Avoid
+`sudo -E`, which also runs nvim as root against your real config and leaves
+root-owned files in `~/.local`.
 
 `agenix` itself is on `PATH` both system-wide (`environment.systemPackages` in
 `flake.nix`, for editing on the machine that actually needs the decrypted secret) and

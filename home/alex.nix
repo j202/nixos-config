@@ -91,10 +91,6 @@
           set -e STARSHIP_CONFIG
         end
 
-        if type -q gpgconf
-          set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-        end
-
         # fish builds its completion path at startup, so completions from a
         # direnv dev shell (e.g. bazel) are missed; add them when direnv
         # changes XDG_DATA_DIRS. Defined here, not in functions/, so the

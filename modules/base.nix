@@ -33,6 +33,9 @@
       settings = {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
+        # Lets a reconnecting client's RemoteForward replace the previous
+        # session's stale socket (gpg-agent forwarding).
+        StreamLocalBindUnlink = true;
       };
     };
   };
@@ -100,9 +103,8 @@
       mode = "0400";
     };
     # The encrypted secret is canonical, not ~/.ssh/config itself — edit via
-    # `cd secrets && sudo -E agenix -e ssh_config.age -i /etc/age/key`, then
-    # switch. Keeps this repo (public) from ever holding hostnames/usernames
-    # in plaintext.
+    # `secrets/edit ssh_config.age`, then switch. Keeps this repo (public)
+    # from ever holding hostnames/usernames in plaintext.
     ssh-config = {
       file = ../secrets/ssh_config.age;
       path = "/home/alex/.ssh/config";
