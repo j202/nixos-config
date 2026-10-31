@@ -85,11 +85,7 @@ hl.bind(vars.mod .. " + CTRL + L", hl.dsp.exec_cmd(vars.lock_cmd), { description
 if vars.restart_noctalia then
 	hl.bind(vars.mod .. " + SHIFT + N", hl.dsp.exec_cmd("restart-noctalia"), { description = "Restart Noctalia" })
 end
-hl.bind(
-	vars.mod .. " + SHIFT + C",
-	hl.dsp.exec_cmd("cliphist list | rofi -dmenu | cliphist decode | wl-copy"),
-	{ description = "Clipboard History" }
-)
+hl.bind(vars.mod .. " + SHIFT + C", hl.dsp.exec_cmd("clipboard-history"), { description = "Clipboard History" })
 hl.bind(vars.mod .. " + SHIFT + M", hl.dsp.exec_cmd(vars.session_menu_cmd), { description = "Session Menu" })
 hl.bind("Print", hl.dsp.exec_cmd("screenshot area"), { description = "Screenshot Area" })
 hl.bind(vars.mod .. " + Print", hl.dsp.exec_cmd("screenshot active"), { description = "Screenshot Window" })

@@ -44,6 +44,7 @@ pseudotile
 popin
 drun
 dmenu
+mesg
 dpms
 listactive
 nocaps

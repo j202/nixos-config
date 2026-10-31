@@ -24,6 +24,16 @@ let
     text = builtins.readFile ./screenshot.sh;
   };
 
+  clipboard-history = pkgs.writeShellApplication {
+    name = "clipboard-history";
+    runtimeInputs = [
+      pkgs.cliphist
+      pkgs.rofi
+      pkgs.wl-clipboard
+    ];
+    text = builtins.readFile ./clipboard-history.sh;
+  };
+
   cheatsheet = pkgs.writeShellApplication {
     name = "hyprland-cheatsheet";
     runtimeInputs = [
@@ -79,6 +89,7 @@ in
 
     packages = with pkgs; [
       cheatsheet
+      clipboard-history
       hyprshell
       screenshot
       pinta
