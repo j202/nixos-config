@@ -40,7 +40,14 @@ in
   programs.fish.interactiveShellInit = lib.mkAfter ''
     if set -q SSH_CONNECTION
       set -l fwd ~/.gnupg-forwarded
-      if gpg-connect-agent --homedir $fwd --no-autostart /bye >/dev/null 2>&1
+      # gpg looks for a non-default homedir's agent socket in a hash-named
+      # dir under /run/user, not in the homedir; point that at the forward.
+      set -l sd (gpgconf --homedir $fwd --list-dirs socketdir)
+      if not test -L $sd
+        rmdir $sd 2>/dev/null; and ln -s $fwd $sd
+      end
+      # gpg-connect-agent exits 0 even with no agent; test for a real reply.
+      if gpg-connect-agent --homedir $fwd --no-autostart 'getinfo version' /bye 2>/dev/null | string match -q 'D *'
         if not test -s $fwd/pubring.kbx
           gpg --export ${config.programs.git.settings.user.signingKey} | gpg --homedir $fwd --import --quiet
         end
