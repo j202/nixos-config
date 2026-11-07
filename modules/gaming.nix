@@ -14,10 +14,6 @@
     gamescope.enable = true;
     corectrl.enable = true;
   };
-  # lutris's FHS env still bundles gtk2, which nixpkgs now marks broken.
-  # Drop once lutris stops depending on it.
-  nixpkgs.config.problems.handlers."gtk+".broken = "warn";
-
   hardware.amdgpu.overdrive.enable = true;
 
   hardware.xpadneo.enable = true;
