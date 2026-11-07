@@ -104,9 +104,29 @@
     ];
   };
 
+  # Policy-managed extensions (read from /etc/chromium/policies). IDs are
+  # Chrome Web Store IDs.
+  programs.chromium = {
+    enable = true;
+    extraOpts = {
+      NewTabPageLocation = "https://home.alex-sh.co.uk";
+      # Proton Pass handles credentials and autofill instead.
+      PasswordManagerEnabled = false;
+      AutofillAddressEnabled = false;
+      AutofillCreditCardEnabled = false;
+    };
+    extensions = [
+      "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin Lite (MV3)
+      "pkehgijcmpdhfbdbbnkijodmdjhbjlgp" # Privacy Badger
+      "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
+      "ghmbeldphafepmbegfdlkpapadhbakde" # Proton Pass
+      "jplgfhpmjnbigmhklmmbgecoobifkmpa" # Proton VPN
+    ];
+  };
+
   # Wayland-specific and PC-only packages
   environment.systemPackages = with pkgs; [
-    brave
+    chromium
     ethtool
     gittyup
     nvme-cli

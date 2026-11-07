@@ -15,7 +15,7 @@ hl.bind(vars.mod .. " + F1", hl.dsp.exec_cmd(vars.cheatsheet_cmd), { description
 hl.bind(vars.mod .. " + slash", hl.dsp.exec_cmd(vars.cheatsheet_cmd), { description = "Keybind Cheatsheet" })
 hl.bind(vars.mod .. " + R", hl.dsp.exec_cmd(vars.launcher_cmd), { description = "App Launcher" })
 hl.bind(vars.mod .. " + E", hl.dsp.exec_cmd("thunar"), { description = "File Manager" })
-hl.bind(vars.mod .. " + W", hl.dsp.exec_cmd("brave"), { description = "Browser" })
+hl.bind(vars.mod .. " + W", hl.dsp.exec_cmd("chromium"), { description = "Browser" })
 hl.bind(
 	vars.mod .. " + Super_L",
 	hl.dsp.exec_cmd(vars.launcher_tap_cmd),

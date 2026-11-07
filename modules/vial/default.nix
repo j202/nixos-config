@@ -3,7 +3,7 @@
 #
 # 1. BROWSER (WebHID) — udev rule tags each keyboard device with "uaccess",
 #    granting the active session user read/write access permanently while
-#    logged in. The browser (Brave) shows its own device-picker prompt when
+#    logged in. The browser (Chromium) shows its own device-picker prompt when
 #    the Vial web app first requests access. No manual steps required.
 #
 # 2. DESKTOP APP — polkit-authenticated wrapper around the `vial` binary.

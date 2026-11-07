@@ -224,3 +224,10 @@ pipefail
 readlink
 socketdir
 getinfo
+# Browser packages and extension IDs
+vimium
+ddkjiahejlhfcafbddmgiahcphecmpfh
+pkehgijcmpdhfbdbbnkijodmdjhbjlgp
+dbepggeogbaibhgnhhndojpepiihcmeb
+ghmbeldphafepmbegfdlkpapadhbakde
+jplgfhpmjnbigmhklmmbgecoobifkmpa

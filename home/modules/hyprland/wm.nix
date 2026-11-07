@@ -307,7 +307,7 @@ in
         {
           name = "opaque-fullscreen-browser";
           match = {
-            class = "^brave-browser$";
+            class = "^chromium-browser$";
             fullscreen = true;
           };
           opacity = "1.0 override 1.0 override";
