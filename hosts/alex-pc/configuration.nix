@@ -126,7 +126,8 @@
 
   # Wayland-specific and PC-only packages
   environment.systemPackages = with pkgs; [
-    chromium
+    # Widevine CDM is needed for DRM playback (Disney+ etc.)
+    (chromium.override { enableWideVine = true; })
     ethtool
     gittyup
     nvme-cli
