@@ -76,6 +76,10 @@
     "fish/completions/cz.fish".source = pkgs.runCommand "cz.fish" { } ''
       ${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete --shell fish cz > $out
     '';
+
+    # Quartus/Questa (installed per-user from the questa flake package) ship no
+    # completions; this registers several commands, so conf.d rather than completions/.
+    "fish/conf.d/hdl-completions.fish".source = ./modules/hdl-completions.fish;
   };
 
   programs = {

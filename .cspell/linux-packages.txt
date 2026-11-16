@@ -236,6 +236,14 @@ Widevine
 # FPGA tools
 altera
 cyclonev
+jtagconfig
+nios
+openocd
+qrun
 quartus
 questa
 sslc
+vcom
+vopt
+vrun
+vsim
