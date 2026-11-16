@@ -186,11 +186,12 @@ in
             "control-center"
           ];
 
-          # DP-4 (1920px) is much narrower than DP-1 (3440px ultrawide) — the
-          # full widget set clashed with the center media widget there. Drops
+          # The HP E24u (1920px) is much narrower than the AOC ultrawide (3440px) —
+          # the full widget set clashed with the center media widget there. Drops
           # battery/bluetooth/network/weather, which don't need to show twice.
-          monitor.dp4 = {
-            match = "DP-4";
+          # Matched by description, not connector: DP-N numbering shifts.
+          monitor.hp-e24u = {
+            match = "E24u";
             start = [
               "launcher"
               "workspaces"
