@@ -11,6 +11,10 @@
     withUWSM = true;
   };
 
+  # An OOM-killed child (e.g. chromium) shares this cgroup with the compositor;
+  # the default OOMPolicy=stop would take the whole session down with it.
+  systemd.user.services."wayland-wm@".serviceConfig.OOMPolicy = "continue";
+
   catppuccin = {
     enable = true;
     autoEnable = true;
