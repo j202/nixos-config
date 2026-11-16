@@ -246,6 +246,21 @@
 
       };
 
+      # Quartus Lite + Questa for the DE1-SoC (Cyclone V). Not used by any host, so
+      # nixos-rebuild never needs the manually-downloaded installers; install per
+      # user with `nix profile add .#questa`.
+      packages.${system}.questa =
+        (import nixos-unstable {
+          inherit system;
+          config.allowUnfreePredicate =
+            p:
+            builtins.elem (nixos-unstable.lib.getName p) [
+              "quartus-prime-lite"
+              "quartus-prime-lite-unwrapped"
+            ];
+        }).quartus-prime-lite.override
+          { supportedDevices = [ "Cyclone V" ]; };
+
       homeConfigurations."alex-standalone" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixos-unstable.legacyPackages.${system};
         modules = [ ./home/alex-standalone.nix ];

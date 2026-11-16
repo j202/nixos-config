@@ -233,3 +233,8 @@ ghmbeldphafepmbegfdlkpapadhbakde
 jplgfhpmjnbigmhklmmbgecoobifkmpa
 # DRM
 Widevine
+# FPGA tools
+altera
+cyclonev
+quartus
+questa

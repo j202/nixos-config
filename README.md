@@ -224,6 +224,23 @@ paired devices and no shared folders — the pairing has to be redone by hand:
 The folder path can't be edited after creation (Syncthing disables that field by
 design) — moving it later means removing and re-adding the folder, not editing it.
 
+## Quartus + Questa (alex-pc, manual)
+
+`packages.x86_64-linux.questa` is Quartus Prime Lite (Cyclone V only) with Questa. No host
+uses it, so `nixos-rebuild` never needs its installers and a fresh machine builds without
+them. Install it per user, outside the repo:
+
+1. Altera's download URL returns 403, so download `QuartusLiteSetup-25.1std.0.1129-linux.run`,
+   `QuestaSetup-25.1std.0.1129-linux.run` and `cyclonev-25.1std.0.1129.qdz` from the Quartus
+   Prime Lite 25.1 Linux download page.
+2. Add each to the store (their sha256 must match nixpkgs' pins):
+   `nix store prefetch-file file:///path/to/<file>`.
+3. Root each store path so GC keeps it (nothing references the installers at runtime, but a
+   rebuild needs them): `nix-store --add-root ~/.local/share/gcroots/<file> --indirect -r <path>`.
+4. `nix profile add ~/nixos-config#questa`.
+
+Questa's free edition also needs a licence file from Altera's licensing site.
+
 ## Standalone home-manager (non-NixOS)
 
 ### Prerequisites
