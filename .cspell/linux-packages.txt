@@ -238,3 +238,4 @@ altera
 cyclonev
 quartus
 questa
+sslc

@@ -238,8 +238,13 @@ them. Install it per user, outside the repo:
 3. Root each store path so GC keeps it (nothing references the installers at runtime, but a
    rebuild needs them): `nix-store --add-root ~/.local/share/gcroots/<file> --indirect -r <path>`.
 4. `nix profile add ~/nixos-config#questa`.
+5. Questa's free edition needs a licence. On Altera's licensing site (SSLC), request a fixed
+   (node-locked) licence for "Questa FPGA Starter Edition", with computer type **NIC ID** and
+   the MAC of a permanent NIC, written as 12 hex digits with no separators. The file arrives by
+   email. Save it as `~/.config/questa/license.dat` (it contains the MAC, so keep it out of the
+   repo) and run `set -Ux SALT_LICENSE_SERVER ~/.config/questa/license.dat` in fish.
 
-Questa's free edition also needs a licence file from Altera's licensing site.
+The licence lasts a year, so renew it before it expires (check the dates in the file).
 
 ## Standalone home-manager (non-NixOS)
 
